@@ -1,0 +1,19 @@
+= form_for @department, :html => { class: 'form-horizontal', role: 'form' } do |f|
+  - if @department.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@department.errors.count, "error")}"
+      %ul
+        - @department.errors.full_messages.each do |msg|
+          %li= msg
+
+  .form-group
+    = f.label :nombre, class: 'col-sm-2 control-label'
+    .col-sm-3
+      = f.text_field :nombre, class: 'form-control', placeholder: 'Lima'
+  .form-group
+    .col-sm-2
+    .col-sm-5
+      = button_tag(type: 'submit', class: "btn btn-default -btn-sm") do 
+        %span.glyphicon.glyphicon-lock
+        Guardar
+      

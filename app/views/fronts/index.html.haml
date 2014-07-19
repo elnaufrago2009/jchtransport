@@ -1,0 +1,29 @@
+#region-fronts
+
+  .region
+    .page-header
+      %h1= page_title!('Placas Delanteras')
+
+    .region      
+      .admin-control
+        = link_to '<span class="glyphicon glyphicon-plus"></span> Crear Placa Delantera'.html_safe, new_front_path, class: 'btn btn-primary btn-sm'
+      %br
+      .row
+        .col-sm-8
+          .table-responsive
+            %table.table
+              %tr
+                %th Nombre
+                %th Descripcion
+                %th
+                %th
+                %th
+
+              - @fronts.each do |front|
+                %tr
+                  %td= front.nombre
+                  %td= front.descripcion
+                  %td
+                    = link_to '<span class="glyphicon glyphicon-eye-open"></span> Ver'.html_safe, front, class: 'btn btn-info btn-sm'
+                    = link_to '<span class="glyphicon glyphicon-edit"></span> Editar'.html_safe, edit_front_path(front), class: 'btn btn-success btn-sm'
+                    = link_to '<span class="glyphicon glyphicon-trash"></span> Eliminar'.html_safe, front, :method => :delete, :data => { :confirm => '¿Estás Seguro?' }, class: 'btn btn-danger btn-sm'

@@ -1,0 +1,36 @@
+#region-items.container
+
+  .region
+    .region-title
+      %h1= page_title!('items')
+
+    .region
+      - if current_admin
+        .admin-control
+          = link_to 'Crear Item', new_item_path, class: 'btn btn-primary'
+
+      .table-responsive
+        %table.table
+          %tr
+            %th Codigo
+            %th Descripcion
+            %th Cantidad
+            %th Unidad
+            %th Peso
+            %th Guide
+            %th
+            %th
+            %th
+
+          - @items.each do |item|
+            %tr
+              %td= item.codigo
+              %td= item.descripcion
+              %td= item.cantidad
+              %td= item.unidad
+              %td= item.peso
+              %td= item.guide_id
+              %td= link_to 'Ver', item, class: 'btn btn-info'
+              - if current_admin
+                %td= link_to 'Editar', edit_item_path(item), class: 'btn btn-success'
+                %td= link_to 'Eliminar', item, :method => :delete, :data => { :confirm => '¿Estás Seguro?' }, class: 'btn btn-danger'

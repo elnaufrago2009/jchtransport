@@ -1,0 +1,30 @@
+#region-items.container
+  .region
+    .region-title
+      %h1= page_title!('item')
+
+  .region
+    %p
+      %b Codigo:
+      = @item.codigo
+    %p
+      %b Descripcion:
+      = @item.descripcion
+    %p
+      %b Cantidad:
+      = @item.cantidad
+    %p
+      %b Unidad:
+      = @item.unidad
+    %p
+      %b Peso:
+      = @item.peso
+    %p
+      %b Guide:
+      = @item.guide_id
+
+  .region
+    - if current_admin
+      .admin-controls
+        = link_to 'Editar', edit_item_path(@item), class: 'btn btn-success'
+    = link_to 'Regresar', items_path, class: 'btn btn-warning'

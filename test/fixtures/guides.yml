@@ -1,0 +1,57 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  numero_remision_guia: MyString
+  fecha_emision: 2014-07-17
+  fecha_inicio_traslado: 2014-07-17
+  partida_direccion: MyString
+  partida_district_id: MyString
+  partida_province_id: MyString
+  partida_department_id: MyString
+  llegada_direccion: MyString
+  llegada_district_id: MyString
+  llegada_province_id: MyString
+  llegada_department_id: MyString
+  remitente_apellido_nombre_razon_social: MyString
+  remitente_ruc: MyString
+  remitente_dni: MyString
+  destinatario_apellido_nombre_razon_social: MyString
+  destinatario_ruc: MyString
+  destinatario_dni: MyString
+  unidad_marca_vehiculo: MyString
+  unidad_placa_delantera: MyString
+  unidad_placa_trasera: MyString
+  unidad_configuracion_vehicular: MyString
+  conductor_certificado_inscripcion: MyString
+  conductor_licencia_conducir: MyString
+  empresa_subcontratada_nombre_apellido_razon_social: MyString
+  empresa_subcontratada_ruc: MyString
+  obsevaciones: MyText
+
+two:
+  numero_remision_guia: MyString
+  fecha_emision: 2014-07-17
+  fecha_inicio_traslado: 2014-07-17
+  partida_direccion: MyString
+  partida_district_id: MyString
+  partida_province_id: MyString
+  partida_department_id: MyString
+  llegada_direccion: MyString
+  llegada_district_id: MyString
+  llegada_province_id: MyString
+  llegada_department_id: MyString
+  remitente_apellido_nombre_razon_social: MyString
+  remitente_ruc: MyString
+  remitente_dni: MyString
+  destinatario_apellido_nombre_razon_social: MyString
+  destinatario_ruc: MyString
+  destinatario_dni: MyString
+  unidad_marca_vehiculo: MyString
+  unidad_placa_delantera: MyString
+  unidad_placa_trasera: MyString
+  unidad_configuracion_vehicular: MyString
+  conductor_certificado_inscripcion: MyString
+  conductor_licencia_conducir: MyString
+  empresa_subcontratada_nombre_apellido_razon_social: MyString
+  empresa_subcontratada_ruc: MyString
+  obsevaciones: MyText

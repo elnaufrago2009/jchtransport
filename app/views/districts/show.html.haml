@@ -1,0 +1,17 @@
+#region-districts
+  .region
+    .page-header
+      %h1= page_title!('Distrito')
+
+  .region
+    %p 
+      %b Provincia:
+      = @district.province.nombre
+    %p
+      %b Nombre:
+      = @district.nombre
+
+  .region    
+    .admin-controls
+      = link_to '<span class="glyphicon glyphicon-edit"></span> Editar'.html_safe, edit_district_path(@district), class: 'btn btn-success btn-sm'
+      = link_to '<span class="glyphicon glyphicon-arrow-left"></span> Regresar'.html_safe, districts_path, class: 'btn btn-warning btn-sm'

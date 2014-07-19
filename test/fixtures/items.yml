@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  codigo: MyString
+  descripcion: MyString
+  cantidad: MyString
+  unidad: MyString
+  peso: MyString
+  guide_id: 1
+
+two:
+  codigo: MyString
+  descripcion: MyString
+  cantidad: MyString
+  unidad: MyString
+  peso: MyString
+  guide_id: 1

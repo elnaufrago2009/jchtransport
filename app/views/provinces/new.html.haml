@@ -1,0 +1,16 @@
+- page_title!('Creando Provincia')
+
+#region-provinces
+  .region
+    .page-header
+      %h1
+        Crear
+        %b
+          Provincia
+
+  .region
+    = render 'form'
+
+  .region
+    .admin-controls
+      = link_to '<span class="glyphicon glyphicon-arrow-left"></span> Regresar'.html_safe, 'javascript:history.back(-1)', class: 'btn btn-warning btn-sm'

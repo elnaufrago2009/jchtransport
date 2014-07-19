@@ -1,0 +1,90 @@
+#region-guides.container
+  .region
+    .region-title
+      %h1= page_title!('guide')
+
+  .region
+    %p
+      %b Numero remision guia:
+      = @guide.numero_remision_guia
+    %p
+      %b Fecha emision:
+      = @guide.fecha_emision
+    %p
+      %b Fecha inicio traslado:
+      = @guide.fecha_inicio_traslado
+    %p
+      %b Partida direccion:
+      = @guide.partida_direccion
+    %p
+      %b Partida district:
+      = @guide.partida_district.nombre
+    %p
+      %b Partida province:
+      = @guide.partida_province.nombre
+    %p
+      %b Partida department:
+      = @guide.partida_department.nombre
+    %p
+      %b Llegada direccion:
+      = @guide.llegada_direccion
+    %p
+      %b Llegada district:
+      = @guide.llegada_district.nombre
+    %p
+      %b Llegada province:
+      = @guide.llegada_province.nombre
+    %p
+      %b Llegada department:
+      = @guide.llegada_department.nombre
+    %p
+      %b Remitente apellido nombre razon social:
+      = @guide.remitente_apellido_nombre_razon_social
+    %p
+      %b Remitente ruc:
+      = @guide.remitente_ruc
+    %p
+      %b Remitente dni:
+      = @guide.remitente_dni
+    %p
+      %b Destinatario apellido nombre razon social:
+      = @guide.destinatario_apellido_nombre_razon_social
+    %p
+      %b Destinatario ruc:
+      = @guide.destinatario_ruc
+    %p
+      %b Destinatario dni:
+      = @guide.destinatario_dni
+    %p
+      %b Unidad marca vehiculo:
+      = @guide.unidad_marca_vehiculo
+    %p
+      %b Unidad placa delantera:
+      = @guide.unidad_placa_delantera
+    %p
+      %b Unidad placa trasera:
+      = @guide.unidad_placa_trasera
+    %p
+      %b Unidad configuracion vehicular:
+      = @guide.unidad_configuracion_vehicular
+    %p
+      %b Conductor certificado inscripcion:
+      = @guide.conductor_certificado_inscripcion
+    %p
+      %b Conductor licencia conducir:
+      = @guide.conductor_licencia_conducir
+    %p
+      %b Empresa subcontratada nombre apellido razon social:
+      = @guide.empresa_subcontratada_nombre_apellido_razon_social
+    %p
+      %b Empresa subcontratada ruc:
+      = @guide.empresa_subcontratada_ruc
+    %p
+      %b Obsevaciones:
+      = @guide.obsevaciones
+
+  .region
+    - if current_admin
+      .admin-controls
+        = link_to 'Editar', edit_guide_path(@guide), class: 'btn btn-success'
+    = link_to 'Regresar', guides_path, class: 'btn btn-warning'

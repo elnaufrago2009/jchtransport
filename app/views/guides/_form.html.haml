@@ -1,0 +1,215 @@
+= form_for @guide, :html => { class: 'form-horizontal', role: 'form' } do |f|
+  - if @guide.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@guide.errors.count, "error")}"
+      %ul
+        - @guide.errors.full_messages.each do |msg|
+          %li= msg
+
+  .row
+    .col-sm-12
+      .row        
+        .col-sm-4
+          .panel.panel-default        
+            .panel-heading
+              %h3.panel-title 
+                %span.glyphicon.glyphicon-lock
+                %b Guia Remision - Transportista
+            .panel-body              
+              .col-sm-8 
+                .row                                 
+                  = f.text_field :numero_remision_guia, class: 'form-control', placeholder: '506 - 000275'                    
+        .col-sm-4
+          .panel.panel-default
+            .panel-heading
+              %h3.panel-title 
+                %span.glyphicon.glyphicon-calendar
+                %b Fecha Emision
+            .panel-body               
+              .col-sm-8   
+                .row          
+                  = f.text_field :fecha_emision, class: 'form-control', placeholder: '2014-12-23'
+        .col-sm-4
+          .panel.panel-default              
+            .panel-heading
+              %h3.panel-title 
+                %span.glyphicon.glyphicon-calendar
+                %b Fecha Inicio Traslado
+            .panel-body              
+              .col-sm-8
+                .row
+                  = f.text_field :fecha_inicio_traslado, class: 'form-control', placeholder: '2014-05-15'
+  .row
+    .col-sm-6
+      .panel.panel-default  
+        .panel-heading
+          %h3.panel-title 
+            %span.glyphicon.glyphicon-road 
+            %b Direccion Partida
+        .panel-body          
+          .col-sm-12
+            .form-group
+              = f.text_field :partida_direccion, class: 'form-control', placeholder: 'Direccion'          
+          .row
+            .col-sm-4            
+              = f.select :partida_department_id, Department.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Departamento:'} , class: 'form-control'
+            .col-sm-4
+              = f.select :partida_province_id, Province.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Provincia:'}, class: 'form-control'
+            .col-sm-4
+              = f.select :partida_district_id, District.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Distrito:'}, class: 'form-control'          
+    .col-sm-6
+      .panel.panel-default  
+        .panel-heading
+          %h3.panel-title 
+            %span.glyphicon.glyphicon-road
+            %b Direccion Llegada
+        .panel-body          
+          .col-sm-12              
+            .form-group
+              = f.text_field :llegada_direccion,  class: 'form-control', placeholder: 'Direccion'
+          .row
+            .col-sm-4
+              = f.select :llegada_department_id, Department.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Departamento:'} , class: 'form-control'              
+            .col-sm-4
+              = f.select :llegada_province_id, Province.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Provincia:'}, class: 'form-control'
+            .col-sm-4
+              = f.select :llegada_district_id, District.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Distrito:'}, class: 'form-control'
+              
+          
+  .row
+    .col-sm-6
+      .panel.panel-default  
+        .panel-heading
+          %h3.panel-title 
+            %span.glyphicon.glyphicon-plane
+            %b Remitente
+        .panel-body          
+          .col-sm-12
+            .form-group
+              = f.text_field :remitente_apellido_nombre_razon_social, class: 'form-control', placeholder: 'Apellidos y Nombres / Razon social'
+          .row 
+            .col-sm-8              
+              = f.text_field :remitente_ruc, class: 'form-control', placeholder: 'RUC : 4251625301254 '
+            .col-sm-4              
+              = f.text_field :remitente_dni, class: 'form-control', placeholder: 'DNI : 42516253'
+
+    .col-sm-6
+      .panel.panel-default  
+        .panel-heading
+          %h3.panel-title 
+            %span.glyphicon.glyphicon-plane
+            %b Destinatario
+        .panel-body          
+          .col-sm-12
+            .form-group
+              = f.text_field :destinatario_apellido_nombre_razon_social, class: 'form-control', placeholder: 'Apellidos y Nombres / Razon social'   
+          .row
+            .col-sm-8              
+              = f.text_field :destinatario_ruc, class: 'form-control', placeholder: 'RUC : 4251625301254'   
+            .col-sm-4              
+              = f.text_field :destinatario_dni, class: 'form-control', placeholder: 'DNI : 42516253'
+  .row
+    .col-sm-12    
+      .panel.panel-default  
+        .panel-body
+          = f.fields_for :items do |fp|
+            .col-sm-12
+              .form-group
+                .col-sm-2
+                  = fp.text_field :codigo, class: 'form-control', placeholder: '00074'
+                .col-sm-5
+                  = fp.text_field :descripcion, class: 'form-control', placeholder: 'Torta de Soya marca '                  
+                .col-sm-2
+                  = fp.text_field :cantidad, class: 'form-control', placeholder: '600.00'
+                .col-sm-2
+                  = fp.text_field :unidad, class: 'form-control', placeholder: 'Kg'
+                .col-sm-1
+                  = fp.text_field :peso, class: 'form-control', placeholder: '5.00'
+
+          
+
+          .pull-right            
+            = link_to "<span class='glyphicon glyphicon-plus'></span> Agregar".html_safe, "#my-modal", :class => "btn btn-primary btn-sm", "data-toggle" => "modal", "data-target" => ".bs-example-modal-lg"
+       
+            .modal.fade.bs-example-modal-lg{tabindex: "-1", role: "dialog", "aria-labelledby" => "myLargeModalLabel", "aria-hidden" => "true"}
+              .modal-dialog.modal-lg
+                .modal-content
+                  .modal-header
+                    %button{type: "button", class: "close", "data-dismiss" => "modal"}
+                      %span{"aria-hidden" => "true"} &times
+                      %span.sr-only Close
+                    %h4.modal-title Modal title
+                  .modal-body
+
+                    %p One fine body&hellip;
+                  .modal-footer
+                    %button{type: "button", class: "btn btn-default", "data-dismiss" => "modal"} Close
+                    %button{type: "button", class: "btn btn-primary"} Save changes
+
+
+  .row 
+    .col-sm-8
+      .panel.panel-default  
+        .panel-heading
+          %h3.panel-title 
+            %span.glyphicon.glyphicon-user
+            %b Datos Identificacion
+        .panel-body 
+          .form-group                 
+            .col-sm-4            
+              = f.text_field :unidad_marca_vehiculo, class: 'form-control', placeholder: 'Marca del Vehiculo'          
+            .col-sm-4              
+              = f.text_field :unidad_placa_delantera, class: 'form-control', placeholder: 'Placa Numero'          
+            .col-sm-4
+              = f.text_field :unidad_placa_trasera, class: 'form-control', placeholder: 'Placa Trasera'
+          .form-group
+            .col-sm-4
+              = f.text_field :unidad_configuracion_vehicular, class: 'form-control', placeholder: 'Config Vehicular'        
+            .col-sm-4              
+              = f.text_field :conductor_certificado_inscripcion, class: 'form-control', placeholder: 'Certificado Inscriptcion'
+            .col-sm-4              
+              = f.text_field :conductor_licencia_conducir, class: 'form-control', placeholder: 'Licencia Conducir'      
+          
+    .col-sm-4
+      .panel.panel-default  
+        .panel-heading
+          %h3.panel-title 
+            %span.glyphicon.glyphicon-user
+            %b Datos Empresa Subcontatada
+        .panel-body          
+          .col-sm-12
+            .form-group
+              = f.text_field :empresa_subcontratada_nombre_apellido_razon_social, class: 'form-control', placeholder: 'Nombres y Apellidos / Razon Social'          
+          .col-sm-12
+            .form-group
+              = f.text_field :empresa_subcontratada_ruc, class: 'form-control', placeholder: 'RUC : 123456789123'          
+
+  .row
+    .col-sm-12
+      .panel.panel-default
+        .panel-heading
+          %h3.panel-title 
+            %span.glyphicon.glyphicon-comment
+            %b Observaciones
+        .panel-body
+          .col-sm-12
+            .form-group
+              = f.text_area :obsevaciones, class: 'form-control'
+
+  = button_tag(type: 'submit', class: "btn btn-default") do 
+    %span.glyphicon.glyphicon-lock
+    Guardar   
+%br
+
+:javascript
+  $('#guide_fecha_emision').datepicker({
+      format: 'yyyy-mm-dd',
+      language: 'es',
+      autoclose: true      
+  });
+  $('#guide_fecha_inicio_traslado').datepicker({
+      format: 'yyyy-mm-dd',
+      language: 'es',
+      autoclose: true      
+  });
+

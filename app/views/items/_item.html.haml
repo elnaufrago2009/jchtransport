@@ -1,0 +1,15 @@
+= f.fields_for :items, child_index: child_index do |fp|
+  .col-sm-12
+    .form-group
+      .col-sm-2
+        = fp.text_field :codigo, class: 'form-control', placeholder: '00074'
+      .col-sm-5
+        = fp.text_field :descripcion, class: 'form-control', placeholder: 'Torta de Soya marca '                  
+      .col-sm-2
+        = fp.text_field :cantidad, class: 'form-control', placeholder: '600.00'
+      .col-sm-2
+        = fp.text_field :unidad, class: 'form-control', placeholder: 'Kg'
+      .col-sm-1
+        = fp.text_field :peso, class: 'form-control', placeholder: '5.00'
+
+

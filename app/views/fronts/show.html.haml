@@ -1,0 +1,17 @@
+#region-fronts.container
+  .region
+    .page-header
+      %h1= page_title!('Placa Delantera')
+
+  .region
+    %p
+      %b Nombre:
+      = @front.nombre
+    %p
+      %b Descripcion:
+      = @front.descripcion
+
+  .region    
+    .admin-controls
+      = link_to '<span class="glyphicon glyphicon-edit"></span> Editar'.html_safe, edit_front_path(@front), class: 'btn btn-success btn-sm'
+      = link_to '<span class="glyphicon glyphicon-arrow-left"></span> Regresar'.html_safe, fronts_path, class: 'btn btn-warning btn-sm'

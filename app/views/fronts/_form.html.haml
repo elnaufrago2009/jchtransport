@@ -1,0 +1,22 @@
+= form_for @front, :html => { class: 'form-horizontal', role: 'form' } do |f|
+  - if @front.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@front.errors.count, "error")}"
+      %ul
+        - @front.errors.full_messages.each do |msg|
+          %li= msg
+
+  .form-group
+    = f.label :nombre, class: 'col-sm-2 control-label'
+    .col-sm-3
+      = f.text_field :nombre, class: 'form-control'
+  .form-group
+    = f.label :descripcion, class: 'col-sm-2 control-label'
+    .col-sm-4
+      = f.text_area :descripcion, class: 'form-control'
+  .form-group
+    .col-sm-2
+    .col-sm-5
+      = button_tag(type: 'submit', class: "btn btn-default -btn-sm") do 
+        %span.glyphicon.glyphicon-lock
+        Guardar
