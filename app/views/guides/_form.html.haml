@@ -112,21 +112,10 @@
     .col-sm-12    
       .panel.panel-default  
         .panel-body
-          = f.fields_for :items do |fp|
-            .col-sm-12
-              .form-group
-                .col-sm-2
-                  = fp.text_field :codigo, class: 'form-control', placeholder: '00074'
-                .col-sm-5
-                  = fp.text_field :descripcion, class: 'form-control', placeholder: 'Torta de Soya marca '                  
-                .col-sm-2
-                  = fp.text_field :cantidad, class: 'form-control', placeholder: '600.00'
-                .col-sm-2
-                  = fp.text_field :unidad, class: 'form-control', placeholder: 'Kg'
-                .col-sm-1
-                  = fp.text_field :peso, class: 'form-control', placeholder: '5.00'
 
-          
+          #item_filas
+            = render partial: 'items/item', locals: { f: f } 
+            = link_to 'add line', '/guides/add_detail', remote: true, class: 'btn btn-primary btn-sm'
 
           .pull-right            
             = link_to "<span class='glyphicon glyphicon-plus'></span> Agregar".html_safe, "#my-modal", :class => "btn btn-primary btn-sm", "data-toggle" => "modal", "data-target" => ".bs-example-modal-lg"

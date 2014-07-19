@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-  resources :items
+
+  resources :guides do
+    collection { get :add_detail }
+  end  
 
   resources :guides
 
