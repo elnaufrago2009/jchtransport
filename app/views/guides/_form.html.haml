@@ -113,9 +113,13 @@
       .panel.panel-default  
         .panel-body
 
-          #item_filas
-            = render partial: 'items/item', locals: { f: f } 
-            = link_to 'add line', '/guides/add_detail', remote: true, class: 'btn btn-primary btn-sm'
+          #item_filas            
+            = render partial: 'objeto'
+            
+
+            = link_to "Agregar Objeto", add_objeto_guides_path, remote: true, class: 'btn btn-primary btn-sm'            
+            //= link_to 'add line', add_objeto_guides_path(f: f, child_index: Time.now.to_i), remote: true
+            
 
           .pull-right            
             = link_to "<span class='glyphicon glyphicon-plus'></span> Agregar".html_safe, "#my-modal", :class => "btn btn-primary btn-sm", "data-toggle" => "modal", "data-target" => ".bs-example-modal-lg"

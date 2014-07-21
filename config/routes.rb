@@ -1,10 +1,11 @@
 Rails.application.routes.draw do
 
-  resources :guides do
-    collection { get :add_detail }
-  end  
 
-  resources :guides
+
+
+  resources :guides do
+    collection { get :add_objeto }
+  end  
 
   resources :backs
 
