@@ -1,0 +1,30 @@
+#region-addressees.container
+
+  .region
+    .region-title
+      %h1= page_title!('addressees')
+
+    .region
+      - if current_admin
+        .admin-control
+          = link_to 'Crear Addressee', new_addressee_path, class: 'btn btn-primary'
+
+      .table-responsive
+        %table.table
+          %tr
+            %th Name reason
+            %th Ruc
+            %th Identity document
+            %th
+            %th
+            %th
+
+          - @addressees.each do |addressee|
+            %tr
+              %td= addressee.name_reason
+              %td= addressee.ruc
+              %td= addressee.identity_document
+              %td= link_to 'Ver', addressee, class: 'btn btn-info'
+              - if current_admin
+                %td= link_to 'Editar', edit_addressee_path(addressee), class: 'btn btn-success'
+                %td= link_to 'Eliminar', addressee, :method => :delete, :data => { :confirm => '¿Estás Seguro?' }, class: 'btn btn-danger'

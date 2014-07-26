@@ -6,6 +6,22 @@
         - @guide.errors.full_messages.each do |msg|
           %li= msg
 
+  - if params[:action] == 'new' || params[:action] == 'create'   
+    .form-group
+      .col-sm-12
+        = button_tag(type: 'submit', class: "btn btn-success btn-lg") do 
+          %span.glyphicon.glyphicon-new-window
+          Guardar
+        = link_to '<span class="glyphicon glyphicon-arrow-left"></span> Regresar'.html_safe, 'javascript:history.back(-1)', class: 'btn btn-warning btn-lg'
+  -if params[:action] == 'edit'
+    .form-group
+      .col-sm-12
+        = button_tag(type: 'submit', class: "btn btn-success btn-lg") do 
+          %span.glyphicon.glyphicon-new-window
+          Guardar
+        = link_to '<span class="glyphicon glyphicon-eye-open"></span> Ver'.html_safe, @guide, class: 'btn btn-info btn-lg'
+        = link_to '<span class="glyphicon glyphicon-arrow-left"></span> Regresar'.html_safe, 'javascript:history.back(-1)', class: 'btn btn-warning btn-lg'
+
   .row
     .col-sm-12
       .row        
@@ -17,8 +33,9 @@
                 %b Guia Remision - Transportista
             .panel-body              
               .col-sm-8 
-                .row                                 
-                  = f.text_field :numero_remision_guia, class: 'form-control', placeholder: '506 - 000275'                    
+                .row     
+                  .has-default                            
+                    = f.text_field :numero_remision_guia, class: 'form-control', placeholder: '506 - 000275'                    
         .col-sm-4
           .panel.panel-default
             .panel-heading
@@ -111,34 +128,27 @@
   .row
     .col-sm-12    
       .panel.panel-default  
-        .panel-body
-
-          #item_filas            
-            = render partial: 'objeto'
-            
-
-            = link_to "Agregar Objeto", add_objeto_guides_path, remote: true, class: 'btn btn-primary btn-sm'            
-            //= link_to 'add line', add_objeto_guides_path(f: f, child_index: Time.now.to_i), remote: true
-            
-
-          .pull-right            
-            = link_to "<span class='glyphicon glyphicon-plus'></span> Agregar".html_safe, "#my-modal", :class => "btn btn-primary btn-sm", "data-toggle" => "modal", "data-target" => ".bs-example-modal-lg"
-       
-            .modal.fade.bs-example-modal-lg{tabindex: "-1", role: "dialog", "aria-labelledby" => "myLargeModalLabel", "aria-hidden" => "true"}
-              .modal-dialog.modal-lg
-                .modal-content
-                  .modal-header
-                    %button{type: "button", class: "close", "data-dismiss" => "modal"}
-                      %span{"aria-hidden" => "true"} &times
-                      %span.sr-only Close
-                    %h4.modal-title Modal title
-                  .modal-body
-
-                    %p One fine body&hellip;
-                  .modal-footer
-                    %button{type: "button", class: "btn btn-default", "data-dismiss" => "modal"} Close
-                    %button{type: "button", class: "btn btn-primary"} Save changes
-
+        .panel-heading
+          %h3.panel-title            
+            %b
+              .row
+                .col-sm-2 Codigo
+                .col-sm-4 Descripcion
+                .col-sm-1 Cantidad
+                .col-sm-1 Medida
+                .col-sm-1 Peso
+                .col-sm-1 Und
+                .col-sm-1 Precio
+                .col-sm-1 Accion
+                  
+        .panel-body        
+          .row
+            #items
+              = f.fields_for :items do |item|
+                = render 'item_fields', :f => item
+          .form-group
+            .col-sm-12
+              = link_to_add_association '<span class="glyphicon glyphicon-plus"></span> Agregar'.html_safe, f, :items, class: 'btn btn-primary btn-sm'
 
   .row 
     .col-sm-8
@@ -152,9 +162,9 @@
             .col-sm-4            
               = f.text_field :unidad_marca_vehiculo, class: 'form-control', placeholder: 'Marca del Vehiculo'          
             .col-sm-4              
-              = f.text_field :unidad_placa_delantera, class: 'form-control', placeholder: 'Placa Numero'          
+              = f.select :front_id, Front.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Placa Delantera'}, class: 'form-control', placeholder: 'Placa Numero'          
             .col-sm-4
-              = f.text_field :unidad_placa_trasera, class: 'form-control', placeholder: 'Placa Trasera'
+              = f.select :back_id, Back.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Placa Trasera'}, class: 'form-control', placeholder: 'Placa Trasera'
           .form-group
             .col-sm-4
               = f.text_field :unidad_configuracion_vehicular, class: 'form-control', placeholder: 'Config Vehicular'        
@@ -189,10 +199,7 @@
             .form-group
               = f.text_area :obsevaciones, class: 'form-control'
 
-  = button_tag(type: 'submit', class: "btn btn-default") do 
-    %span.glyphicon.glyphicon-lock
-    Guardar   
-%br
+
 
 :javascript
   $('#guide_fecha_emision').datepicker({

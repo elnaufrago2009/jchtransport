@@ -1,0 +1,30 @@
+#region-elementos.container
+  .region
+    .region-title
+      %h1= page_title!('elemento')
+
+  .region
+    %p
+      %b Cantidad:
+      = @elemento.cantidad
+    %p
+      %b Descripcion:
+      = @elemento.descripcion
+    %p
+      %b Precio unitario:
+      = @elemento.precio_unitario
+    %p
+      %b Precio venta:
+      = @elemento.precio_venta
+    %p
+      %b Facturas:
+      = @elemento.facturas
+    %p
+      %b Monedas:
+      = @elemento.monedas
+
+  .region
+    - if current_admin
+      .admin-controls
+        = link_to 'Editar', edit_elemento_path(@elemento), class: 'btn btn-success'
+    = link_to 'Regresar', elementos_path, class: 'btn btn-warning'

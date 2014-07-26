@@ -1,90 +1,248 @@
-#region-guides.container
-  .region
-    .region-title
-      %h1= page_title!('guide')
+.page-header
+  %h1
+    %span.glyphicon.glyphicon-sort-by-attributes-alt
+    Guia de Remision - 
+    %b Transportista
+    %small= @guide.numero_remision_guia
+  %br
+  = link_to '<span class="glyphicon glyphicon-edit"></span> Editar'.html_safe, edit_guide_path(@guide), class: 'btn btn-primary btn-lg'
+  = link_to '<span class="glyphicon glyphicon-arrow-left"></span> Regresar'.html_safe, guides_path, class: 'btn btn-warning btn-lg'
+// Fila 1 
+.row
+  .col-sm-12
+    .row        
+      .col-sm-4
+        .panel.panel-default        
+          .panel-heading
+            %h3.panel-title 
+              %span.glyphicon.glyphicon-lock
+              %b Guia Remision - Transportista
+          .panel-body              
+            .col-sm-8 
+              .row     
+                %b Numero Guia                           
+                = @guide.numero_remision_guia
+      .col-sm-4
+        .panel.panel-default
+          .panel-heading
+            %h3.panel-title 
+              %span.glyphicon.glyphicon-calendar
+              %b Fecha Emision
+          .panel-body               
+            .col-sm-8   
+              .row  
+                %b Fecha        
+                = @guide.fecha_emision.strftime("%d %b. %Y")
+      .col-sm-4
+        .panel.panel-default              
+          .panel-heading
+            %h3.panel-title 
+              %span.glyphicon.glyphicon-calendar
+              %b Fecha Inicio Traslado
+          .panel-body
+            .col-sm-8
+              .row
+                %b Fecha
+                = @guide.fecha_inicio_traslado.strftime("%d %b. %Y")
+// end 1
 
-  .region
-    %p
-      %b Numero remision guia:
-      = @guide.numero_remision_guia
-    %p
-      %b Fecha emision:
-      = @guide.fecha_emision
-    %p
-      %b Fecha inicio traslado:
-      = @guide.fecha_inicio_traslado
-    %p
-      %b Partida direccion:
-      = @guide.partida_direccion
-    %p
-      %b Partida district:
-      = @guide.partida_district.nombre
-    %p
-      %b Partida province:
-      = @guide.partida_province.nombre
-    %p
-      %b Partida department:
-      = @guide.partida_department.nombre
-    %p
-      %b Llegada direccion:
-      = @guide.llegada_direccion
-    %p
-      %b Llegada district:
-      = @guide.llegada_district.nombre
-    %p
-      %b Llegada province:
-      = @guide.llegada_province.nombre
-    %p
-      %b Llegada department:
-      = @guide.llegada_department.nombre
-    %p
-      %b Remitente apellido nombre razon social:
-      = @guide.remitente_apellido_nombre_razon_social
-    %p
-      %b Remitente ruc:
-      = @guide.remitente_ruc
-    %p
-      %b Remitente dni:
-      = @guide.remitente_dni
-    %p
-      %b Destinatario apellido nombre razon social:
-      = @guide.destinatario_apellido_nombre_razon_social
-    %p
-      %b Destinatario ruc:
-      = @guide.destinatario_ruc
-    %p
-      %b Destinatario dni:
-      = @guide.destinatario_dni
-    %p
-      %b Unidad marca vehiculo:
-      = @guide.unidad_marca_vehiculo
-    %p
-      %b Unidad placa delantera:
-      = @guide.unidad_placa_delantera
-    %p
-      %b Unidad placa trasera:
-      = @guide.unidad_placa_trasera
-    %p
-      %b Unidad configuracion vehicular:
-      = @guide.unidad_configuracion_vehicular
-    %p
-      %b Conductor certificado inscripcion:
-      = @guide.conductor_certificado_inscripcion
-    %p
-      %b Conductor licencia conducir:
-      = @guide.conductor_licencia_conducir
-    %p
-      %b Empresa subcontratada nombre apellido razon social:
-      = @guide.empresa_subcontratada_nombre_apellido_razon_social
-    %p
-      %b Empresa subcontratada ruc:
-      = @guide.empresa_subcontratada_ruc
-    %p
-      %b Obsevaciones:
-      = @guide.obsevaciones
+// fila 2 
+.row
+  .col-sm-6
+    .panel.panel-default  
+      .panel-heading
+        %h3.panel-title 
+          %span.glyphicon.glyphicon-road 
+          %b Direccion Partida
+      .panel-body 
+        .row          
+          .col-sm-12       
+            %p   
+              %b Direccion
+              = @guide.partida_direccion                     
+          .col-sm-4
+            %p
+              %b Depart       
+              = @guide.llegada_department.nombre
+          .col-sm-4
+            %p
+              %b Provincia
+              = @guide.partida_province.nombre
+          .col-sm-4
+            %p
+              %b Distrito
+              = @guide.partida_district.nombre
+  .col-sm-6
+    .panel.panel-default  
+      .panel-heading
+        %h3.panel-title 
+          %span.glyphicon.glyphicon-road
+          %b Direccion Llegada
+      .panel-body 
+        .row         
+          .col-sm-12    
+            %p              
+              %b Direccion      
+              = @guide.llegada_direccion        
+          .col-sm-4
+            %p
+              %b Departm
+              = @guide.llegada_department.nombre  
+          .col-sm-4
+            %p
+              %b Provincia
+              = @guide.llegada_province.nombre
+          .col-sm-4
+            %p
+              %b Distrito
+              = @guide.llegada_district.nombre
+// end 2
 
-  .region
-    - if current_admin
-      .admin-controls
-        = link_to 'Editar', edit_guide_path(@guide), class: 'btn btn-success'
-    = link_to 'Regresar', guides_path, class: 'btn btn-warning'
+// fila 3
+.row
+  .col-sm-6
+    .panel.panel-default  
+      .panel-heading
+        %h3.panel-title 
+          %span.glyphicon.glyphicon-plane
+          %b Remitente
+      .panel-body          
+        .row 
+          .col-sm-12          
+            %p 
+              %b Nombre / Razon
+              = @guide.remitente_apellido_nombre_razon_social        
+          .col-sm-8  
+            %p
+              %b RUC            
+              = @guide.remitente_ruc
+          .col-sm-4 
+            %p 
+              %b dni             
+              = @guide.remitente_dni
+
+  .col-sm-6
+    .panel.panel-default  
+      .panel-heading
+        %h3.panel-title 
+          %span.glyphicon.glyphicon-plane
+          %b Destinatario
+      .panel-body          
+        .row
+          .col-sm-12
+            %p
+              %b Nombre / Razon
+              = @guide.destinatario_apellido_nombre_razon_social        
+          .col-sm-8              
+            %p
+              %b RUC
+              = @guide.destinatario_ruc
+          .col-sm-4              
+            %p
+              %b dni
+              = @guide.destinatario_dni
+// end 3
+
+// fila 4
+.row
+  .col-sm-12    
+    .panel.panel-default  
+      .panel-heading
+        %h3.panel-title            
+          %b Items
+             
+                
+      .panel-body        
+        .row
+          .col-sm-12
+            %table.table.table-condensed
+              %tr
+                %th codigo
+                %th descripcion
+                %th cantidad
+                %th medida
+                %th peso
+                %th unidad
+
+              - @guide.items.each do |item|
+                %tr
+                  %td.col-sm-2= item.codigo
+                  %td.col-sm-6= item.descripcion
+                  %td.col-sm-1= item.cantidad
+                  %td.col-sm-1= item.measure.nombre
+                  %td.col-sm-1= item.peso
+                  %td.col-sm-1= item.unit.und
+                  
+
+            
+              
+              
+          
+// end 4
+
+// fila 5
+.row
+  .col-sm-8
+    .panel.panel-default  
+      .panel-heading
+        %h3.panel-title 
+          %span.glyphicon.glyphicon-user
+          %b Datos Identificacion
+      .panel-body 
+        .row               
+          .col-sm-4  
+            %p
+              %b Marca Vehiculo          
+              = @guide.unidad_marca_vehiculo
+          .col-sm-4              
+            %p
+              %b Placa Delante
+              = @guide.front.nombre
+          .col-sm-4
+            %p
+              %b Placa Atraz
+              = @guide.back.nombre
+          .col-sm-4
+            %p
+              %b Config Vehiculo
+              = @guide.unidad_configuracion_vehicular
+          .col-sm-4              
+            %p
+              %b Certif Inscrip
+              = @guide.conductor_certificado_inscripcion
+          .col-sm-4     
+            %p
+              %b Licencia Conducir         
+              = @guide.conductor_licencia_conducir
+        
+  .col-sm-4
+    .panel.panel-default  
+      .panel-heading
+        %h3.panel-title 
+          %span.glyphicon.glyphicon-user
+          %b Datos Empresa Subcontatada
+      .panel-body 
+        .row         
+          .col-sm-12          
+            %p
+              %b Nombre / Razon
+              = @guide.empresa_subcontratada_nombre_apellido_razon_social
+          .col-sm-12          
+            %p
+              %b RUC
+              = @guide.empresa_subcontratada_ruc
+// end 5
+
+// fila 6
+.row
+  .col-sm-12
+    .panel.panel-default
+      .panel-heading
+        %h3.panel-title 
+          %span.glyphicon.glyphicon-comment
+          %b Observaciones
+      .panel-body
+        .row
+          .col-sm-12          
+            = @guide.obsevaciones
+// end 6

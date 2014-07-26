@@ -11,6 +11,14 @@
  * file per style scope.
  *
  *= require bootstrap-datepicker3
+ *= require select2
+ *= require select2-bootstrap
  *= require_tree .
  *= require_self
  */
+a.select2-choice{
+  height: 32px !important;
+  span{
+   padding-top: 4px;
+  }
+}

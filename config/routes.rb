@@ -1,30 +1,33 @@
 Rails.application.routes.draw do
+  resources :addressees
 
+  resources :senders
 
+  resources :creditos
 
+  resources :monedas
 
+  resources :elementos
+
+  resources :facturas
+
+  resources :measures
+  resources :units
   resources :guides do
     collection { get :add_objeto }
   end  
-
   resources :backs
-
   resources :fronts
-
   resources :provinces
-
   resources :districts
-
   resources :departments
-
   devise_for :admins
   get 'home/index'
-
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-   root 'home#index'
+   root 'guides#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

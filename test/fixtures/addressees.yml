@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name_reason: MyString
+  ruc: MyString
+  identity_document: MyString
+
+two:
+  name_reason: MyString
+  ruc: MyString
+  identity_document: MyString

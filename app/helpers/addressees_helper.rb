@@ -1,0 +1,2 @@
+module AddresseesHelper
+end

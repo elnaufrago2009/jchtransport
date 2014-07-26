@@ -1,0 +1,34 @@
+= form_for @elemento, :html => { class: 'form-horizontal', role: 'form' } do |f|
+  - if @elemento.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@elemento.errors.count, "error")}"
+      %ul
+        - @elemento.errors.full_messages.each do |msg|
+          %li= msg
+
+  .form-group
+    = f.label :cantidad, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = f.text_field :cantidad, class: 'form-control'
+  .form-group
+    = f.label :descripcion, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = f.text_field :descripcion, class: 'form-control'
+  .form-group
+    = f.label :precio_unitario, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = f.text_field :precio_unitario, class: 'form-control'
+  .form-group
+    = f.label :precio_venta, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = f.text_field :precio_venta, class: 'form-control'
+  .form-group
+    = f.label :facturas, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = f.text_field :facturas, class: 'form-control'
+  .form-group
+    = f.label :monedas, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = f.text_field :monedas, class: 'form-control'
+  .actions
+    = f.submit 'Guardar', class: 'btn btn-default'

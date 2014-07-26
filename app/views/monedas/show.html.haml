@@ -1,0 +1,18 @@
+#region-monedas.container
+  .region
+    .region-title
+      %h1= page_title!('moneda')
+
+  .region
+    %p
+      %b Nombre:
+      = @moneda.nombre
+    %p
+      %b Simbolo:
+      = @moneda.simbolo
+
+  .region
+    - if current_admin
+      .admin-controls
+        = link_to 'Editar', edit_moneda_path(@moneda), class: 'btn btn-success'
+    = link_to 'Regresar', monedas_path, class: 'btn btn-warning'

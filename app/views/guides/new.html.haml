@@ -1,17 +1,17 @@
 - page_title!('Creando guide')
 
 #region-guides
-
+	
   .region
     .page-header
       %h1
-        Crear
+        %span.glyphicon.glyphicon-sort-by-attributes-alt
+        Crear Guia Remision
         %b
-          Guia de Remision - Transportista
+          Transportista
+        = URI('http://www.sunat.gob.pe/w/wapS01Alias?ruc=20519484677')
 
   .region
+
     = render 'form'
 
-  .region
-    .admin-controls
-      = link_to '<span class="glyphicon glyphicon-arrow-left"></span> Regresar'.html_safe, 'javascript:history.back(-1)', class: 'btn btn-warning btn-sm'

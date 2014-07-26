@@ -49,6 +49,11 @@ gem 'rails_layout'
 gem 'thin'
 gem 'simple_form'
 gem 'bootstrap-datepicker-rails'
+gem "cocoon"
+gem "select2-rails"
+gem 'cancan'
+gem 'rolify'
+gem 'prawn'	
 
 group :test do 
 	gem 'cucumber-rails', :require => false

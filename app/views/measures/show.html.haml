@@ -1,0 +1,18 @@
+#region-measures.container
+  .region
+    .region-title
+      %h1= page_title!('measure')
+
+  .region
+    %p
+      %b Nombre:
+      = @measure.nombre
+    %p
+      %b Und:
+      = @measure.und
+
+  .region
+    - if current_admin
+      .admin-controls
+        = link_to 'Editar', edit_measure_path(@measure), class: 'btn btn-success'
+    = link_to 'Regresar', measures_path, class: 'btn btn-warning'

@@ -11,10 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140718224559) do
+ActiveRecord::Schema.define(version: 20140726162653) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "addressees", force: true do |t|
+    t.string   "name_reason"
+    t.string   "ruc"
+    t.string   "identity_document"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "admins", force: true do |t|
     t.string   "email",                  default: "", null: false
@@ -34,9 +42,22 @@ ActiveRecord::Schema.define(version: 20140718224559) do
   add_index "admins", ["email"], name: "index_admins_on_email", unique: true, using: :btree
   add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
 
+  create_table "admins_roles", id: false, force: true do |t|
+    t.integer "admin_id"
+    t.integer "role_id"
+  end
+
+  add_index "admins_roles", ["admin_id", "role_id"], name: "index_admins_roles_on_admin_id_and_role_id", using: :btree
+
   create_table "backs", force: true do |t|
     t.string   "nombre"
     t.text     "descripcion"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "creditos", force: true do |t|
+    t.string   "nombre"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -50,6 +71,38 @@ ActiveRecord::Schema.define(version: 20140718224559) do
   create_table "districts", force: true do |t|
     t.string   "nombre"
     t.integer  "province_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "elementos", force: true do |t|
+    t.string   "cantidad"
+    t.string   "descripcion"
+    t.string   "precio_unitario"
+    t.string   "precio_venta"
+    t.integer  "factura_id"
+    t.integer  "moneda_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "facturas", force: true do |t|
+    t.string   "numero"
+    t.string   "nombres"
+    t.string   "ruc"
+    t.string   "direccion"
+    t.date     "fecha"
+    t.integer  "guide_id"
+    t.string   "condiciones_pago"
+    t.boolean  "efectivo"
+    t.boolean  "cheque"
+    t.string   "banco"
+    t.string   "numero_cheque"
+    t.date     "cancelado_fecha"
+    t.string   "valor_venta"
+    t.string   "igv"
+    t.string   "precio_venta"
+    t.integer  "credito_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -80,8 +133,8 @@ ActiveRecord::Schema.define(version: 20140718224559) do
     t.string   "destinatario_ruc"
     t.string   "destinatario_dni"
     t.string   "unidad_marca_vehiculo"
-    t.string   "unidad_placa_delantera"
-    t.string   "unidad_placa_trasera"
+    t.integer  "front_id"
+    t.integer  "back_id"
     t.string   "unidad_configuracion_vehicular"
     t.string   "conductor_certificado_inscripcion"
     t.string   "conductor_licencia_conducir"
@@ -96,9 +149,25 @@ ActiveRecord::Schema.define(version: 20140718224559) do
     t.string   "codigo"
     t.string   "descripcion"
     t.string   "cantidad"
-    t.string   "unidad"
+    t.integer  "measure_id"
     t.string   "peso"
+    t.integer  "unit_id"
+    t.string   "precio_total"
     t.integer  "guide_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "measures", force: true do |t|
+    t.string   "nombre"
+    t.string   "und"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "monedas", force: true do |t|
+    t.string   "nombre"
+    t.string   "simbolo"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -106,6 +175,32 @@ ActiveRecord::Schema.define(version: 20140718224559) do
   create_table "provinces", force: true do |t|
     t.string   "nombre"
     t.integer  "department_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "roles", force: true do |t|
+    t.string   "name"
+    t.integer  "resource_id"
+    t.string   "resource_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "roles", ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id", using: :btree
+  add_index "roles", ["name"], name: "index_roles_on_name", using: :btree
+
+  create_table "senders", force: true do |t|
+    t.string   "name_reason"
+    t.string   "ruc"
+    t.string   "identity_document"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "units", force: true do |t|
+    t.string   "nombre"
+    t.string   "und"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

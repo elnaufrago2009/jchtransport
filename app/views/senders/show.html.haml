@@ -1,0 +1,21 @@
+#region-senders.container
+  .region
+    .region-title
+      %h1= page_title!('sender')
+
+  .region
+    %p
+      %b Name reason:
+      = @sender.name_reason
+    %p
+      %b Ruc:
+      = @sender.ruc
+    %p
+      %b Identity document:
+      = @sender.identity_document
+
+  .region
+    - if current_admin
+      .admin-controls
+        = link_to 'Editar', edit_sender_path(@sender), class: 'btn btn-success'
+    = link_to 'Regresar', senders_path, class: 'btn btn-warning'

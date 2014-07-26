@@ -5,18 +5,23 @@ class GuidesController < InheritedResources::Base
 		respond_with(@order, @ci)
 	end
 
-	def add_objeto
-		#@cf = 'variable1'
-		#@guide.items.build
-		@guide = Guide.new
-	  	respond_to do |format|
-		  format.js
-		end	
-		
-    	
+	def show
+		@guide = Guide.find(params[:id])
+	    respond_to do |format|
+	      format.html
+	      format.pdf do
+	        pdf = Prawn::Document.new
+	        pdf.text "Hola mundo"
+	        send_data pdf.render, type: "application/pdf", disposition: "inline"
+	      end
+    end
 	end
 
 	def permitted_params
 		params.permit!
 	end
+
+	def guide_params
+    	params.require(:guide).permit!
+  	end
 end

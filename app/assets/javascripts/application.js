@@ -16,4 +16,6 @@
 //= require bootstrap
 //= require bootstrap-datepicker/core
 //= require bootstrap-datepicker/locales/bootstrap-datepicker.es.js
+//= require cocoon
+//= require select2
 //= require_tree .

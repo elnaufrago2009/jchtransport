@@ -1,0 +1,30 @@
+#region-senders.container
+
+  .region
+    .region-title
+      %h1= page_title!('senders')
+
+    .region
+      - if current_admin
+        .admin-control
+          = link_to 'Crear Sender', new_sender_path, class: 'btn btn-primary'
+
+      .table-responsive
+        %table.table
+          %tr
+            %th Name reason
+            %th Ruc
+            %th Identity document
+            %th
+            %th
+            %th
+
+          - @senders.each do |sender|
+            %tr
+              %td= sender.name_reason
+              %td= sender.ruc
+              %td= sender.identity_document
+              %td= link_to 'Ver', sender, class: 'btn btn-info'
+              - if current_admin
+                %td= link_to 'Editar', edit_sender_path(sender), class: 'btn btn-success'
+                %td= link_to 'Eliminar', sender, :method => :delete, :data => { :confirm => '¿Estás Seguro?' }, class: 'btn btn-danger'

@@ -1,0 +1,16 @@
+= form_for @measure, :html => { class: 'form-horizontal', role: 'form' } do |f|
+  - if @measure.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@measure.errors.count, "error")}"
+      %ul
+        - @measure.errors.full_messages.each do |msg|
+          %li= msg
+
+  .form-group
+    = f.label :nombre, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = f.text_field :nombre, class: 'form-control'
+  .form-group
+    .col-sm-2
+    .col-sm-4
+      = f.submit 'Guardar', class: 'btn btn-default'

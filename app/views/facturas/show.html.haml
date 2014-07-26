@@ -1,0 +1,114 @@
+.page-header
+  %h1
+    %span.glyphicon.glyphicon-th
+    Ver 
+    %b Factura
+    %small
+      (
+      = @factura.numero
+      )
+  %br
+  = link_to '<span class="glyphicon glyphicon-edit"></span> Editar'.html_safe, edit_factura_path(@factura), class: 'btn btn-primary btn-lg'
+  = link_to '<span class="glyphicon glyphicon-arrow-left"></span> Regresar'.html_safe, facturas_path, class: 'btn btn-warning btn-lg'
+
+
+.panel.panel-default
+  .panel-heading
+    %h3.panel-title 
+      %span.glyphicon.glyphicon-lock
+      %b Datos
+  .panel-body   
+    .form-group
+      .row
+        .col-sm-4
+          %b Numero
+          = @factura.numero
+        .col-sm-4
+          %b Nombre
+          = @factura.nombres
+        .col-sm-4
+          %b Fecha
+          = @factura.fecha      
+    .form-group
+      .row
+        .col-sm-4
+          %b RUC
+          = @factura.ruc
+        .col-sm-4
+          %b Direccion
+          = @factura.direccion
+        .col-sm-4
+    .form-group
+      .row
+        .col-sm-4
+          %b #Remision
+          = @factura.guide.numero_remision_guia
+        .col-sm-4     
+          %b Condiciones Pago     
+          = @factura.condiciones_pago                   
+
+.panel.panel-default
+  .panel-heading
+    %h3.panel-title        
+      %b Elementos
+      
+  .panel-body
+    %table.table.table-condensed.table-hover
+      %tr
+        %th Cantidad
+        %th Descripcion
+        %th Precio Unitario
+        %th Precio Venta
+      - @factura.elementos.each do |elemento|        
+        %tr
+          %td.col-sm-2= elemento.cantidad
+          %td.col-sm-6= elemento.descripcion
+          %td.col-sm-2= elemento.precio_unitario
+          %td.col-sm-2= elemento.precio_venta
+      %tr
+        %td.col-sm-8{:colspan => "2"}
+        %td.col-sm-2
+          %b Valor de Venta
+        %td.col-sm-2
+          %b= @factura.valor_venta
+      %tr
+        %td.col-sm-8{:colspan => '2'}
+        %td.col-sm-2
+          %b I.G.V
+        %td.col-sm-2
+          %b= @factura.igv
+      %tr
+        %td.col-sm-8{:colspan => '2'}
+        %td.col-sm-2
+          %b Precio Venta
+        %td.col-sm-2
+          %b= @factura.precio_venta
+
+.panel.panel-default
+  .panel-heading
+    %h3.panel-title 
+      %span.glyphicon.glyphicon-lock
+      %b Datos        
+  .panel-body   
+    .form-group
+      .row
+        .col-sm-2
+          %b Efectivo
+          = @factura.efectivo              
+        .col-sm-2
+          %b Cheque
+          = @factura.cheque              
+        .col-sm-3
+          %b Banco
+          = @factura.banco
+        .col-sm-3
+          %b #Cheque
+          = @factura.numero_cheque
+        .col-sm-2
+          %b Fecha
+          = @factura.cancelado_fecha
+
+.region    
+  .admin-controls
+    
+    

@@ -1,0 +1,28 @@
+#region-monedas.container
+
+  .region
+    .region-title
+      %h1= page_title!('monedas')
+
+    .region
+      - if current_admin
+        .admin-control
+          = link_to 'Crear Moneda', new_moneda_path, class: 'btn btn-primary'
+
+      .table-responsive
+        %table.table
+          %tr
+            %th Nombre
+            %th Simbolo
+            %th
+            %th
+            %th
+
+          - @monedas.each do |moneda|
+            %tr
+              %td= moneda.nombre
+              %td= moneda.simbolo
+              %td= link_to 'Ver', moneda, class: 'btn btn-info'
+              - if current_admin
+                %td= link_to 'Editar', edit_moneda_path(moneda), class: 'btn btn-success'
+                %td= link_to 'Eliminar', moneda, :method => :delete, :data => { :confirm => '¿Estás Seguro?' }, class: 'btn btn-danger'

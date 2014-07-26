@@ -19,8 +19,8 @@ class CreateGuides < ActiveRecord::Migration
       t.string :destinatario_ruc
       t.string :destinatario_dni
       t.string :unidad_marca_vehiculo
-      t.string :unidad_placa_delantera
-      t.string :unidad_placa_trasera
+      t.integer :front_id
+      t.integer :back_id
       t.string :unidad_configuracion_vehicular
       t.string :conductor_certificado_inscripcion
       t.string :conductor_licencia_conducir

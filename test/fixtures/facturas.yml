@@ -1,0 +1,33 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  nombres: MyString
+  ruc: MyString
+  direccion: MyString
+  fecha: 2014-07-22
+  guides_id: 
+  condiciones_pago: MyString
+  efectivo: false
+  cheque: false
+  banco: MyString
+  numero_cheque: MyString
+  cancelado_fecha: 2014-07-22
+  valor_venta: MyString
+  igv: MyString
+  precio_venta: MyString
+
+two:
+  nombres: MyString
+  ruc: MyString
+  direccion: MyString
+  fecha: 2014-07-22
+  guides_id: 
+  condiciones_pago: MyString
+  efectivo: false
+  cheque: false
+  banco: MyString
+  numero_cheque: MyString
+  cancelado_fecha: 2014-07-22
+  valor_venta: MyString
+  igv: MyString
+  precio_venta: MyString

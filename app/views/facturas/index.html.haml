@@ -1,0 +1,35 @@
+- page_title!('Factura') 
+#region-facturas
+  .region
+    .page-header
+      %h1 
+        %span.glyphicon.glyphicon-th-large
+        Facturas
+        %b Principal
+        %small JCH
+
+    .region      
+      .admin-control
+        = link_to '<span class="glyphicon glyphicon-plus"></span> Crear Factura'.html_safe, new_factura_path, class: 'btn btn-primary btn-lg'
+      %br
+      .table-responsive
+        %table.table.table-condensed.table-hover
+          %tr
+            %th Numero
+            %th Nombre
+            %th RUC
+            %th Guia Remision
+            %th Fecha
+            %th Acciones
+
+          - @facturas.each do |factura|
+            %tr
+              %td= factura.numero
+              %td= factura.nombres
+              %td= factura.ruc
+              %td= factura.guide.numero_remision_guia              
+              %td= factura.fecha
+              %td
+                = link_to '<span class="glyphicon glyphicon-eye-open"></span> Ver'.html_safe, factura, class: 'btn btn-info btn-sm'
+                = link_to '<span class="glyphicon glyphicon-edit"></span> Editar'.html_safe, edit_factura_path(factura), class: 'btn btn-success btn-sm'
+                = link_to '<span class="glyphicon glyphicon-trash"></span> Eliminar'.html_safe, factura, :method => :delete, :data => { :confirm => '¿Estás Seguro?' }, class: 'btn btn-danger btn-sm'
