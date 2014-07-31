@@ -34,8 +34,9 @@
             .panel-body              
               .col-sm-8 
                 .row     
-                  .has-default                            
-                    = f.text_field :numero_remision_guia, class: 'form-control', placeholder: '506 - 000275'                    
+                  .has-default 
+                    - number = NumberGuide.last.numero.to_i + 1
+                    = f.text_field :numero_remision_guia, class: 'form-control', value: "#{number}", placeholder: '506 - 000275'                
         .col-sm-4
           .panel.panel-default
             .panel-heading
@@ -86,7 +87,7 @@
               = f.text_field :llegada_direccion,  class: 'form-control', placeholder: 'Direccion'
           .row
             .col-sm-4
-              = f.select :llegada_department_id, Department.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Departamento:'} , class: 'form-control'              
+              = f.select :llegada_department_id, Department.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Departamento:'} , class: 'form-control'             
             .col-sm-4
               = f.select :llegada_province_id, Province.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Provincia:'}, class: 'form-control'
             .col-sm-4
@@ -103,12 +104,7 @@
         .panel-body          
           .col-sm-12
             .form-group
-              = f.text_field :remitente_apellido_nombre_razon_social, class: 'form-control', placeholder: 'Apellidos y Nombres / Razon social'
-          .row 
-            .col-sm-8              
-              = f.text_field :remitente_ruc, class: 'form-control', placeholder: 'RUC : 4251625301254 '
-            .col-sm-4              
-              = f.text_field :remitente_dni, class: 'form-control', placeholder: 'DNI : 42516253'
+              = f.select :sender_id, Sender.all.collect{|x| ["#{x.ruc} #{x.name_reason} #{x.identity_document}", x.id]}, {:include_blank => 'Remitente'}, class: 'form-control', placeholder: 'Apellidos y Nombres / Razon social'        
 
     .col-sm-6
       .panel.panel-default  
@@ -119,12 +115,8 @@
         .panel-body          
           .col-sm-12
             .form-group
-              = f.text_field :destinatario_apellido_nombre_razon_social, class: 'form-control', placeholder: 'Apellidos y Nombres / Razon social'   
-          .row
-            .col-sm-8              
-              = f.text_field :destinatario_ruc, class: 'form-control', placeholder: 'RUC : 4251625301254'   
-            .col-sm-4              
-              = f.text_field :destinatario_dni, class: 'form-control', placeholder: 'DNI : 42516253'
+              = f.select :addressee_id, Addressee.all.collect{|x| ["#{x.ruc} #{x.name_reason} #{x.identity_document}", x.id]}, {:include_blank => 'Destinatario'}, class: 'form-control', placeholder: 'Apellidos y Nombres / Razon social'  
+
   .row
     .col-sm-12    
       .panel.panel-default  
@@ -160,18 +152,18 @@
         .panel-body 
           .form-group                 
             .col-sm-4            
-              = f.text_field :unidad_marca_vehiculo, class: 'form-control', placeholder: 'Marca del Vehiculo'          
+              = f.text_field :unidad_marca_vehiculo, class: 'form-control', placeholder: 'Marca del Vehiculo'
             .col-sm-4              
-              = f.select :front_id, Front.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Placa Delantera'}, class: 'form-control', placeholder: 'Placa Numero'          
+              = f.select :front_id, Front.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Placa Delantera'}, class: 'form-control', placeholder: 'Placa Numero'       
             .col-sm-4
               = f.select :back_id, Back.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Placa Trasera'}, class: 'form-control', placeholder: 'Placa Trasera'
           .form-group
             .col-sm-4
-              = f.text_field :unidad_configuracion_vehicular, class: 'form-control', placeholder: 'Config Vehicular'        
+              = f.text_field :unidad_configuracion_vehicular, class: 'form-control', placeholder: 'Config Vehicular'      
             .col-sm-4              
               = f.text_field :conductor_certificado_inscripcion, class: 'form-control', placeholder: 'Certificado Inscriptcion'
             .col-sm-4              
-              = f.text_field :conductor_licencia_conducir, class: 'form-control', placeholder: 'Licencia Conducir'      
+              = f.text_field :conductor_licencia_conducir, class: 'form-control', placeholder: 'Licencia Conducir'   
           
     .col-sm-4
       .panel.panel-default  
@@ -182,10 +174,10 @@
         .panel-body          
           .col-sm-12
             .form-group
-              = f.text_field :empresa_subcontratada_nombre_apellido_razon_social, class: 'form-control', placeholder: 'Nombres y Apellidos / Razon Social'          
+              = f.text_field :empresa_subcontratada_nombre_apellido_razon_social, class: 'form-control', placeholder: 'Nombres y Apellidos / Razon Social'         
           .col-sm-12
             .form-group
-              = f.text_field :empresa_subcontratada_ruc, class: 'form-control', placeholder: 'RUC : 123456789123'          
+              = f.text_field :empresa_subcontratada_ruc, class: 'form-control', placeholder: 'RUC : 123456789123'    
 
   .row
     .col-sm-12
@@ -212,4 +204,19 @@
       language: 'es',
       autoclose: true      
   });
+  $(document).ready(function() { $("#guide_sender_id").select2(); });
+  $(document).ready(function() { $("#guide_addressee_id").select2(); });
 
+  $('*').on('keydown', function(e){
+      if (e.keyCode === 13) {
+          var inputs = $(this).parents("form").eq(0).find(":input");
+          var idx = inputs.index(this);
+          if (idx == inputs.length - 1) {
+              inputs[0].select()
+          } else {
+              inputs[idx + 1].focus(); //  handles submit buttons
+              inputs[idx + 1].select();
+          }
+          return false;
+      }
+  });

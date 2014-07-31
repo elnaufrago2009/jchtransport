@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140726162653) do
+ActiveRecord::Schema.define(version: 20140729155910) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -141,6 +141,9 @@ ActiveRecord::Schema.define(version: 20140726162653) do
     t.string   "empresa_subcontratada_nombre_apellido_razon_social"
     t.string   "empresa_subcontratada_ruc"
     t.text     "obsevaciones"
+    t.integer  "sender_id"
+    t.integer  "addressee_id"
+    t.integer  "number_guide_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -168,6 +171,12 @@ ActiveRecord::Schema.define(version: 20140726162653) do
   create_table "monedas", force: true do |t|
     t.string   "nombre"
     t.string   "simbolo"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "number_guides", force: true do |t|
+    t.string   "numero"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

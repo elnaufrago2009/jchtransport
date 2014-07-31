@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :number_guides
+
   resources :addressees
 
   resources :senders

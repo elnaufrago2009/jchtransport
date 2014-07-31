@@ -1,32 +1,34 @@
-- page_title!('Guias de Remision - Transportista')
 .page-header
-  %h1
-    %span.glyphicon.glyphicon-sort-by-attributes-alt
-    Guias Remision 
-    %b Transportistas
-    %small JCH
-
-.region      
-  .admin-control
-    = link_to '<span class="glyphicon glyphicon-plus"></span> Crear Guia Remision'.html_safe, new_guide_path, class: 'btn btn-primary btn-lg'
-  %br
   .row
-    .col-sm-12
-    .table-responsive
-      %table.table.table-hover
-        %tr
-          %th Numero remision guia
-          %th Fecha emision
-          %th Fecha inicio traslado            
-          %th Acciones
+    .col-sm-8
+      %h1
+        %span.glyphicon.glyphicon-sort-by-attributes-alt
+        Guias Remision 
+        %b Transportistas
+        %small JCH
+    .col-sm-4
+      %br
+      = link_to '<span class="glyphicon glyphicon-plus"></span> Crear Guia'.html_safe, new_guide_path, class: 'btn btn-primary pull-right'
+  
 
-        - @guides.each do |guide|
-          %tr
-            %td= guide.numero_remision_guia
-            %td= guide.fecha_emision
-            %td= guide.fecha_inicio_traslado
-            %td
-              = link_to '<span class="glyphicon glyphicon-eye-open"></span> Ver'.html_safe, guide, class: 'btn btn-info btn-sm'
-              = link_to '<span class="glyphicon glyphicon-edit"></span> Editar'.html_safe, edit_guide_path(guide), class: 'btn btn-success btn-sm'
-              = link_to '<span class="glyphicon glyphicon-trash"></span> Eliminar'.html_safe, guide, :method => :delete, :data => { :confirm => '¿Estás Seguro?' }, class: 'btn btn-danger btn-sm'
-              = link_to '<span class="glyphicon glyphicon-file"></span> PDF'.html_safe, "/guides/#{guide.id}.pdf", class: 'btn btn-warning btn-sm'
+.region 
+  %br
+  .col-sm-12
+  .table-responsive
+    %table.table.table-hover.table-condensed.table-striped
+      %tr
+        %th Numero remision guia
+        %th Fecha emision
+        %th Fecha inicio traslado            
+        %th Acciones
+
+      - @guides.each do |guide|
+        %tr
+          %td= guide.numero_remision_guia
+          %td= guide.fecha_emision
+          %td= guide.fecha_inicio_traslado
+          %td
+            = link_to '<span class="glyphicon glyphicon-eye-open"></span> ver'.html_safe, guide, class: 'btn btn-info btn-xs'
+            = link_to '<span class="glyphicon glyphicon-edit"></span> edit'.html_safe, edit_guide_path(guide), class: 'btn btn-success btn-xs'
+            = link_to '<span class="glyphicon glyphicon-trash"></span>'.html_safe, guide, :method => :delete, :data => { :confirm => '¿Estás Seguro?' }, class: 'btn btn-danger btn-xs'
+            = link_to '<span class="glyphicon glyphicon-file"></span>'.html_safe, "/guides/#{guide.id}.pdf", class: 'btn btn-warning btn-xs'

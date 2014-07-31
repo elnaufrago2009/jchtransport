@@ -56,5 +56,8 @@ $(document).ready(function(){
         if (cancelado_fecha != ''){ $('#cancelado_fecha').addClass('has-success'); } else { $('#cancelado_fecha').removeClass('has-success'); }
         
     });
+
+    
+
 });
 

@@ -27,6 +27,9 @@ class CreateGuides < ActiveRecord::Migration
       t.string :empresa_subcontratada_nombre_apellido_razon_social
       t.string :empresa_subcontratada_ruc
       t.text :obsevaciones
+      t.integer :sender_id
+      t.integer :addressee_id
+      t.integer :number_guide_id
 
       t.timestamps
     end

@@ -1,0 +1,15 @@
+#region-number_guides.container
+  .region
+    .region-title
+      %h1= page_title!('number_guide')
+
+  .region
+    %p
+      %b Numero:
+      = @number_guide.numero
+
+  .region
+    - if current_admin
+      .admin-controls
+        = link_to 'Editar', edit_number_guide_path(@number_guide), class: 'btn btn-success'
+    = link_to 'Regresar', number_guides_path, class: 'btn btn-warning'

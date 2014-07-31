@@ -1,19 +1,15 @@
-= form_for @moneda, :html => { class: 'form-horizontal', role: 'form' } do |f|
-  - if @moneda.errors.any?
+= form_for @number_guide, :html => { class: 'form-horizontal', role: 'form' } do |f|
+  - if @number_guide.errors.any?
     #error_explanation
-      %h2= "#{pluralize(@moneda.errors.count, "error")}"
+      %h2= "#{pluralize(@number_guide.errors.count, "error")}"
       %ul
-        - @moneda.errors.full_messages.each do |msg|
+        - @number_guide.errors.full_messages.each do |msg|
           %li= msg
 
   .form-group
-    = f.label :nombre, class: 'col-sm-2 control-label'
+    = f.label :numero, class: 'col-sm-2 control-label'
     .col-sm-10
-      = f.text_field :nombre, class: 'form-control'
-  .form-group
-    = f.label :simbolo, class: 'col-sm-2 control-label'
-    .col-sm-10
-      = f.text_field :simbolo, class: 'form-control'
+      = f.text_field :numero, class: 'form-control'
   .actions
     = f.submit 'Guardar', class: 'btn btn-default'
 

@@ -1,0 +1,26 @@
+#region-number_guides.container
+
+  .region
+    .region-title
+      %h1= page_title!('number_guides')
+
+    .region
+      - if current_admin
+        .admin-control
+          = link_to 'Crear Number guide', new_number_guide_path, class: 'btn btn-primary'
+
+      .table-responsive
+        %table.table
+          %tr
+            %th Numero
+            %th
+            %th
+            %th
+
+          - @number_guides.each do |number_guide|
+            %tr
+              %td= number_guide.numero
+              %td= link_to 'Ver', number_guide, class: 'btn btn-info'
+              - if current_admin
+                %td= link_to 'Editar', edit_number_guide_path(number_guide), class: 'btn btn-success'
+                %td= link_to 'Eliminar', number_guide, :method => :delete, :data => { :confirm => '¿Estás Seguro?' }, class: 'btn btn-danger'

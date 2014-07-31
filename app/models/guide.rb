@@ -14,6 +14,11 @@ class Guide < ActiveRecord::Base
   belongs_to :front
   belongs_to :back
 
+  belongs_to :sender
+  belongs_to :addressee
+
+  belongs_to :number_guide
+
 
   #accepts_nested_attributes_for :items, reject_if: proc { |attributes| attributes[:codigo].blank? }, :allow_destroy => true
   accepts_nested_attributes_for :items, :reject_if => :all_blank, :allow_destroy => true
@@ -29,11 +34,4 @@ class Guide < ActiveRecord::Base
   validates_presence_of :llegada_district_id, message: '- En blanco'
   validates_presence_of :llegada_province_id, message: '- En blanco'
   validates_presence_of :llegada_department_id, message: '- En blanco'
-  validates_presence_of :remitente_apellido_nombre_razon_social, message: '- En blanco'
-  validates_presence_of :remitente_ruc, message: '- En blanco'
-  validates_presence_of :destinatario_apellido_nombre_razon_social, message: '- En blanco'
-  validates_presence_of :destinatario_ruc, message: '- En blanco'
-
-
-
 end
