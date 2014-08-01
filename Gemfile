@@ -54,6 +54,8 @@ gem "select2-rails"
 gem 'cancan'
 gem 'rolify'
 gem 'prawn'	
+gem 'will_paginate', '~> 3.0'
+gem 'will_paginate-bootstrap'
 
 group :test do 
 	gem 'cucumber-rails', :require => false

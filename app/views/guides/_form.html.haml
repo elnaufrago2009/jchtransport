@@ -1,4 +1,4 @@
-= form_for @guide, :html => { class: 'form-horizontal', role: 'form' } do |f|
+= form_for @guide, :html => { class: '', role: 'form' } do |f|
   - if @guide.errors.any?
     #error_explanation
       %h2= "#{pluralize(@guide.errors.count, "error")}"
@@ -6,192 +6,149 @@
         - @guide.errors.full_messages.each do |msg|
           %li= msg
 
-  - if params[:action] == 'new' || params[:action] == 'create'   
-    .form-group
-      .col-sm-12
-        = button_tag(type: 'submit', class: "btn btn-success btn-lg") do 
-          %span.glyphicon.glyphicon-new-window
-          Guardar
-        = link_to '<span class="glyphicon glyphicon-arrow-left"></span> Regresar'.html_safe, 'javascript:history.back(-1)', class: 'btn btn-warning btn-lg'
-  -if params[:action] == 'edit'
-    .form-group
-      .col-sm-12
-        = button_tag(type: 'submit', class: "btn btn-success btn-lg") do 
-          %span.glyphicon.glyphicon-new-window
-          Guardar
-        = link_to '<span class="glyphicon glyphicon-eye-open"></span> Ver'.html_safe, @guide, class: 'btn btn-info btn-lg'
-        = link_to '<span class="glyphicon glyphicon-arrow-left"></span> Regresar'.html_safe, 'javascript:history.back(-1)', class: 'btn btn-warning btn-lg'
-
-  .row
-    .col-sm-12
-      .row        
-        .col-sm-4
-          .panel.panel-default        
-            .panel-heading
-              %h3.panel-title 
-                %span.glyphicon.glyphicon-lock
-                %b Guia Remision - Transportista
-            .panel-body              
-              .col-sm-8 
-                .row     
-                  .has-default 
-                    - number = NumberGuide.last.numero.to_i + 1
-                    = f.text_field :numero_remision_guia, class: 'form-control', value: "#{number}", placeholder: '506 - 000275'                
-        .col-sm-4
-          .panel.panel-default
-            .panel-heading
-              %h3.panel-title 
-                %span.glyphicon.glyphicon-calendar
-                %b Fecha Emision
-            .panel-body               
-              .col-sm-8   
-                .row          
-                  = f.text_field :fecha_emision, class: 'form-control', placeholder: '2014-12-23'
-        .col-sm-4
-          .panel.panel-default              
-            .panel-heading
-              %h3.panel-title 
-                %span.glyphicon.glyphicon-calendar
-                %b Fecha Inicio Traslado
-            .panel-body              
-              .col-sm-8
-                .row
-                  = f.text_field :fecha_inicio_traslado, class: 'form-control', placeholder: '2014-05-15'
   .row
     .col-sm-6
-      .panel.panel-default  
-        .panel-heading
-          %h3.panel-title 
-            %span.glyphicon.glyphicon-road 
-            %b Direccion Partida
-        .panel-body          
-          .col-sm-12
-            .form-group
-              = f.text_field :partida_direccion, class: 'form-control', placeholder: 'Direccion'          
-          .row
-            .col-sm-4            
-              = f.select :partida_department_id, Department.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Departamento:'} , class: 'form-control'
-            .col-sm-4
-              = f.select :partida_province_id, Province.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Provincia:'}, class: 'form-control'
-            .col-sm-4
-              = f.select :partida_district_id, District.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Distrito:'}, class: 'form-control'          
-    .col-sm-6
-      .panel.panel-default  
-        .panel-heading
-          %h3.panel-title 
-            %span.glyphicon.glyphicon-road
-            %b Direccion Llegada
-        .panel-body          
-          .col-sm-12              
-            .form-group
-              = f.text_field :llegada_direccion,  class: 'form-control', placeholder: 'Direccion'
-          .row
-            .col-sm-4
-              = f.select :llegada_department_id, Department.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Departamento:'} , class: 'form-control'             
-            .col-sm-4
-              = f.select :llegada_province_id, Province.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Provincia:'}, class: 'form-control'
-            .col-sm-4
-              = f.select :llegada_district_id, District.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Distrito:'}, class: 'form-control'
-              
-          
-  .row
-    .col-sm-6
-      .panel.panel-default  
-        .panel-heading
-          %h3.panel-title 
-            %span.glyphicon.glyphicon-plane
-            %b Remitente
-        .panel-body          
-          .col-sm-12
-            .form-group
-              = f.select :sender_id, Sender.all.collect{|x| ["#{x.ruc} #{x.name_reason} #{x.identity_document}", x.id]}, {:include_blank => 'Remitente'}, class: 'form-control', placeholder: 'Apellidos y Nombres / Razon social'        
-
-    .col-sm-6
-      .panel.panel-default  
-        .panel-heading
-          %h3.panel-title 
-            %span.glyphicon.glyphicon-plane
-            %b Destinatario
-        .panel-body          
-          .col-sm-12
-            .form-group
-              = f.select :addressee_id, Addressee.all.collect{|x| ["#{x.ruc} #{x.name_reason} #{x.identity_document}", x.id]}, {:include_blank => 'Destinatario'}, class: 'form-control', placeholder: 'Apellidos y Nombres / Razon social'  
-
-  .row
-    .col-sm-12    
-      .panel.panel-default  
-        .panel-heading
-          %h3.panel-title            
-            %b
-              .row
-                .col-sm-2 Codigo
-                .col-sm-4 Descripcion
-                .col-sm-1 Cantidad
-                .col-sm-1 Medida
-                .col-sm-1 Peso
-                .col-sm-1 Und
-                .col-sm-1 Precio
-                .col-sm-1 Accion
-                  
-        .panel-body        
-          .row
-            #items
-              = f.fields_for :items do |item|
-                = render 'item_fields', :f => item
+      %h3 
+        Datos                
+        %small generales
+      %hr
+      .row
+        .col-sm-12
           .form-group
-            .col-sm-12
-              = link_to_add_association '<span class="glyphicon glyphicon-plus"></span> Agregar'.html_safe, f, :items, class: 'btn btn-primary btn-sm'
+            - number = NumberGuide.last.numero.to_i + 1
+            = f.text_field :numero_remision_guia, class: 'form-control input-lg', value: "#{number}", placeholder: '506 - 000275'
+        .col-sm-6
+          .form-group
+            = f.text_field :fecha_emision, class: 'form-control input-lg', placeholder: '2014-12-23'
+        .col-sm-6
+          .form-group
+            = f.text_field :fecha_inicio_traslado, class: 'form-control input-lg', placeholder: '2014-05-15'
 
-  .row 
+      %h3
+        Direccion
+        %small Llegada
+      %hr
+      .row
+        .col-sm-12
+          .form-group
+            = f.text_field :llegada_direccion,  class: 'form-control input-lg', placeholder: 'Direccion'
+        .col-sm-4
+          .form-group
+            = f.select :llegada_department_id, Department.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Departamento:'} , class: 'form-control input-lg'
+        .col-sm-4
+          .form-group
+            = f.select :llegada_province_id, Province.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Provincia:'}, class: 'form-control input-lg'
+        .col-sm-4
+          .form-group
+            = f.select :llegada_district_id, District.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Distrito:'}, class: 'form-control input-lg'
+    .col-sm-6
+      %h3
+        Direccion
+        %small Partida
+      %hr
+      .row
+        .col-sm-12
+          .form-group    
+            = f.text_field :partida_direccion, class: 'form-control input-lg', placeholder: 'Direccion'      
+        .col-sm-4
+          .form-group
+            = f.select :partida_department_id, Department.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Departamento:'} , class: 'form-control input-lg'
+        .col-sm-4
+          .form-group
+            = f.select :partida_province_id, Province.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Provincia:'}, class: 'form-control input-lg'
+        .col-sm-4
+          .form-group
+            = f.select :partida_district_id, District.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Distrito:'}, class: 'form-control input-lg'   
+      %h3
+        Remitente 
+        %small Destinatario
+      %hr
+      .row
+        .col-sm-12
+          .form-group
+            .input-group.select2-bootstrap-append
+              = f.select :sender_id, Sender.all.collect{|x| ["#{x.ruc} #{x.name_reason} #{x.identity_document}", x.id]}, {:include_blank => 'Remitente'}, { :class => 'form-control select2 input-lg'}
+              %span.input-group-btn
+                %button.btn.btn-default.btn-lg{ type: "button", "data-select2-open" => "guide_sender_id"}
+                  %span.glyphicon.glyphicon-search                  
+        .col-sm-12
+          .form-group
+            .input-group.select2-bootstrap-append
+              = f.select :addressee_id, Addressee.all.collect{|x| ["#{x.ruc} #{x.name_reason} #{x.identity_document}", x.id]}, {:include_blank => 'Destinatario'}, class: 'form-control input-lg', placeholder: 'Apellidos y Nombres / Razon social'  
+              %span.input-group-btn
+                %button.btn.btn-default.btn-lg{ type: "button", "data-select2-open" => "guide_addressee_id"}
+                  %span.glyphicon.glyphicon-search                  
+  %hr
+  .row                
+    #items
+      = f.fields_for :items do |item|
+        = render 'item_fields', :f => item
+    .form-group
+      .col-sm-12
+        = link_to_add_association '<span class="glyphicon glyphicon-plus"></span> Agregar'.html_safe, f, :items, class: 'btn btn-primary btn-lg'
+  .row
     .col-sm-8
-      .panel.panel-default  
-        .panel-heading
-          %h3.panel-title 
-            %span.glyphicon.glyphicon-user
-            %b Datos Identificacion
-        .panel-body 
-          .form-group                 
-            .col-sm-4            
-              = f.text_field :unidad_marca_vehiculo, class: 'form-control', placeholder: 'Marca del Vehiculo'
-            .col-sm-4              
-              = f.select :front_id, Front.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Placa Delantera'}, class: 'form-control', placeholder: 'Placa Numero'       
-            .col-sm-4
-              = f.select :back_id, Back.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Placa Trasera'}, class: 'form-control', placeholder: 'Placa Trasera'
+
+      %h3
+        Transporte 
+        %small Conductor
+      %hr
+      .row
+        .col-sm-4
           .form-group
-            .col-sm-4
-              = f.text_field :unidad_configuracion_vehicular, class: 'form-control', placeholder: 'Config Vehicular'      
-            .col-sm-4              
-              = f.text_field :conductor_certificado_inscripcion, class: 'form-control', placeholder: 'Certificado Inscriptcion'
-            .col-sm-4              
-              = f.text_field :conductor_licencia_conducir, class: 'form-control', placeholder: 'Licencia Conducir'   
-          
-    .col-sm-4
-      .panel.panel-default  
-        .panel-heading
-          %h3.panel-title 
-            %span.glyphicon.glyphicon-user
-            %b Datos Empresa Subcontatada
-        .panel-body          
-          .col-sm-12
-            .form-group
-              = f.text_field :empresa_subcontratada_nombre_apellido_razon_social, class: 'form-control', placeholder: 'Nombres y Apellidos / Razon Social'         
-          .col-sm-12
-            .form-group
-              = f.text_field :empresa_subcontratada_ruc, class: 'form-control', placeholder: 'RUC : 123456789123'    
+            = f.text_field :unidad_marca_vehiculo, class: 'form-control input-lg', placeholder: 'Marca del Vehiculo'
+        .col-sm-4
+          .form-group
+            = f.select :front_id, Front.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Placa Delantera'}, class: 'form-control input-lg', placeholder: 'Placa Numero'    
+        .col-sm-4
+          .form-group
+            = f.select :back_id, Back.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Placa Trasera'}, class: 'form-control input-lg', placeholder: 'Placa Trasera'
+        .col-sm-4
+          .form-group
+            = f.text_field :unidad_configuracion_vehicular, class: 'form-control input-lg', placeholder: 'Config Vehicular'
+        .col-sm-4
+          .form-group
+            = f.text_field :conductor_certificado_inscripcion, class: 'form-control input-lg', placeholder: 'Certificado Inscriptcion'
+        .col-sm-4
+          .form-group
+            = f.text_field :conductor_licencia_conducir, class: 'form-control input-lg', placeholder: 'Licencia Conducir'
+
+    .col-sm-4 
+      %h3
+        Empresa
+        %small Subcontatada
+      %hr
+      .col-sm-12
+        .form-group
+          = f.text_field :empresa_subcontratada_nombre_apellido_razon_social, class: 'form-control input-lg', placeholder: 'Nombres y Apellidos / Razon Social' 
+      .col-sm-12
+        .form-group
+          = f.text_field :empresa_subcontratada_ruc, class: 'form-control input-lg', placeholder: 'RUC : 123456789123'
 
   .row
     .col-sm-12
-      .panel.panel-default
-        .panel-heading
-          %h3.panel-title 
-            %span.glyphicon.glyphicon-comment
-            %b Observaciones
-        .panel-body
-          .col-sm-12
-            .form-group
-              = f.text_area :obsevaciones, class: 'form-control'
+      %h3 
+        Observaciones
+        %small notas
+      .form-group
+        = f.text_area :obsevaciones, class: 'form-control'
 
-
+  .row
+    - if params[:action] == 'new' || params[:action] == 'create'   
+      .form-group
+        .col-sm-12
+          = button_tag(type: 'submit', class: "btn btn-success btn-lg") do 
+            %span.glyphicon.glyphicon-new-window
+            Guardar
+          = link_to '<span class="glyphicon glyphicon-arrow-left"></span> Regresar'.html_safe, 'javascript:history.back(-1)', class: 'btn btn-warning btn-lg'
+    - if params[:action] == 'edit'
+      .form-group
+        .col-sm-12
+          = button_tag(type: 'submit', class: "btn btn-success btn-lg") do 
+            %span.glyphicon.glyphicon-new-window
+            Guardar
+          = link_to '<span class="glyphicon glyphicon-eye-open"></span> Ver'.html_safe, @guide, class: 'btn btn-info btn-lg'
+          = link_to '<span class="glyphicon glyphicon-arrow-left"></span> Regresar'.html_safe, 'javascript:history.back(-1)', class: 'btn btn-warning btn-lg'
 
 :javascript
   $('#guide_fecha_emision').datepicker({
@@ -220,3 +177,92 @@
           return false;
       }
   });
+
+  var placeholder = "Select a State";
+
+      $('.select2, .select2-multiple').select2({ placeholder: placeholder });
+      $('.select2-allow-clear').select2({ allowClear: true, placeholder: placeholder });
+      $('.select2-remote').select2({
+          placeholder: "Search for a movie",
+          minimumInputLength: 1,
+          ajax: { // instead of writing the function to execute the request we use Select2's convenient helper
+              url: "http://api.rottentomatoes.com/api/public/v1.0/movies.json",
+              dataType: 'jsonp',
+              data: function (term, page) {
+                  return {
+                      q: term, // search term
+                      page_limit: 10, // page size
+                      page: page, // page number
+                      apikey: "w2uyd7u9mj53nhq2f8mpzquq" // please do not use so this example keeps working
+                  };
+              },
+              results: function (data, page) {
+                  var more = (page * 10) < data.total; // whether or not there are more results available
+
+                  // notice we return the value of more so Select2 knows if more results can be loaded
+                  return {results: data.movies, more: more};
+              }
+          },
+          initSelection: function(element, callback) {
+              // the input tag has a value attribute preloaded that points to a preselected movie's id
+              // this function resolves that id attribute to an object that select2 can render
+              // using its formatResult renderer - that way the movie name is shown preselected
+              var id=$(element).val();
+              if (id!=="") {
+                  $.ajax("http://api.rottentomatoes.com/api/public/v1.0/movies/"+id+".json", {
+                      data: {
+                          apikey: "w2uyd7u9mj53nhq2f8mpzquq"
+                      },
+                      dataType: "jsonp"
+                  }).done(function(data) { callback(data); });
+              }
+          },
+          formatResult: movieFormatResult, // omitted for brevity, see the source of this page
+          formatSelection: movieFormatSelection,  // omitted for brevity, see the source of this page
+          dropdownCssClass: "bigdrop", // apply css that makes the dropdown taller
+          escapeMarkup: function (m) { return m; } // we do not want to escape markup since we are displaying html in results
+      });
+
+      function movieFormatResult(movie) {
+          var markup = "<table class='movie-result'><tr>";
+          if (movie.posters !== undefined && movie.posters.thumbnail !== undefined) {
+              markup += "<td class='movie-image'><img src='" + movie.posters.thumbnail + "'/></td>";
+          }
+          markup += "<td class='movie-info'><div class='movie-title'>" + movie.title + "</div>";
+          if (movie.critics_consensus !== undefined) {
+              markup += "<div class='movie-synopsis'>" + movie.critics_consensus + "</div>";
+          }
+          else if (movie.synopsis !== undefined) {
+              markup += "<div class='movie-synopsis'>" + movie.synopsis + "</div>";
+          }
+          markup += "</td></tr></table>"
+          return markup;
+      }
+
+      function movieFormatSelection(movie) {
+          return movie.title;
+      }
+
+      $('button[data-select2-open]').click(function(){
+        $('#' + $(this).data('select2-open')).select2('open');
+      });
+
+      
+        var select2OpenEventName = "select2-open";
+
+        $(':checkbox').on( "click", function() {
+          $(this).parent().nextAll('select').select2("enable", this.checked );
+        });
+      
+
+      $(".select2, .select2-multiple, .select2-allow-clear, .select2-remote").on( select2OpenEventName, function() {
+        if ( $(this).parents('[class*="has-"]').length ) {
+          var classNames = $(this).parents('[class*="has-"]')[0].className.split(/\s+/);
+          for (var i=0; i<classNames.length; ++i) {
+              if ( classNames[i].match("has-") ) {
+                $('#select2-drop').addClass( classNames[i] );
+              }
+          }
+        }
+
+      });

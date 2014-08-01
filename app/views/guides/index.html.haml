@@ -3,32 +3,57 @@
     .col-sm-8
       %h1
         %span.glyphicon.glyphicon-sort-by-attributes-alt
-        Guias Remision 
-        %b Transportistas
+        %b G.R. 
+        Transportistas
         %small JCH
     .col-sm-4
       %br
       = link_to '<span class="glyphicon glyphicon-plus"></span> Crear Guia'.html_safe, new_guide_path, class: 'btn btn-primary pull-right'
   
+.row
+  .col-sm-6
+    .pull-left
+      = will_paginate @collection, renderer: BootstrapPagination::Rails
+  .col-sm-6
+    %br
+    .pull-right
+      .input-group.custom-search-form
+      = form_tag("/guides", method: "get", class: 'form-inline') do
+        .input-group
+          - if !params[:q].nil?
+            - q = params[:q]
+          - else
+            - q = ''
+          = text_field_tag :q, nil,  class: 'form-control', placeholder: 'Numero guia', value: "#{q}"
+          .input-group-btn
+            %button.btn.btn-default{type: "submit"}
+              %span.glyphicon.glyphicon-search          
+
+
 
 .region 
-  %br
   .col-sm-12
   .table-responsive
-    %table.table.table-hover.table-condensed.table-striped
+    %table.table.table-hover.table-striped
       %tr
-        %th Numero remision guia
+        %th # Guia Remision
         %th Fecha emision
         %th Fecha inicio traslado            
         %th Acciones
 
       - @guides.each do |guide|
         %tr
-          %td= guide.numero_remision_guia
+          %td
+            508 -
+            = guide.numero_remision_guia
           %td= guide.fecha_emision
           %td= guide.fecha_inicio_traslado
           %td
             = link_to '<span class="glyphicon glyphicon-eye-open"></span> ver'.html_safe, guide, class: 'btn btn-info btn-xs'
             = link_to '<span class="glyphicon glyphicon-edit"></span> edit'.html_safe, edit_guide_path(guide), class: 'btn btn-success btn-xs'
-            = link_to '<span class="glyphicon glyphicon-trash"></span>'.html_safe, guide, :method => :delete, :data => { :confirm => '¿Estás Seguro?' }, class: 'btn btn-danger btn-xs'
-            = link_to '<span class="glyphicon glyphicon-file"></span>'.html_safe, "/guides/#{guide.id}.pdf", class: 'btn btn-warning btn-xs'
+            = link_to '<span class="glyphicon glyphicon-trash"></span> Del'.html_safe, guide, :method => :delete, :data => { :confirm => '¿Estás Seguro?' }, class: 'btn btn-danger btn-xs'
+            = link_to '<span class="glyphicon glyphicon-file"></span> pdf'.html_safe, "/guides/#{guide.id}.pdf", class: 'btn btn-warning btn-xs'
+.row
+  .col-sm-12
+    .pull-right
+      = will_paginate @collection, renderer: BootstrapPagination::Rails
