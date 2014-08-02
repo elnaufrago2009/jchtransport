@@ -1,10 +1,8 @@
 class CreateFacturas < ActiveRecord::Migration
   def change
     create_table :facturas do |t|
-      t.string :numero
-      t.string :nombres
-      t.string :ruc
-      t.string :direccion
+      t.string :numero                  
+      t.integer :sender_id      
       t.date :fecha
       t.integer :guide_id
       t.string :condiciones_pago
@@ -17,6 +15,7 @@ class CreateFacturas < ActiveRecord::Migration
       t.string :igv
       t.string :precio_venta
       t.integer :credito_id
+      t.integer :estado
 
       t.timestamps
     end

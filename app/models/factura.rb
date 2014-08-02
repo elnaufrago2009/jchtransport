@@ -1,6 +1,7 @@
 class Factura < ActiveRecord::Base
   belongs_to :guide
   belongs_to :credito
+  belongs_to :number_invoice
   has_many :elementos
   accepts_nested_attributes_for :elementos, :reject_if => :all_blank, :allow_destroy => true
 

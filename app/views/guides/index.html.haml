@@ -37,6 +37,7 @@
     %table.table.table-hover.table-striped
       %tr
         %th # Guia Remision
+        %th Remitente
         %th Fecha emision
         %th Fecha inicio traslado            
         %th Acciones
@@ -46,6 +47,7 @@
           %td
             508 -
             = guide.numero_remision_guia
+          %td= guide.sender.name_reason
           %td= guide.fecha_emision
           %td= guide.fecha_inicio_traslado
           %td

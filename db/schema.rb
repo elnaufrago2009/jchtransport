@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140729155910) do
+ActiveRecord::Schema.define(version: 20140801155344) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,6 +76,8 @@ ActiveRecord::Schema.define(version: 20140729155910) do
   end
 
   create_table "elementos", force: true do |t|
+    t.integer  "guide_id"
+    t.integer  "item_id"
     t.string   "cantidad"
     t.string   "descripcion"
     t.string   "precio_unitario"
@@ -88,9 +90,7 @@ ActiveRecord::Schema.define(version: 20140729155910) do
 
   create_table "facturas", force: true do |t|
     t.string   "numero"
-    t.string   "nombres"
-    t.string   "ruc"
-    t.string   "direccion"
+    t.integer  "sender_id"
     t.date     "fecha"
     t.integer  "guide_id"
     t.string   "condiciones_pago"
@@ -103,6 +103,7 @@ ActiveRecord::Schema.define(version: 20140729155910) do
     t.string   "igv"
     t.string   "precio_venta"
     t.integer  "credito_id"
+    t.integer  "estado"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -126,12 +127,6 @@ ActiveRecord::Schema.define(version: 20140729155910) do
     t.string   "llegada_district_id"
     t.string   "llegada_province_id"
     t.string   "llegada_department_id"
-    t.string   "remitente_apellido_nombre_razon_social"
-    t.string   "remitente_ruc"
-    t.string   "remitente_dni"
-    t.string   "destinatario_apellido_nombre_razon_social"
-    t.string   "destinatario_ruc"
-    t.string   "destinatario_dni"
     t.string   "unidad_marca_vehiculo"
     t.integer  "front_id"
     t.integer  "back_id"
@@ -144,6 +139,7 @@ ActiveRecord::Schema.define(version: 20140729155910) do
     t.integer  "sender_id"
     t.integer  "addressee_id"
     t.integer  "number_guide_id"
+    t.integer  "estado"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -177,6 +173,12 @@ ActiveRecord::Schema.define(version: 20140729155910) do
 
   create_table "number_guides", force: true do |t|
     t.string   "numero"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "number_invoices", force: true do |t|
+    t.string   "number"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

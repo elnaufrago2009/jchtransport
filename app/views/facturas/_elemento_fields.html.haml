@@ -1,14 +1,26 @@
-.nested-fields
-  .field.col-sm-2
-    = f.text_field :cantidad, class: 'form-control input-sm', placeholder: '20.00'
-  .field.col-sm-6
-    = f.text_field :descripcion, class: 'form-control input-sm', placeholder: 'descripcion'
+.nested-fields  
   .field.col-sm-1
-    = f.text_field :precio_unitario, class: 'form-control input-sm', placeholder: 'PrecioU'
-  .field.col-sm-2
-    = f.text_field :precio_venta, class: 'form-control input-sm', placeholder: 'Precio Venta'
+    .form-group
+      = f.text_field :cantidad, class: "form-control input-lg", placeholder: '20', value: ""
+  - if params[:type] == 'multi'
+    .field.col-sm-4
+      .form-group
+        = f.select :guide_id, Guide.all.collect{|x| [x.numero_remision_guia, x.id]}, {:include_blank => 'Guia Remision'}, :class => 'form-control input-lg select5'
+  - else
+    .field.col-sm-4
+      .form-group
+        = f.select :item_id, Item.all.collect{|x| [x.descripcion, x.id]}, {:include_blank => 'Items'}, class: 'form-control input-lg'  
+  
+  .field.col-sm-4
+    .form-group
+      = f.text_field :descripcion, class: 'form-control input-lg', placeholder: 'descripcion'
   .field.col-sm-1
-    = link_to_remove_association '<span class="glyphicon glyphicon-trash"></span>'.html_safe , f, class: 'btn btn-danger btn-sm'
-  %br
-  %br
+    .form-group
+      = f.text_field :precio_unitario, class: 'form-control input-lg', placeholder: 'PU'
+  .field.col-sm-1
+    .form-group
+      = f.text_field :precio_venta, class: 'form-control input-lg', placeholder: 'PV'
+  .field.col-sm-1
+    .form-group
+      = link_to_remove_association '<span class="glyphicon glyphicon-trash"></span>'.html_safe , f, class: 'btn btn-danger btn-lg'
 

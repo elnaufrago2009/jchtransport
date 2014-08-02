@@ -19,6 +19,8 @@ class Guide < ActiveRecord::Base
 
   belongs_to :number_guide
 
+  belongs_to :elemento
+
 
   #accepts_nested_attributes_for :items, reject_if: proc { |attributes| attributes[:codigo].blank? }, :allow_destroy => true
   accepts_nested_attributes_for :items, :reject_if => :all_blank, :allow_destroy => true

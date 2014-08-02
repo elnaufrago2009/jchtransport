@@ -1,6 +1,8 @@
 class CreateElementos < ActiveRecord::Migration
   def change
     create_table :elementos do |t|
+      t.integer :guide_id
+      t.integer :item_id
       t.string :cantidad
       t.string :descripcion
       t.string :precio_unitario

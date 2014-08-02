@@ -94,25 +94,25 @@
             Remitente:
           %footer
             Nombres / Razon Social,
-            = @guide.remitente_apellido_nombre_razon_social    
+            = @guide.sender.name_reason
           %footer
             RUC,
-            = @guide.remitente_ruc
+            = @guide.sender.ruc
           %footer
             Documento de Identidad,
-            = @guide.remitente_dni
+            = @guide.sender.identity_document
         %blockquote.blockquote-reverse          
           %p
             Destinatario:
           %footer
             Nombres / Razon Social,
-            = @guide.destinatario_apellido_nombre_razon_social 
+            = @guide.addressee.name_reason
           %footer
             RUC,
-            = @guide.destinatario_ruc
+            = @guide.addressee.ruc
           %footer
             Documento de Identidad,
-            = @guide.destinatario_dni
+            = @guide.addressee.identity_document
 
 // fila 4
 .row

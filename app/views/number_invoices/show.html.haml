@@ -1,0 +1,15 @@
+#region-number_invoices.container
+  .region
+    .region-title
+      %h1= page_title!('number_invoice')
+
+  .region
+    %p
+      %b Number:
+      = @number_invoice.number
+
+  .region
+    - if current_admin
+      .admin-controls
+        = link_to 'Editar', edit_number_invoice_path(@number_invoice), class: 'btn btn-success'
+    = link_to 'Regresar', number_invoices_path, class: 'btn btn-warning'

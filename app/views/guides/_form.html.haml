@@ -79,7 +79,7 @@
                 %button.btn.btn-default.btn-lg{ type: "button", "data-select2-open" => "guide_addressee_id"}
                   %span.glyphicon.glyphicon-search                  
   %hr
-  .row                
+  .row.well                
     #items
       = f.fields_for :items do |item|
         = render 'item_fields', :f => item

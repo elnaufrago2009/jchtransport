@@ -12,12 +12,6 @@ class CreateGuides < ActiveRecord::Migration
       t.string :llegada_district_id
       t.string :llegada_province_id
       t.string :llegada_department_id
-      t.string :remitente_apellido_nombre_razon_social
-      t.string :remitente_ruc
-      t.string :remitente_dni
-      t.string :destinatario_apellido_nombre_razon_social
-      t.string :destinatario_ruc
-      t.string :destinatario_dni
       t.string :unidad_marca_vehiculo
       t.integer :front_id
       t.integer :back_id
@@ -30,6 +24,7 @@ class CreateGuides < ActiveRecord::Migration
       t.integer :sender_id
       t.integer :addressee_id
       t.integer :number_guide_id
+      t.integer :estado
 
       t.timestamps
     end

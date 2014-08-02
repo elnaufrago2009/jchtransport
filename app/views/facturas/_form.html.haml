@@ -1,4 +1,4 @@
-= form_for @factura, :html => { class: 'form-horizontal', role: 'form' } do |f|
+= form_for @factura, :html => { class: '', role: 'form' } do |f|
   - if @factura.errors.any?
     #error_explanation
       %h2= "#{pluralize(@factura.errors.count, "error")}"
@@ -6,79 +6,48 @@
         - @factura.errors.full_messages.each do |msg|
           %li= msg
 
-  - if params[:action] == 'new' || params[:action] == 'create'   
-    .form-group
-      .col-sm-12
-        = button_tag(type: 'submit', class: "btn btn-success btn-lg") do 
-          %span.glyphicon.glyphicon-new-window
-          Guardar
-        = link_to '<span class="glyphicon glyphicon-arrow-left"></span> Regresar'.html_safe, 'javascript:history.back(-1)', class: 'btn btn-warning btn-lg'
-  -if params[:action] == 'edit'
-    .form-group
-      .col-sm-12
-        = button_tag(type: 'submit', class: "btn btn-success btn-lg") do 
-          %span.glyphicon.glyphicon-new-window
-          Guardar
-        = link_to '<span class="glyphicon glyphicon-eye-open"></span> Ver'.html_safe, @factura, class: 'btn btn-info btn-lg'
-        = link_to '<span class="glyphicon glyphicon-arrow-left"></span> Regresar'.html_safe, 'javascript:history.back(-1)', class: 'btn btn-warning btn-lg'
-      
-  .panel.panel-default
-    .panel-heading
-      %h3.panel-title 
-        %span.glyphicon.glyphicon-lock
-        %b Datos
-    .panel-body   
-      .form-group
-        #numero.col-sm-2 
-          = f.text_field :numero, class: 'form-control', placeholder: 'numero'
-        #nombres.col-sm-4
-          = f.text_field :nombres, class: 'form-control', placeholder: 'Nombre'
-        #fecha.col-sm-3
-          = f.text_field :fecha, class: 'form-control', placeholder: 'fecha'
-        #ruc.col-sm-3
-          = f.text_field :ruc, class: 'form-control', placeholder: 'ruc'              
-      .form-group
-        #direccion.col-sm-4
-          = f.text_field :direccion, class: 'form-control', placeholder: 'direccion'
-        #guide_id.col-sm-4
-          = f.select :guide_id, Guide.all.collect{|x| [x.numero_remision_guia, x.id]}, {include_blank: 'Numero Guia'}, class: 'form-control'
-        #credito_id.col-sm-4          
-          = f.select :credito_id, Credito.all.collect{|x| [x.nombre, x.id]},{:include_blank => 'Seleccione'},class: 'form-control', placeholder: 'condiciones de pago'          
 
-  .panel.panel-default
-    .panel-heading
-      %h3.panel-title        
-        %b
-          .row
-            .col-sm-2 cantidad
-            .col-sm-6 Descripcion
-            .col-sm-1 P.Unitario
-            .col-sm-2 Precio Venta            
-            .col-sm-1 Accion
-    .panel-body
-      #elementos
-        .row
-          = f.fields_for :elementos do |elemento|
-            = render 'elemento_fields', :f => elemento
-           
-          .col-sm-2
-            = link_to_add_association '<span class="glyphicon glyphicon-plus"></span> Agregar'.html_safe, f, :elementos, class: 'btn btn-primary btn-sm'
-          .col-sm-7
-          #valor_venta.col-sm-2
-            = f.text_field :valor_venta, class: 'form-control input-sm', placeholder: 'VALOR DE VENTA'
-          .col-sm-1
-          %br
-          %br
-          .col-sm-9
-          #igv.col-sm-2
-            = f.text_field :igv, class: 'form-control input-sm', placeholder: 'I.G.V.'
-          .col-sm-1
-          %br
-          %br
-          .col-sm-9          
-          #precio_venta.col-sm-2
-            = f.text_field :precio_venta, class: 'form-control input-sm', placeholder: 'PRECIO DE VENTA'          
-          .col-sm-1          
+  .row
+    .col-sm-2
+      .form-group
+        = f.text_field :numero, class: 'form-control input-lg', placeholder: 'numero', value: '503-000178'
+    .col-sm-2
+      .form-group
+        = f.text_field :fecha, class: 'form-control input-lg', placeholder: 'fecha'
+    .col-sm-3
+      .form-group
+        = f.select :sender_id, Sender.all.collect{|x| ["#{x.ruc} #{x.name_reason} #{x.identity_document}", x.id]}, {:include_blank => 'Remitente'}, { :class => 'form-control select2 input-lg'}
+    .col-sm-3
+      .form-group
+        = f.select :credito_id, Credito.all.collect{|x| [x.nombre, x.id]},{:include_blank => 'Seleccione'},class: 'form-control input-lg', placeholder: 'condiciones de pago'
+    .col-sm-2
+      .form-group
+        = f.select :guide_id, Guide.all.collect{|x| [x.numero_remision_guia, x.id]}, {include_blank: 'Numero Guia'}, class: 'form-control input-lg'
+
+  .row
+    = f.fields_for :elementos do |elemento|
+      = render 'elemento_fields', :f => elemento
+     
+  .row
+    .col-sm-2
+      = link_to_add_association '<span class="glyphicon glyphicon-plus"></span> Agregar'.html_safe, f, :elementos, class: 'btn btn-primary btn-lg'
+    .col-sm-7
+
+    #valor_venta.col-sm-2
+      = f.text_field :valor_venta, class: 'form-control input-lg', placeholder: 'VALOR DE VENTA'
+    .col-sm-1
+    %br
+    %br
+    .col-sm-9
+    #igv.col-sm-2
+      = f.text_field :igv, class: 'form-control input-lg', placeholder: 'I.G.V.'
+    .col-sm-1
+    %br
+    %br
+    .col-sm-9          
+    #precio_venta.col-sm-2
+      = f.text_field :precio_venta, class: 'form-control input-lg', placeholder: 'PRECIO DE VENTA'          
+    .col-sm-1          
 
   .panel.panel-default
     .panel-heading
@@ -104,7 +73,21 @@
         #cancelado_fecha.col-sm-2
           = f.text_field :cancelado_fecha, class: 'form-control', placeholder: 'Fecha Cancelacion' 
 
-
+  - if params[:action] == 'new' || params[:action] == 'create'   
+    .form-group
+      .col-sm-12
+        = button_tag(type: 'submit', class: "btn btn-success btn-lg") do 
+          %span.glyphicon.glyphicon-new-window
+          Guardar
+        = link_to '<span class="glyphicon glyphicon-arrow-left"></span> Regresar'.html_safe, 'javascript:history.back(-1)', class: 'btn btn-warning btn-lg'
+  - if params[:action] == 'edit'
+    .form-group
+      .col-sm-12
+        = button_tag(type: 'submit', class: "btn btn-success btn-lg") do 
+          %span.glyphicon.glyphicon-new-window
+          Guardar
+        = link_to '<span class="glyphicon glyphicon-eye-open"></span> Ver'.html_safe, @factura, class: 'btn btn-info btn-lg'
+        = link_to '<span class="glyphicon glyphicon-arrow-left"></span> Regresar'.html_safe, 'javascript:history.back(-1)', class: 'btn btn-warning btn-lg'
 :javascript
   $('#factura_fecha').datepicker({
       format: 'yyyy-mm-dd',
@@ -117,7 +100,14 @@
       autoclose: true      
   });
   $(document).ready(function() { $("#factura_credito_id").select2(); });
-  $(document).ready(function() { $("#factura_guide_id").select2(); });
+  $(document).ready(function() { $("#factura_guide_id").select2(); });  
+  $(document).ready(function() { 
+    $("#factura_sender_id").select2({ dropdownAutoWidth : true }); 
+
+  });
+
+  
+
 
   $('*').on('keydown', function(e){
       if (e.keyCode === 13) {
