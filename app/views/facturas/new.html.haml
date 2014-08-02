@@ -1,16 +1,2 @@
-- page_title!('Creando factura')
-
-.page-header
-	%h1
-		%span.glyphicon.glyphicon-th
-		Crear
-		%b Factura
-
 .region
-	- if params[:type] == 'multi'
-		= render 'form_multi'
-	- else
-		= render 'form_mono'
-
-
-		
+	= render 'form'
