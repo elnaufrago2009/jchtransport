@@ -61,4 +61,10 @@ $(document).ready(function(){
 
 });
 
+$(document).ready(function(){
+    $("#partidasdecontrol_sectore_id").change(function(event){
+        var id = $("#partidasdecontrol_sectore_id").find(':selected').val();
+        $("#partidasdecontrol_subsectore_id").load('/partidasdecontrols/mostrar/'+id);
+    });
+});
 
