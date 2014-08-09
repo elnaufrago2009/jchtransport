@@ -1,0 +1,16 @@
+#region-sender_addresses.container
+  .region
+    .page-header
+      %h1= page_title!('Direccion Ver')
+
+  .region
+    %p
+      %b Direccion:
+      = @sender_address.direccion
+    %p
+      %b Sender:
+      = @sender_address.sender.name_reason
+
+  .region
+    = link_to '<span class="glyphicon glyphicon-edit"></span> Editar'.html_safe, edit_sender_address_path(@sender_address), class: 'btn btn-success'
+    = link_to '<span class="glyphicon glyphicon-arrow-left"></span> Regresar'.html_safe, sender_addresses_path, class: 'btn btn-warning'

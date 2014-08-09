@@ -3,15 +3,14 @@
 #region-number_invoices.container
 
   .region
-    .region-title
+    .page-header
       %h1
-        Creando
-        %b
-          number_invoice
+        Crear Numero Factura        
+          
 
   .region
     = render 'form'
 
   .region
     .admin-controls
-      = link_to 'Regresar', 'javascript:history.back(-1)', class: 'btn btn-warning'
+      = link_to '<span class="glyphicon glyphicon-arrow-left"></span> Regresar'.html_safe, 'javascript:history.back(-1)', class: 'btn btn-warning'

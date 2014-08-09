@@ -1,0 +1,28 @@
+#region-sender_addresses
+
+  .region
+    .page-header
+      %h1= page_title!('Direcciones')
+
+    .region
+      - if current_admin
+        .admin-control
+          = link_to '<span class="glyphicon glyphicon-plus"></span> Crear'.html_safe, new_sender_address_path, class: 'btn btn-primary btn-lg'
+    %br
+    %br
+    .row
+      .table-responsive.col-sm-9
+        %table.table
+          %tr
+            %th Direccion
+            %th Sender
+            %th Acciones
+
+          - @sender_addresses.each do |sender_address|
+            %tr
+              %td= sender_address.direccion
+              %td= sender_address.sender.name_reason
+              %td
+                = link_to '<span class="glyphicon glyphicon-eye-open"></span> Ver'.html_safe, sender_address, class: 'btn btn-info'
+                = link_to '<span class="glyphicon glyphicon-edit"></span> Editar'.html_safe, edit_sender_address_path(sender_address), class: 'btn btn-success'
+                = link_to '<span class="glyphicon glyphicon-trash"></span> Eliminar'.html_safe, sender_address, :method => :delete, :data => { :confirm => '¿Estás Seguro?' }, class: 'btn btn-danger'

@@ -3,15 +3,15 @@
 #region-number_guides.container
 
   .region
-    .region-title
+    .page-header
       %h1
-        Creando
+        Crear
         %b
-          number_guide
+          Numero de Guia
 
   .region
     = render 'form'
 
   .region
     .admin-controls
-      = link_to 'Regresar', 'javascript:history.back(-1)', class: 'btn btn-warning'
+      = link_to '<span class="glyphicon glyphicon-arrow-left"></span> Regresar'.html_safe, 'javascript:history.back(-1)', class: 'btn btn-warning'

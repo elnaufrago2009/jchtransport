@@ -1,4 +1,20 @@
 = form_for @guide, :html => { class: '', role: 'form' } do |f|
+  - if params[:action] == 'new'
+    .row
+      .col-sm-10
+        %h1
+          %span.glyphicon.glyphicon-th
+          Crear
+          %b Factura
+      .col-sm-2
+        %br
+        .form-group
+          .input-group.input-group-lg
+            .input-group-addon.primary
+              \# 508 -
+            - number = NumberGuide.last.numero.to_i + 1
+            = f.text_field :numero_remision_guia, class: 'form-control input-lg', value: "#{number}", placeholder: '506 - 000275'
+    %hr
   - if @guide.errors.any?
     #error_explanation
       %h2= "#{pluralize(@guide.errors.count, "error")}"
@@ -7,40 +23,30 @@
           %li= msg
 
   .row
-    .col-sm-6
-      %h3 
-        Datos                
-        %small generales
-      %hr
+    .col-sm-12
       .row
-        .col-sm-12
+        .col-sm-3
           .form-group
-            - number = NumberGuide.last.numero.to_i + 1
-            = f.text_field :numero_remision_guia, class: 'form-control input-lg', value: "#{number}", placeholder: '506 - 000275'
-        .col-sm-6
+            .input-group.input-group-lg
+              #click-calendar.input-group-addon
+                %span.glyphicon.glyphicon-calendar
+              = f.text_field :fecha_emision, class: 'form-control input-lg', value: "#{Time.now.strftime("%Y-%m-%d")}"   
+        .col-sm-3
           .form-group
-            = f.text_field :fecha_emision, class: 'form-control input-lg', placeholder: '2014-12-23'
-        .col-sm-6
-          .form-group
-            = f.text_field :fecha_inicio_traslado, class: 'form-control input-lg', placeholder: '2014-05-15'
+            .input-group.input-group-lg
+              #click-calendar.input-group-addon
+                %span.glyphicon.glyphicon-calendar
+              = f.text_field :fecha_inicio_traslado, class: 'form-control input-lg', value: "#{Time.now.strftime("%Y-%m-%d")}"
+        .col-sm-3
+          .form-group            
+            = f.select :sender_id, Sender.all.collect{|x| ["#{x.ruc} #{x.name_reason} #{x.identity_document}", x.id]}, {:include_blank => 'Remitente'}, { :class => 'form-control select2 input-lg'}
+              
+        .col-sm-3
+          .form-group            
+            = f.select :addressee_id, Addressee.all.collect{|x| ["#{x.ruc} #{x.name_reason} #{x.identity_document}", x.id]}, {:include_blank => 'Destinatario'}, class: 'form-control input-lg', placeholder: 'Apellidos y Nombres / Razon social'  
+              
 
-      %h3
-        Direccion
-        %small Llegada
-      %hr
-      .row
-        .col-sm-12
-          .form-group
-            = f.text_field :llegada_direccion,  class: 'form-control input-lg', placeholder: 'Direccion'
-        .col-sm-4
-          .form-group
-            = f.select :llegada_department_id, Department.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Departamento:'} , class: 'form-control input-lg'
-        .col-sm-4
-          .form-group
-            = f.select :llegada_province_id, Province.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Provincia:'}, class: 'form-control input-lg'
-        .col-sm-4
-          .form-group
-            = f.select :llegada_district_id, District.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Distrito:'}, class: 'form-control input-lg'
+  .row
     .col-sm-6
       %h3
         Direccion
@@ -58,28 +64,29 @@
             = f.select :partida_province_id, Province.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Provincia:'}, class: 'form-control input-lg'
         .col-sm-4
           .form-group
-            = f.select :partida_district_id, District.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Distrito:'}, class: 'form-control input-lg'   
+            = f.select :partida_district_id, District.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Distrito:'}, class: 'form-control input-lg'              
+      
+    .col-sm-6      
       %h3
-        Remitente 
-        %small Destinatario
+        Direccion
+        %small Llegada
       %hr
       .row
         .col-sm-12
           .form-group
-            .input-group.select2-bootstrap-append
-              = f.select :sender_id, Sender.all.collect{|x| ["#{x.ruc} #{x.name_reason} #{x.identity_document}", x.id]}, {:include_blank => 'Remitente'}, { :class => 'form-control select2 input-lg'}
-              %span.input-group-btn
-                %button.btn.btn-default.btn-lg{ type: "button", "data-select2-open" => "guide_sender_id"}
-                  %span.glyphicon.glyphicon-search                  
-        .col-sm-12
+            = f.text_field :llegada_direccion,  class: 'form-control input-lg', placeholder: 'Direccion'
+        .col-sm-4
           .form-group
-            .input-group.select2-bootstrap-append
-              = f.select :addressee_id, Addressee.all.collect{|x| ["#{x.ruc} #{x.name_reason} #{x.identity_document}", x.id]}, {:include_blank => 'Destinatario'}, class: 'form-control input-lg', placeholder: 'Apellidos y Nombres / Razon social'  
-              %span.input-group-btn
-                %button.btn.btn-default.btn-lg{ type: "button", "data-select2-open" => "guide_addressee_id"}
-                  %span.glyphicon.glyphicon-search                  
+            = f.select :llegada_department_id, Department.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Departamento:'} , class: 'form-control input-lg'
+        .col-sm-4
+          .form-group
+            = f.select :llegada_province_id, Province.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Provincia:'}, class: 'form-control input-lg'
+        .col-sm-4
+          .form-group
+            = f.select :llegada_district_id, District.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Distrito:'}, class: 'form-control input-lg'
+                          
   %hr
-  .row.well                
+  .row            
     #items
       = f.fields_for :items do |item|
         = render 'item_fields', :f => item
@@ -132,6 +139,7 @@
         %small notas
       .form-group
         = f.text_area :obsevaciones, class: 'form-control'
+        = f.hidden_field :estado, value: '0'
 
   .row
     - if params[:action] == 'new' || params[:action] == 'create'   
@@ -140,7 +148,7 @@
           = button_tag(type: 'submit', class: "btn btn-success btn-lg") do 
             %span.glyphicon.glyphicon-new-window
             Guardar
-          = link_to '<span class="glyphicon glyphicon-arrow-left"></span> Regresar'.html_safe, 'javascript:history.back(-1)', class: 'btn btn-warning btn-lg'
+          = link_to '<span class="glyphicon glyphicon-arrow-left"></span> Regresar'.html_safe, 'javascript:history.back(-1)', class: 'btn btn-primary btn-lg'
     - if params[:action] == 'edit'
       .form-group
         .col-sm-12
@@ -148,21 +156,35 @@
             %span.glyphicon.glyphicon-new-window
             Guardar
           = link_to '<span class="glyphicon glyphicon-eye-open"></span> Ver'.html_safe, @guide, class: 'btn btn-info btn-lg'
-          = link_to '<span class="glyphicon glyphicon-arrow-left"></span> Regresar'.html_safe, 'javascript:history.back(-1)', class: 'btn btn-warning btn-lg'
+          = link_to '<span class="glyphicon glyphicon-arrow-left"></span> Regresar'.html_safe, 'javascript:history.back(-1)', class: 'btn btn-primary btn-lg'
 
 :javascript
-  $('#guide_fecha_emision').datepicker({
+  $("#guide_fecha_emision").datepicker({      
+      onSelect: function () {
+          document.all ? $(this).get(0).fireEvent("onchange") : $(this).change();
+          this.focus();
+      },
+      onClose: function (dateText, inst) {
+          if (!document.all)
+              this.select();
+      },
       format: 'yyyy-mm-dd',
       language: 'es',
-      autoclose: true      
+      todayHighlight: true
   });
-  $('#guide_fecha_inicio_traslado').datepicker({
+  $("#guide_fecha_inicio_traslado").datepicker({      
+      onSelect: function () {
+          document.all ? $(this).get(0).fireEvent("onchange") : $(this).change();
+          this.focus();
+      },
+      onClose: function (dateText, inst) {
+          if (!document.all)
+              this.select();
+      },
       format: 'yyyy-mm-dd',
       language: 'es',
-      autoclose: true      
+      todayHighlight: true
   });
-  $(document).ready(function() { $("#guide_sender_id").select2(); });
-  $(document).ready(function() { $("#guide_addressee_id").select2(); });
 
   $('*').on('keydown', function(e){
       if (e.keyCode === 13) {
@@ -178,91 +200,4 @@
       }
   });
 
-  var placeholder = "Select a State";
-
-      $('.select2, .select2-multiple').select2({ placeholder: placeholder });
-      $('.select2-allow-clear').select2({ allowClear: true, placeholder: placeholder });
-      $('.select2-remote').select2({
-          placeholder: "Search for a movie",
-          minimumInputLength: 1,
-          ajax: { // instead of writing the function to execute the request we use Select2's convenient helper
-              url: "http://api.rottentomatoes.com/api/public/v1.0/movies.json",
-              dataType: 'jsonp',
-              data: function (term, page) {
-                  return {
-                      q: term, // search term
-                      page_limit: 10, // page size
-                      page: page, // page number
-                      apikey: "w2uyd7u9mj53nhq2f8mpzquq" // please do not use so this example keeps working
-                  };
-              },
-              results: function (data, page) {
-                  var more = (page * 10) < data.total; // whether or not there are more results available
-
-                  // notice we return the value of more so Select2 knows if more results can be loaded
-                  return {results: data.movies, more: more};
-              }
-          },
-          initSelection: function(element, callback) {
-              // the input tag has a value attribute preloaded that points to a preselected movie's id
-              // this function resolves that id attribute to an object that select2 can render
-              // using its formatResult renderer - that way the movie name is shown preselected
-              var id=$(element).val();
-              if (id!=="") {
-                  $.ajax("http://api.rottentomatoes.com/api/public/v1.0/movies/"+id+".json", {
-                      data: {
-                          apikey: "w2uyd7u9mj53nhq2f8mpzquq"
-                      },
-                      dataType: "jsonp"
-                  }).done(function(data) { callback(data); });
-              }
-          },
-          formatResult: movieFormatResult, // omitted for brevity, see the source of this page
-          formatSelection: movieFormatSelection,  // omitted for brevity, see the source of this page
-          dropdownCssClass: "bigdrop", // apply css that makes the dropdown taller
-          escapeMarkup: function (m) { return m; } // we do not want to escape markup since we are displaying html in results
-      });
-
-      function movieFormatResult(movie) {
-          var markup = "<table class='movie-result'><tr>";
-          if (movie.posters !== undefined && movie.posters.thumbnail !== undefined) {
-              markup += "<td class='movie-image'><img src='" + movie.posters.thumbnail + "'/></td>";
-          }
-          markup += "<td class='movie-info'><div class='movie-title'>" + movie.title + "</div>";
-          if (movie.critics_consensus !== undefined) {
-              markup += "<div class='movie-synopsis'>" + movie.critics_consensus + "</div>";
-          }
-          else if (movie.synopsis !== undefined) {
-              markup += "<div class='movie-synopsis'>" + movie.synopsis + "</div>";
-          }
-          markup += "</td></tr></table>"
-          return markup;
-      }
-
-      function movieFormatSelection(movie) {
-          return movie.title;
-      }
-
-      $('button[data-select2-open]').click(function(){
-        $('#' + $(this).data('select2-open')).select2('open');
-      });
-
-      
-        var select2OpenEventName = "select2-open";
-
-        $(':checkbox').on( "click", function() {
-          $(this).parent().nextAll('select').select2("enable", this.checked );
-        });
-      
-
-      $(".select2, .select2-multiple, .select2-allow-clear, .select2-remote").on( select2OpenEventName, function() {
-        if ( $(this).parents('[class*="has-"]').length ) {
-          var classNames = $(this).parents('[class*="has-"]')[0].className.split(/\s+/);
-          for (var i=0; i<classNames.length; ++i) {
-              if ( classNames[i].match("has-") ) {
-                $('#select2-drop').addClass( classNames[i] );
-              }
-          }
-        }
-
-      });
+ 

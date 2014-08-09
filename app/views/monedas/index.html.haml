@@ -1,28 +1,28 @@
-#region-monedas.container
+#region-monedas
 
   .region
-    .region-title
-      %h1= page_title!('monedas')
+    .page-header
+      %h1= page_title!('Monedas')
 
     .region
-      - if current_admin
-        .admin-control
-          = link_to 'Crear Moneda', new_moneda_path, class: 'btn btn-primary'
-
-      .table-responsive
+      
+      .admin-control
+        = link_to '<span class="glyphicon glyphicon-plus"></span> Crear'.html_safe, new_moneda_path, class: 'btn btn-primary btn-lg'
+    %br
+    %br
+    .row
+      .table-responsive.col-sm-5
         %table.table
           %tr
             %th Nombre
             %th Simbolo
-            %th
-            %th
-            %th
+            %th Acciones
 
           - @monedas.each do |moneda|
             %tr
               %td= moneda.nombre
               %td= moneda.simbolo
-              %td= link_to 'Ver', moneda, class: 'btn btn-info'
-              - if current_admin
-                %td= link_to 'Editar', edit_moneda_path(moneda), class: 'btn btn-success'
-                %td= link_to 'Eliminar', moneda, :method => :delete, :data => { :confirm => '¿Estás Seguro?' }, class: 'btn btn-danger'
+              %td
+                = link_to '<span class="glyphicon glyphicon-eye-open"></span> Ver'.html_safe, moneda, class: 'btn btn-info'
+                = link_to '<span class="glyphicon glyphicon-edit"></span> Editar'.html_safe, edit_moneda_path(moneda), class: 'btn btn-success'
+                = link_to '<span class="glyphicon glyphicon-trash"></span> Eliminar'.html_safe, moneda, :method => :delete, :data => { :confirm => '¿Estás Seguro?' }, class: 'btn btn-danger'

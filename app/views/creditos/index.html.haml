@@ -1,4 +1,4 @@
-#region-creditos.container
+#region-creditos
 
   .region
     .page-header
@@ -6,7 +6,7 @@
 
     .region      
       .admin-control
-        = link_to 'Crear Credito', new_credito_path, class: 'btn btn-primary'
+        = link_to '<span class="glyphicon glyphicon-plus"></span> Crear'.html_safe, new_credito_path, class: 'btn btn-primary btn-lg'
       %br
       .table-responsive
         %table.table

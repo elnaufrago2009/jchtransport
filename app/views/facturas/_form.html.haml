@@ -8,12 +8,12 @@
           %b Factura
       .col-sm-2
         %br
-        %br
         .form-group
           .input-group.input-group-lg
             .input-group-addon.primary
-              \#506 -
-            = f.text_field :numero, class: 'form-control', placeholder: 'numero', value: '178'
+              \# 506 -
+            - number = NumberInvoice.last.number.to_i + 1
+            = f.text_field :numero, class: 'form-control', placeholder: 'numero', value: "#{number}"
     %hr
   - if @factura.errors.any?
     #error_explanation
@@ -35,7 +35,7 @@
         .input-group.input-group-lg
           .input-group-addon
             %span.glyphicon.glyphicon-user
-          = f.select :sender_id, Sender.all.collect{|x| ["#{x.ruc} #{x.name_reason} #{x.identity_document}", x.id]}, {:include_blank => 'Remitente'}, { :class => 'form-control select2 input-lg'}
+          = f.select :sender_address_id, SenderAddress.all.collect{|x| ["#{x.sender.ruc} / #{x.sender.name_reason} #{x.sender.identity_document} / #{x.direccion}", x.id]}, {:include_blank => 'Remitente'}, { :class => 'form-control select2 input-lg'}
     .col-sm-3
       .form-group
         .input-group.input-group-lg
@@ -47,7 +47,7 @@
         .input-group.input-group-lg
           .input-group-addon
             %span.glyphicon.glyphicon-hand-right   
-          = f.select :guide_id, Guide.all.collect{|x| [x.numero_remision_guia, x.id]}, {include_blank: 'Guia'}, class: 'form-control input-lg'
+          = f.select :guide_id, {}, {include_blank: 'Guia'}, class: 'form-control input-lg'
 
     - 7.times do
       - @factura.elementos.build
@@ -56,58 +56,65 @@
     .row
       .col-sm-1
         %b Cantidad
-      .col-sm-3
+      .col-sm-2
         %b Guia Remision
-      .col-sm-3
+      .col-sm-2
         %b Item
       .col-sm-3
         %b Descripcion
-      .col-sm-1
+      .col-sm-2
         %b P unit
-      .col-sm-1
+      .col-sm-2
         %b P Venta
+
+
       %hr
       = f.fields_for :elementos do |z|      
         .col-sm-1
           .form-group            
-            = z.text_field :cantidad, class: "form-control input-lg", value: ""
-        .col-sm-3
+            = z.text_field :cantidad, class: "form-control input-lg", value: ""      
+        .col-sm-2
           .form-group
-            = z.select :guide_id, Guide.all.collect{|x| [x.numero_remision_guia, x.id]}, {:include_blank => ''}, :class => 'form-control input-lg select5'        
-        .col-sm-3
+            = z.select :guide_id, {}, {}, {:class => 'form-control input-lg select5', disabled: 'disabled'}            
+        .col-sm-2
           .form-group
-            = z.select :item_id, Item.all.collect{|x| [x.descripcion, x.id]}, {:include_blank => ''}, class: 'form-control input-lg'        
+            = z.select :item_id, {}, {}, {class: 'form-control input-lg', disabled: 'disabled'}
         .col-sm-3
           .form-group
             = z.text_field :descripcion, class: 'form-control input-lg' 
-        .col-sm-1
+        .col-sm-2
           .form-group
-            = z.text_field :precio_unitario, class: 'form-control input-lg'
-        .col-sm-1
+            = z.text_field :precio_unitario, class: 'form-control input-lg text-right'
+        .col-sm-2
           .form-group
-            = z.text_field :precio_venta, class: 'form-control input-lg'
-      .col-sm-9
+            = z.text_field :precio_venta, class: 'form-control input-lg text-right'
+
+
+      .col-sm-8
       .col-sm-2
         .pull-right
           %b Valor de Venta
-      .col-sm-1
+      .col-sm-2
         .form-group
-          = f.text_field :valor_venta, class: 'form-control input-lg'      
-      .col-sm-9
+          = f.text_field :valor_venta, class: 'form-control input-lg text-right'      
+
+      .col-sm-8
       .col-sm-2
         .pull-right
           %b I.G.V
-      .col-sm-1
+      .col-sm-2
         .form-group
-          = f.text_field :igv, class: 'form-control input-lg'
-      .col-sm-9
+          = f.text_field :igv, class: 'form-control input-lg text-right'
+
+      .col-sm-8
       .col-sm-2
         .pull-right
           %b Precio de Venta
-      .col-sm-1
+      .col-sm-2
         .form-group
-          = f.text_field :precio_venta, class: 'form-control input-lg'
-     
+          = f.text_field :precio_venta, class: 'form-control input-lg text-right'
+          = f.hidden_field :estado, value: '0'
+
   .row  
     .col-sm-2
       .checkbox
@@ -133,7 +140,7 @@
       .input-group.input-group-lg
         .input-group-addon
           %span.glyphicon.glyphicon-calendar
-        = f.text_field :cancelado_fecha, class: 'form-control', placeholder: 'Fecha cancelacion' 
+        = f.text_field :cancelado_fecha, class: 'form-control', value: "#{Time.now.strftime("%Y-%m-%d")}"
 
   %br
   %br   
@@ -169,12 +176,20 @@
       todayHighlight: true
   });
 
-
-  $('#factura_cancelado_fecha').datepicker({
+  $("#factura_cancelado_fecha").datepicker({      
+      onSelect: function () {
+          document.all ? $(this).get(0).fireEvent("onchange") : $(this).change();
+          this.focus();
+      },
+      onClose: function (dateText, inst) {
+          if (!document.all)
+              this.select();
+      },
       format: 'yyyy-mm-dd',
       language: 'es',
-      autoclose: true      
+      todayHighlight: true
   });
+
 
   $('*').on('keydown', function(e){
       if (e.keyCode === 13) {
@@ -189,4 +204,152 @@
           return false;
       }
   });
+
+
+
+  $("#factura_sender_address_id").change(function(event){
+        var id = $("#factura_sender_address_id").val();
+        
+        $("#factura_elementos_attributes_0_guide_id,#factura_elementos_attributes_1_guide_id,#factura_elementos_attributes_2_guide_id,#factura_elementos_attributes_3_guide_id,#factura_elementos_attributes_4_guide_id,#factura_elementos_attributes_5_guide_id,#factura_elementos_attributes_6_guide_id").load('/facturas/values_guia_remision/?id='+id);
+
+        $("#factura_guide_id").load('/facturas/values_factura_guia_id/?id='+id); 
+
+        // vuelve a todos los items en blanco
+        $("#factura_elementos_attributes_0_item_id,#factura_elementos_attributes_1_item_id,#factura_elementos_attributes_2_item_id, #factura_elementos_attributes_3_item_id, #factura_elementos_attributes_4_item_id,#factura_elementos_attributes_5_item_id,#factura_elementos_attributes_6_item_id").load('/facturas/values_item_guia/?id=');
+
+
+        $("#factura_elementos_attributes_0_guide_id,#factura_elementos_attributes_1_guide_id,#factura_elementos_attributes_2_guide_id,#factura_elementos_attributes_3_guide_id,#factura_elementos_attributes_4_guide_id,#factura_elementos_attributes_5_guide_id,#factura_elementos_attributes_6_guide_id").removeAttr("disabled","disabled");
+
+        $("#factura_elementos_attributes_0_item_id,#factura_elementos_attributes_1_item_id,#factura_elementos_attributes_2_item_id,#factura_elementos_attributes_3_item_id,#factura_elementos_attributes_4_item_id,#factura_elementos_attributes_5_item_id,#factura_elementos_attributes_6_item_id").attr("disabled","disabled");
+
+        if (id == ''){          
+            $("#factura_elementos_attributes_0_guide_id,#factura_elementos_attributes_1_guide_id,#factura_elementos_attributes_2_guide_id,#factura_elementos_attributes_3_guide_id,#factura_elementos_attributes_4_guide_id,#factura_elementos_attributes_5_guide_id,#factura_elementos_attributes_6_guide_id").attr("disabled","disabled"); 
+
+            $("#factura_elementos_attributes_0_item_id,#factura_elementos_attributes_1_item_id,#factura_elementos_attributes_2_item_id,#factura_elementos_attributes_3_item_id, #factura_elementos_attributes_4_item_id,#factura_elementos_attributes_5_item_id,#factura_elementos_attributes_6_item_id").attr("disabled","disabled");
+        }
+
+
+  });
+
+  $("#factura_guide_id").change(function(event){
+        var id = $("#factura_guide_id").val();              
+
+       
+        $("#factura_elementos_attributes_0_item_id,#factura_elementos_attributes_1_item_id,#factura_elementos_attributes_2_item_id, #factura_elementos_attributes_3_item_id, #factura_elementos_attributes_4_item_id,#factura_elementos_attributes_5_item_id,#factura_elementos_attributes_6_item_id").load('/facturas/values_item_guia/?id='+id);
+
+        // carga las guias de remision en blanco cuando se ejecuta una guia de remision
+        $("#factura_elementos_attributes_0_guide_id,#factura_elementos_attributes_1_guide_id,#factura_elementos_attributes_2_guide_id,#factura_elementos_attributes_3_guide_id,#factura_elementos_attributes_4_guide_id,#factura_elementos_attributes_5_guide_id,#factura_elementos_attributes_6_guide_id").load('/facturas/values_guia_remision/?id='); 
+
+        $("#factura_elementos_attributes_0_guide_id,#factura_elementos_attributes_1_guide_id,#factura_elementos_attributes_2_guide_id,#factura_elementos_attributes_3_guide_id,#factura_elementos_attributes_4_guide_id,#factura_elementos_attributes_5_guide_id,#factura_elementos_attributes_6_guide_id").attr("disabled","disabled");
+
+        $("#factura_elementos_attributes_0_item_id,#factura_elementos_attributes_1_item_id,#factura_elementos_attributes_2_item_id, #factura_elementos_attributes_3_item_id, #factura_elementos_attributes_4_item_id,#factura_elementos_attributes_5_item_id,#factura_elementos_attributes_6_item_id").removeAttr("disabled","disabled");
+        if (id == ''){  
+            $("#factura_elementos_attributes_0_item_id, #factura_elementos_attributes_1_item_id, #factura_elementos_attributes_2_item_id, #factura_elementos_attributes_3_item_id, #factura_elementos_attributes_4_item_id, #factura_elementos_attributes_5_item_id,#factura_elementos_attributes_6_item_id").attr("disabled","disabled");
+        }
+
+    });
+
+
+    //capta si hay un cambio en cada uno de los precios de venta
+    $("#factura_elementos_attributes_0_precio_venta,#factura_elementos_attributes_1_precio_venta,#factura_elementos_attributes_2_precio_venta,#factura_elementos_attributes_3_precio_venta,#factura_elementos_attributes_4_precio_venta,#factura_elementos_attributes_5_precio_venta,#factura_elementos_attributes_6_precio_venta").change(function(event){
+
+        // capta los valores de todos los precios de venta
+        var0 = parseFloat($('#factura_elementos_attributes_0_precio_venta').val());
+        var1 = parseFloat($('#factura_elementos_attributes_1_precio_venta').val());
+        var2 = parseFloat($('#factura_elementos_attributes_2_precio_venta').val());
+        var3 = parseFloat($('#factura_elementos_attributes_3_precio_venta').val());
+        var4 = parseFloat($('#factura_elementos_attributes_4_precio_venta').val());
+        var5 = parseFloat($('#factura_elementos_attributes_5_precio_venta').val());
+        var6 = parseFloat($('#factura_elementos_attributes_6_precio_venta').val());
+
+        if (isNaN(var0)) {
+            var0 = 0;    
+        }if(isNaN(var1)){
+            var1 = 0;
+        }if (isNaN(var2)) {
+            var2 = 0;
+        }if (isNaN(var3)) {
+            var3 = 0;
+        }if (isNaN(var4)) {
+            var4 = 0;
+        }if (isNaN(var5)) {
+            var5 = 0;
+        }if (isNaN(var6)) {
+            var6 = 0;
+        }
+
+        val = var0 + var1 + var2 + var3 + var4 + var5 + var6 ;
+        
+        precio_venta = val    
+        valor_venta = precio_venta/1.18
+        igv = valor_venta*0.18        
+        
+        $('#factura_valor_venta').val(valor_venta.toFixed(2));
+        $('#factura_igv').val(igv.toFixed(2));
+        $('#factura_precio_venta').val(precio_venta.toFixed(2));
+  });
+
+  $("#factura_elementos_attributes_0_precio_unitario").change(function(event){
+    var0 = parseFloat($('#factura_elementos_attributes_0_precio_unitario').val());
+    $('#factura_elementos_attributes_0_precio_unitario').val(var0.toFixed(2));
+  });
+  $("#factura_elementos_attributes_1_precio_unitario").change(function(event){
+    var0 = parseFloat($('#factura_elementos_attributes_1_precio_unitario').val());
+    $('#factura_elementos_attributes_1_precio_unitario').val(var0.toFixed(2));
+  });
+  $("#factura_elementos_attributes_2_precio_unitario").change(function(event){
+    var0 = parseFloat($('#factura_elementos_attributes_2_precio_unitario').val());
+    $('#factura_elementos_attributes_2_precio_unitario').val(var0.toFixed(2));
+  });
+  $("#factura_elementos_attributes_3_precio_unitario").change(function(event){
+    var0 = parseFloat($('#factura_elementos_attributes_3_precio_unitario').val());
+    $('#factura_elementos_attributes_3_precio_unitario').val(var0.toFixed(2));
+  });
+  $("#factura_elementos_attributes_4_precio_unitario").change(function(event){
+    var0 = parseFloat($('#factura_elementos_attributes_4_precio_unitario').val());
+    $('#factura_elementos_attributes_4_precio_unitario').val(var0.toFixed(2));
+  });
+  $("#factura_elementos_attributes_5_precio_unitario").change(function(event){
+    var0 = parseFloat($('#factura_elementos_attributes_5_precio_unitario').val());
+    $('#factura_elementos_attributes_5_precio_unitario').val(var0.toFixed(2));
+  });
+  $("#factura_elementos_attributes_6_precio_unitario").change(function(event){
+    var0 = parseFloat($('#factura_elementos_attributes_6_precio_unitario').val());
+    $('#factura_elementos_attributes_6_precio_unitario').val(var0.toFixed(2));
+  });
+
+
+
+
+  $("#factura_elementos_attributes_0_precio_venta").change(function(event){
+    var1 = parseFloat($('#factura_elementos_attributes_0_precio_venta').val());
+    $('#factura_elementos_attributes_0_precio_venta').val(var1.toFixed(2));
+  });
+  $("#factura_elementos_attributes_1_precio_venta").change(function(event){
+    var1 = parseFloat($('#factura_elementos_attributes_1_precio_venta').val());
+    $('#factura_elementos_attributes_1_precio_venta').val(var1.toFixed(2));
+  });
+  $("#factura_elementos_attributes_2_precio_venta").change(function(event){
+    var1 = parseFloat($('#factura_elementos_attributes_2_precio_venta').val());
+    $('#factura_elementos_attributes_2_precio_venta').val(var1.toFixed(2));
+  });
+  $("#factura_elementos_attributes_3_precio_venta").change(function(event){
+    var1 = parseFloat($('#factura_elementos_attributes_3_precio_venta').val());
+    $('#factura_elementos_attributes_3_precio_venta').val(var1.toFixed(2));
+  });
+  $("#factura_elementos_attributes_4_precio_venta").change(function(event){
+    var1 = parseFloat($('#factura_elementos_attributes_4_precio_venta').val());
+    $('#factura_elementos_attributes_4_precio_venta').val(var1.toFixed(2));
+  });
+  $("#factura_elementos_attributes_5_precio_venta").change(function(event){
+    var1 = parseFloat($('#factura_elementos_attributes_5_precio_venta').val());
+    $('#factura_elementos_attributes_5_precio_venta').val(var1.toFixed(2));
+  });
+  $("#factura_elementos_attributes_6_precio_venta").change(function(event){
+    var1 = parseFloat($('#factura_elementos_attributes_6_precio_venta').val());
+    $('#factura_elementos_attributes_6_precio_venta').val(var1.toFixed(2));
+  });
+
+
+
 

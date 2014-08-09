@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :sender_addresses
+
   resources :number_invoices
 
   resources :number_guides
@@ -13,12 +15,23 @@ Rails.application.routes.draw do
 
   resources :elementos
 
-  resources :facturas
+  resources :facturas do
+    collection { 
+      get :values_guia_remision 
+      get :values_item_guia
+      get :values_factura_guia_id
+      get :anular_factura
+    }
+  end
 
   resources :measures
   resources :units
+
   resources :guides do
-    collection { get :add_objeto }
+    collection { 
+      get :add_objeto 
+      get :anular_guide
+    }
   end  
   resources :backs
   resources :fronts

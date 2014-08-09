@@ -3,16 +3,16 @@
 #region-monedas.container
 
   .region
-    .region-title
+    .page-header
       %h1
-        Editando
+        Edit
         %b
-          moneda
+          Moneda
 
   .region
     = render 'form'
 
   .region
     .admin-controls
-      = link_to 'Ver', @moneda, class: 'btn btn-info'
-      = link_to 'Regresar', 'javascript:history.back(-1)', class: 'btn btn-warning'
+      = link_to '<span class="glyphicon glyphicon-eye-open"></span> Ver'.html_safe, @moneda, class: 'btn btn-info'
+      = link_to '<span class="glyphicon glyphicon-arrow-left"></span> Regresar'.html_safe, 'javascript:history.back(-1)', class: 'btn btn-warning'

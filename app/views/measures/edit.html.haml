@@ -3,16 +3,16 @@
 #region-measures.container
 
   .region
-    .region-title
+    .page-header
       %h1
-        Editando
+        Edit
         %b
-          measure
+          Unidad de Medida
 
   .region
     = render 'form'
 
   .region
     .admin-controls
-      = link_to 'Ver', @measure, class: 'btn btn-info'
-      = link_to 'Regresar', 'javascript:history.back(-1)', class: 'btn btn-warning'
+      = link_to '<span class="glyphicon glyphicon-eye-open"></span> Ver'.html_safe, @measure, class: 'btn btn-info'
+      = link_to '<span class="glyphicon glyphicon-arrow-left"></span> Regresar'.html_safe, 'javascript:history.back(-1)', class: 'btn btn-warning'

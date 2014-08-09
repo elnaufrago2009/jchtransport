@@ -1,7 +1,7 @@
 #region-monedas.container
   .region
-    .region-title
-      %h1= page_title!('moneda')
+    .page-header
+      %h1= page_title!('Moneda Ver')
 
   .region
     %p
@@ -11,8 +11,6 @@
       %b Simbolo:
       = @moneda.simbolo
 
-  .region
-    - if current_admin
-      .admin-controls
-        = link_to 'Editar', edit_moneda_path(@moneda), class: 'btn btn-success'
-    = link_to 'Regresar', monedas_path, class: 'btn btn-warning'
+  .region    
+    = link_to '<span class="glyphicon glyphicon-edit"></span> Editar'.html_safe, edit_moneda_path(@moneda), class: 'btn btn-success'
+    = link_to '<span class="glyphicon glyphicon-arrow-left"></span> Regresar'.html_safe, monedas_path, class: 'btn btn-warning'

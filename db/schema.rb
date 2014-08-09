@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140801155344) do
+ActiveRecord::Schema.define(version: 20140805175128) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,7 +90,7 @@ ActiveRecord::Schema.define(version: 20140801155344) do
 
   create_table "facturas", force: true do |t|
     t.string   "numero"
-    t.integer  "sender_id"
+    t.integer  "sender_address_id"
     t.date     "fecha"
     t.integer  "guide_id"
     t.string   "condiciones_pago"
@@ -200,6 +200,13 @@ ActiveRecord::Schema.define(version: 20140801155344) do
 
   add_index "roles", ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id", using: :btree
   add_index "roles", ["name"], name: "index_roles_on_name", using: :btree
+
+  create_table "sender_addresses", force: true do |t|
+    t.string   "direccion"
+    t.integer  "sender_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "senders", force: true do |t|
     t.string   "name_reason"

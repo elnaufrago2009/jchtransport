@@ -8,10 +8,12 @@
 
   .form-group
     = f.label :numero, class: 'col-sm-2 control-label'
-    .col-sm-10
-      = f.text_field :numero, class: 'form-control'
-  .actions
-    = f.submit 'Guardar', class: 'btn btn-default'
+    .col-sm-2
+      = f.text_field :numero, class: 'form-control', placeholder: '41'
+  .form-group
+    .col-sm-2
+    .col-sm-4
+      = f.submit 'Guardar', class: 'btn btn-default'
 
 
 :javascript

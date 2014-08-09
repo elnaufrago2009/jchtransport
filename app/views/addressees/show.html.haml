@@ -1,21 +1,19 @@
 #region-addressees.container
   .region
-    .region-title
-      %h1= page_title!('addressee')
+    .page-header
+      %h1= page_title!('Destinatarios')
 
   .region
     %p
-      %b Name reason:
+      %b Nombre / Razon:
       = @addressee.name_reason
     %p
       %b Ruc:
       = @addressee.ruc
     %p
-      %b Identity document:
+      %b Documento de Idenetidad DNI:
       = @addressee.identity_document
 
-  .region
-    - if current_admin
-      .admin-controls
-        = link_to 'Editar', edit_addressee_path(@addressee), class: 'btn btn-success'
-    = link_to 'Regresar', addressees_path, class: 'btn btn-warning'
+  .region   
+    = link_to '<span class="glyphicon glyphicon-edit"></span> Editar'.html_safe, edit_addressee_path(@addressee), class: 'btn btn-success'
+    = link_to '<span class="glyphicon glyphicon-arrow-left"></span> Regresar'.html_safe, addressees_path, class: 'btn btn-warning'

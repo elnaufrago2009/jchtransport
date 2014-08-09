@@ -118,6 +118,9 @@ GEM
       mini_portile (= 0.6.0)
     nokogiri (1.6.2.1-x86-mingw32)
       mini_portile (= 0.6.0)
+    numbers_and_words (0.10.0)
+      activesupport
+      i18n
     orm_adapter (0.5.0)
     page_title_helper (2.1.0)
       rails (>= 3.0.0)
@@ -164,8 +167,6 @@ GEM
     sdoc (0.4.0)
       json (~> 1.8)
       rdoc (~> 4.0, < 5.0)
-    select2-rails (3.5.9)
-      thor (~> 0.14)
     selenium-webdriver (2.42.0)
       childprocess (>= 0.5.0)
       multi_json (~> 1.0)
@@ -234,6 +235,7 @@ DEPENDENCIES
   inherited_resources
   jbuilder (~> 2.0)
   jquery-rails
+  numbers_and_words
   page_title_helper
   pg
   prawn
@@ -243,7 +245,6 @@ DEPENDENCIES
   sass-rails (~> 4.0.3)
   scaffold-bootstrap3
   sdoc (~> 0.4.0)
-  select2-rails
   selenium-webdriver
   simple_form
   simplecov

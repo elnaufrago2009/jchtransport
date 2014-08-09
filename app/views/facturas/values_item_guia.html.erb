@@ -1,0 +1,5 @@
+<% if @parser == '1' %>
+	<% @items.each do |item| %>	
+		<option value="<%= item.id %>"><%= "Cod: #{item.codigo} - Descp: #{item.descripcion} - Cantidad: #{item.cantidad} #{item.measure.nombre} - Peso: #{item.peso} #{item.unit.und}" %></option>
+	<% end %>
+<% end %>

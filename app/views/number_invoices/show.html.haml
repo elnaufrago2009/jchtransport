@@ -1,15 +1,13 @@
 #region-number_invoices.container
   .region
-    .region-title
-      %h1= page_title!('number_invoice')
+    .page-header
+      %h1= page_title!('Numero Factura')
 
   .region
     %p
       %b Number:
       = @number_invoice.number
 
-  .region
-    - if current_admin
-      .admin-controls
-        = link_to 'Editar', edit_number_invoice_path(@number_invoice), class: 'btn btn-success'
-    = link_to 'Regresar', number_invoices_path, class: 'btn btn-warning'
+  .region      
+    = link_to '<span class="glyphicon glyphicon-edit"></span> Editar'.html_safe, edit_number_invoice_path(@number_invoice), class: 'btn btn-success'
+    = link_to '<span class="glyphicon glyphicon-arrow-left"></span> Regresar'.html_safe, number_invoices_path, class: 'btn btn-warning'

@@ -8,7 +8,7 @@
         %small JCH
     .col-sm-4
       %br
-      = link_to '<span class="glyphicon glyphicon-plus"></span> Crear Guia'.html_safe, new_guide_path, class: 'btn btn-primary pull-right'
+      = link_to '<span class="glyphicon glyphicon-plus"></span> Crear Guia'.html_safe, new_guide_path, class: 'btn btn-primary pull-right btn-lg'
   
 .row
   .col-sm-6
@@ -30,31 +30,35 @@
               %span.glyphicon.glyphicon-search          
 
 
-
-.region 
+%br
+.row
   .col-sm-12
-  .table-responsive
-    %table.table.table-hover.table-striped
-      %tr
-        %th # Guia Remision
-        %th Remitente
-        %th Fecha emision
-        %th Fecha inicio traslado            
-        %th Acciones
+    .table-responsive
+      %table.table.table-hover.table-condensed
+        %tr.well
+          %th # Guia
+          %th Remitente
+          %th F. Emision
+          %th F. Inicio traslado
+          %th Estado
+          %th Acciones
 
-      - @guides.each do |guide|
-        %tr
-          %td
-            508 -
-            = guide.numero_remision_guia
-          %td= guide.sender.name_reason
-          %td= guide.fecha_emision
-          %td= guide.fecha_inicio_traslado
-          %td
-            = link_to '<span class="glyphicon glyphicon-eye-open"></span> ver'.html_safe, guide, class: 'btn btn-info btn-xs'
-            = link_to '<span class="glyphicon glyphicon-edit"></span> edit'.html_safe, edit_guide_path(guide), class: 'btn btn-success btn-xs'
-            = link_to '<span class="glyphicon glyphicon-trash"></span> Del'.html_safe, guide, :method => :delete, :data => { :confirm => '¿Estás Seguro?' }, class: 'btn btn-danger btn-xs'
-            = link_to '<span class="glyphicon glyphicon-file"></span> pdf'.html_safe, "/guides/#{guide.id}.pdf", class: 'btn btn-warning btn-xs'
+        - @guides.each do |guide|
+          %tr
+            %td
+              508 -
+              = guide.numero_remision_guia
+            %td= guide.sender.name_reason
+            %td= guide.fecha_emision
+            %td= guide.fecha_inicio_traslado
+            %td
+              - if guide.estado == 0
+                %span.label.label-success Entregado
+              - else
+                %span.label.label-danger Anulado
+            %td
+              = link_to '<span class="glyphicon glyphicon-eye-open"></span> ver'.html_safe, guide, class: 'btn btn-info btn-xs'
+            
 .row
   .col-sm-12
     .pull-right

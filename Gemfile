@@ -50,12 +50,14 @@ gem 'thin'
 gem 'simple_form'
 gem 'bootstrap-datepicker-rails'
 gem "cocoon"
-gem "select2-rails"
+
 gem 'cancan'
 gem 'rolify'
 gem 'prawn'	
 gem 'will_paginate', '~> 3.0'
 gem 'will_paginate-bootstrap'
+
+gem "numbers_and_words"
 
 group :test do 
 	gem 'cucumber-rails', :require => false

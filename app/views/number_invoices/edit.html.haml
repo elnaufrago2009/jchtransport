@@ -3,16 +3,16 @@
 #region-number_invoices.container
 
   .region
-    .region-title
+    .page-header
       %h1
-        Editando
+        Editar
         %b
-          number_invoice
+          Numero Factura
 
   .region
     = render 'form'
 
   .region
     .admin-controls
-      = link_to 'Ver', @number_invoice, class: 'btn btn-info'
-      = link_to 'Regresar', 'javascript:history.back(-1)', class: 'btn btn-warning'
+      = link_to '<span class="glyphicon glyphicon-eye-open"></span> Ver'.html_safe, @number_invoice, class: 'btn btn-info'
+      = link_to '<span class="glyphicon glyphicon-arrow-left"></span> Regresar'.html_safe, 'javascript:history.back(-1)', class: 'btn btn-warning'

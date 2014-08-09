@@ -1,30 +1,24 @@
-#region-senders.container
+.page-header    
+  %h1= page_title!('Remitentes')
+= link_to '<span class="glyphicon glyphicon-plus"></span> Crear'.html_safe, new_sender_path, class: 'btn btn-primary btn-lg'
+%br
+%br
+.table-responsive
+  %table.table
+    %tr
+      %th Name reason
+      %th Ruc
+      %th Identity document
+      %th
+      %th
+      %th
 
-  .region
-    .region-title
-      %h1= page_title!('senders')
-
-    .region
-      - if current_admin
-        .admin-control
-          = link_to 'Crear Sender', new_sender_path, class: 'btn btn-primary'
-
-      .table-responsive
-        %table.table
-          %tr
-            %th Name reason
-            %th Ruc
-            %th Identity document
-            %th
-            %th
-            %th
-
-          - @senders.each do |sender|
-            %tr
-              %td= sender.name_reason
-              %td= sender.ruc
-              %td= sender.identity_document
-              %td= link_to 'Ver', sender, class: 'btn btn-info'
-              - if current_admin
-                %td= link_to 'Editar', edit_sender_path(sender), class: 'btn btn-success'
-                %td= link_to 'Eliminar', sender, :method => :delete, :data => { :confirm => '¿Estás Seguro?' }, class: 'btn btn-danger'
+    - @senders.each do |sender|
+      %tr
+        %td= sender.name_reason
+        %td= sender.ruc
+        %td= sender.identity_document
+        %td= link_to 'Ver', sender, class: 'btn btn-info'
+        - if current_admin
+          %td= link_to 'Editar', edit_sender_path(sender), class: 'btn btn-success'
+          %td= link_to 'Eliminar', sender, :method => :delete, :data => { :confirm => '¿Estás Seguro?' }, class: 'btn btn-danger'

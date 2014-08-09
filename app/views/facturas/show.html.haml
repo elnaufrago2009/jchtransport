@@ -1,114 +1,107 @@
-.page-header
-  %h1
-    %span.glyphicon.glyphicon-th
-    Ver 
-    %b Factura
-    %small
-      (
-      = @factura.numero
-      )
-  %br
-  = link_to '<span class="glyphicon glyphicon-edit"></span> Editar'.html_safe, edit_factura_path(@factura), class: 'btn btn-primary btn-lg'
-  = link_to '<span class="glyphicon glyphicon-arrow-left"></span> Regresar'.html_safe, facturas_path, class: 'btn btn-warning btn-lg'
+.row
+  .col-sm-12
+    .invoice-title
+      %h2 Factura 
+      %h3.pull-right 
+        Numero # 506 -
+        = @factura.numero
+        
+    %hr
+    .row
+      .col-sm-6
+        %blockquote
+          %p Datos Generales:
+          %footer
+            Fecha,
+            = @factura.fecha
+          %footer
+            Remitente,
+            = @factura.sender_address.sender.name_reason
+          %footer
+            R.U.C, 
+            = @factura.sender_address.sender.ruc
+          %footer 
+            Direccion,
+            = @factura.sender_address.direccion
+          %footer
+            Guia Numero,            
+            = @factura.guide.try(:numero_remision_guia)
+          %footer 
+            Condiciones de Pago, 
+            = @factura.credito.try(:nombre)
+            
+      .col-sm-6
+        %blockquote.blockquote-reverse
+          %p Datos de Pago:
+          %footer
+            Efectivo,
+            = @factura.try(:efectivo)
+          %footer
+            Cheque,
+            = @factura.try(:cheque)
+          %footer
+            Banco,
+            = @factura.try(:banco)
+          %footer
+            Numero de Cheque,
+            = @factura.try(:numero_cheque)
+          %footer 
+            Fecha de Cancelacion,
+            = @factura.try(:cancelado_fecha)
+    .row
+      .col-sm-12
+        %table.table.table-condensed.table-hover
+          %tr.well
+            %th Cantidad
+            %th Descripcion
+            %th Precio Unitario
+            %th Precio Venta
+          - @factura.elementos.each do |elemento|        
+            %tr
+              %td.col-sm-1= elemento.cantidad
+              %td.col-sm-7
+                - if !elemento.guide_id.blank?
+                  \#506 - 
+                  = elemento.guide.numero_remision_guia
+                - elsif !elemento.item_id.blank?
+                  Codigo:
+                  = elemento.item.codigo
+                  Descp:
+                  = elemento.item.descripcion
+                  Cant:
+                  = elemento.item.cantidad
+                  = elemento.item.measure.nombre
+                  Peso:
+                  = elemento.item.peso
+                  = elemento.item.unit.und
+                ,
+                = elemento.descripcion
+              %td.col-sm-2= elemento.precio_unitario
+              %td.col-sm-2
+                = elemento.precio_venta
+                = elemento.moneda.simbolo
+          %tr
+            %td.col-sm-8.thick-line{:colspan => "2"}
+            %td.col-sm-2.thick-line
+              %b Valor de Venta
+            %td.col-sm-2.thick-line
+              %b= @factura.valor_venta
+          %tr
+            %td.col-sm-8{:colspan => '2'}
+            %td.col-sm-2
+              %b I.G.V
+            %td.col-sm-2
+              %b= @factura.igv
+          %tr
+            %td.col-sm-8{:colspan => '2'}
+            %td.col-sm-2
+              %b Precio Venta
+            %td.col-sm-2
+              %b= @factura.precio_venta
+  - if @factura.estado == 0  
+    = link_to '<span class="glyphicon glyphicon-trash"></span> Anular'.html_safe, anular_factura_facturas_path(:id => @factura.id),:data => { :confirm => '¿Estás Seguro que desea anular?' },  class: 'btn btn-danger btn-lg'
+  = link_to '<span class="glyphicon glyphicon-arrow-left"></span> Regresar'.html_safe, facturas_path, class: 'btn btn-primary btn-lg'
 
-
-.panel.panel-default
-  .panel-heading
-    %h3.panel-title 
-      %span.glyphicon.glyphicon-lock
-      %b Datos
-  .panel-body   
-    .form-group
-      .row
-        .col-sm-4
-          %b Numero
-          = @factura.numero
-        .col-sm-4
-          %b Nombre
-          = @factura.nombres
-        .col-sm-4
-          %b Fecha
-          = @factura.fecha      
-    .form-group
-      .row
-        .col-sm-4
-          %b RUC
-          = @factura.ruc
-        .col-sm-4
-          %b Direccion
-          = @factura.direccion
-        .col-sm-4
-    .form-group
-      .row
-        .col-sm-4
-          %b #Remision
-          = @factura.guide.numero_remision_guia
-        .col-sm-4     
-          %b Condiciones Pago     
-          = @factura.condiciones_pago                   
-
-.panel.panel-default
-  .panel-heading
-    %h3.panel-title        
-      %b Elementos
-      
-  .panel-body
-    %table.table.table-condensed.table-hover
-      %tr
-        %th Cantidad
-        %th Descripcion
-        %th Precio Unitario
-        %th Precio Venta
-      - @factura.elementos.each do |elemento|        
-        %tr
-          %td.col-sm-2= elemento.cantidad
-          %td.col-sm-6= elemento.descripcion
-          %td.col-sm-2= elemento.precio_unitario
-          %td.col-sm-2= elemento.precio_venta
-      %tr
-        %td.col-sm-8{:colspan => "2"}
-        %td.col-sm-2
-          %b Valor de Venta
-        %td.col-sm-2
-          %b= @factura.valor_venta
-      %tr
-        %td.col-sm-8{:colspan => '2'}
-        %td.col-sm-2
-          %b I.G.V
-        %td.col-sm-2
-          %b= @factura.igv
-      %tr
-        %td.col-sm-8{:colspan => '2'}
-        %td.col-sm-2
-          %b Precio Venta
-        %td.col-sm-2
-          %b= @factura.precio_venta
-
-.panel.panel-default
-  .panel-heading
-    %h3.panel-title 
-      %span.glyphicon.glyphicon-lock
-      %b Datos        
-  .panel-body   
-    .form-group
-      .row
-        .col-sm-2
-          %b Efectivo
-          = @factura.efectivo              
-        .col-sm-2
-          %b Cheque
-          = @factura.cheque              
-        .col-sm-3
-          %b Banco
-          = @factura.banco
-        .col-sm-3
-          %b #Cheque
-          = @factura.numero_cheque
-        .col-sm-2
-          %b Fecha
-          = @factura.cancelado_fecha
-
-.region    
-  .admin-controls
+  = link_to '<span class="glyphicon glyphicon-print"></span> Imprimir'.html_safe, "/facturas/#{@factura.id}.pdf", class: 'btn btn-danger btn-lg', target: "_blank"
     
     
