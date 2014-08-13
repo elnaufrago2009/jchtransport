@@ -3,51 +3,54 @@
     .invoice-title
       %h2 Factura 
       %h3.pull-right 
-        Numero # 506 -
-        = @factura.numero
+        %span.label.label-primary 
+          \# 506 -
+          = @factura.numero
         
     %hr
     .row
       .col-sm-6
-        %blockquote
-          %p Datos Generales:
-          %footer
-            Fecha,
-            = @factura.fecha
-          %footer
-            Remitente,
-            = @factura.sender_address.sender.name_reason
-          %footer
-            R.U.C, 
-            = @factura.sender_address.sender.ruc
-          %footer 
-            Direccion,
-            = @factura.sender_address.direccion
-          %footer
-            Guia Numero,            
-            = @factura.guide.try(:numero_remision_guia)
-          %footer 
-            Condiciones de Pago, 
-            = @factura.credito.try(:nombre)
+        %address
+          %strong 
+            Datos Generales:
+          %br
+          Fecha,
+          = @factura.fecha
+          %br
+          Remitente,
+          = @factura.sender_address.sender.name_reason
+          %br
+          R.U.C, 
+          = @factura.sender_address.sender.ruc
+          %br 
+          Direccion,
+          = @factura.sender_address.direccion
+          %br
+          Guia Numero,            
+          = @factura.guide.try(:numero_remision_guia)
+          %br 
+          Condiciones de Pago, 
+          = @factura.credito.try(:nombre)
             
       .col-sm-6
-        %blockquote.blockquote-reverse
-          %p Datos de Pago:
-          %footer
-            Efectivo,
-            = @factura.try(:efectivo)
-          %footer
-            Cheque,
-            = @factura.try(:cheque)
-          %footer
-            Banco,
-            = @factura.try(:banco)
-          %footer
-            Numero de Cheque,
-            = @factura.try(:numero_cheque)
-          %footer 
-            Fecha de Cancelacion,
-            = @factura.try(:cancelado_fecha)
+        %address.text-right
+          %strong 
+            Datos de Pago:
+          %br
+          Efectivo,
+          = @factura.try(:efectivo)
+          %br
+          Cheque,
+          = @factura.try(:cheque)
+          %br
+          Banco,
+          = @factura.try(:banco)
+          %br
+          Numero de Cheque,
+          = @factura.try(:numero_cheque)
+          %br 
+          Fecha de Cancelacion,
+          = @factura.try(:cancelado_fecha)
     .row
       .col-sm-12
         %table.table.table-condensed.table-hover
@@ -79,29 +82,35 @@
               %td.col-sm-2= elemento.precio_unitario
               %td.col-sm-2
                 = elemento.precio_venta
-                = elemento.moneda.simbolo
+                = @factura.moneda.try(:simbolo)
           %tr
             %td.col-sm-8.thick-line{:colspan => "2"}
             %td.col-sm-2.thick-line
               %b Valor de Venta
             %td.col-sm-2.thick-line
-              %b= @factura.valor_venta
+              %b
+                = @factura.valor_venta
+                = @factura.moneda.try(:simbolo)
           %tr
             %td.col-sm-8{:colspan => '2'}
             %td.col-sm-2
-              %b I.G.V
+              %b I.G.V (18%)
             %td.col-sm-2
-              %b= @factura.igv
+              %b
+                = @factura.igv
+                = @factura.moneda.try(:simbolo)
           %tr
             %td.col-sm-8{:colspan => '2'}
             %td.col-sm-2
               %b Precio Venta
             %td.col-sm-2
-              %b= @factura.precio_venta
+              %b
+                = @factura.precio_venta
+                = @factura.moneda.try(:simbolo)
   - if @factura.estado == 0  
     = link_to '<span class="glyphicon glyphicon-trash"></span> Anular'.html_safe, anular_factura_facturas_path(:id => @factura.id),:data => { :confirm => '¿Estás Seguro que desea anular?' },  class: 'btn btn-danger btn-lg'
   = link_to '<span class="glyphicon glyphicon-arrow-left"></span> Regresar'.html_safe, facturas_path, class: 'btn btn-primary btn-lg'
 
-  = link_to '<span class="glyphicon glyphicon-print"></span> Imprimir'.html_safe, "/facturas/#{@factura.id}.pdf", class: 'btn btn-danger btn-lg', target: "_blank"
+  = link_to '<span class="glyphicon glyphicon-print"></span> Imprimir'.html_safe, "/facturas/#{@factura.id}.pdf", class: 'btn btn-warning btn-lg', target: "_blank"
     
     

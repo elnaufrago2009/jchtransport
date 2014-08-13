@@ -1,19 +1,22 @@
 = form_for @factura, :html => { class: '', role: 'form' } do |f|
   - if params[:action] == 'new'
     .row
-      .col-sm-10
+      .col-sm-9
         %h1
           %span.glyphicon.glyphicon-th
           Crear
           %b Factura
-      .col-sm-2
-        %br
-        .form-group
-          .input-group.input-group-lg
-            .input-group-addon.primary
-              \# 506 -
-            - number = NumberInvoice.last.number.to_i + 1
-            = f.text_field :numero, class: 'form-control', placeholder: 'numero', value: "#{number}"
+      .col-sm-3
+        .row
+          .col-sm-3
+          .col-sm-9
+            %br
+            .form-group
+              .input-group.input-group-lg
+                .input-group-addon.primary
+                  \# 506 -
+                - number = NumberInvoice.last.number.to_i + 1            
+                = f.text_field :numero, class: 'form-control text-right', placeholder: 'numero', value: "#{number.to_s.rjust(6, '0')}"
     %hr
   - if @factura.errors.any?
     #error_explanation
@@ -36,18 +39,25 @@
           .input-group-addon
             %span.glyphicon.glyphicon-user
           = f.select :sender_address_id, SenderAddress.all.collect{|x| ["#{x.sender.ruc} / #{x.sender.name_reason} #{x.sender.identity_document} / #{x.direccion}", x.id]}, {:include_blank => 'Remitente'}, { :class => 'form-control select2 input-lg'}
-    .col-sm-3
-      .form-group
-        .input-group.input-group-lg
-          .input-group-addon
-            %span.glyphicon.glyphicon-map-marker        
-          = f.select :credito_id, Credito.all.collect{|x| [x.nombre, x.id]},{:include_blank => 'credito'},class: 'form-control'
-    .col-sm-3
+    .col-sm-2
       .form-group
         .input-group.input-group-lg
           .input-group-addon
             %span.glyphicon.glyphicon-hand-right   
           = f.select :guide_id, {}, {include_blank: 'Guia'}, class: 'form-control input-lg'
+    .col-sm-2
+      .form-group
+        .input-group.input-group-lg
+          .input-group-addon
+            %span.glyphicon.glyphicon-map-marker        
+          = f.select :credito_id, Credito.all.collect{|x| [x.nombre, x.id]},{:include_blank => 'credito'},class: 'form-control'    
+    .col-sm-2
+      .form-group
+        .input-group.input-group-lg
+          .input-group-addon
+            %span.glyphicon.glyphicon-hand-right   
+          = f.select :moneda_id, Moneda.all.collect{|x| [x.nombre, x.id]}, {include_blank: 'Moneda'}, class: 'form-control input-lg' 
+
 
     - 7.times do
       - @factura.elementos.build
@@ -101,7 +111,7 @@
       .col-sm-8
       .col-sm-2
         .pull-right
-          %b I.G.V
+          %b I.G.V (18%)
       .col-sm-2
         .form-group
           = f.text_field :igv, class: 'form-control input-lg text-right'

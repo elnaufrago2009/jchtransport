@@ -40,11 +40,17 @@
           %th RUC
           %th Fecha
           %th Estado
-          %th Acciones
+
 
         - @facturas.each do |factura|
           %tr
-            %td= factura.numero
+            %td
+              %span.badge.alert-info
+                %span.glyphicon.glyphicon-share-alt
+                %b              
+                  \# 506 -
+                = link_to factura.numero.to_s.rjust(6, '0'), factura, class: '' 
+                
             %td= factura.sender_address.sender.name_reason
             %td= factura.sender_address.sender.ruc  
             %td= factura.fecha
@@ -53,6 +59,5 @@
                 %span.label.label-success Facturado
               - else
                 %span.label.label-danger Anulado
-            %td
-              = link_to '<span class="glyphicon glyphicon-eye-open"></span> Ver'.html_safe, factura, class: 'btn btn-info btn-sm'
+
             

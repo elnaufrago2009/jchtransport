@@ -1,7 +1,7 @@
 #region-creditos.container
   .region
     .region-title
-      %h1= page_title!('credito')
+      %h1= page_title!('Creditos')
 
   .region
     %p
@@ -9,7 +9,5 @@
       = @credito.nombre
 
   .region
-    - if current_admin
-      .admin-controls
-        = link_to 'Editar', edit_credito_path(@credito), class: 'btn btn-success'
-    = link_to 'Regresar', creditos_path, class: 'btn btn-warning'
+    = link_to '<span class="glyphicon glyphicon-edit"></span> Editar'.html_safe, edit_credito_path(@credito), class: 'btn btn-success'
+    = link_to '<span class="glyphicon glyphicon-arrow-left"></span> Regresar'.html_safe, creditos_path, class: 'btn btn-warning'

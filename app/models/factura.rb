@@ -4,6 +4,7 @@ class Factura < ActiveRecord::Base
   belongs_to :number_invoice
   belongs_to :sender_address
   has_many :elementos
+  belongs_to :moneda
   #accepts_nested_attributes_for :elementos, :reject_if => :all_blank, :allow_destroy => true
   accepts_nested_attributes_for :elementos, reject_if: proc { |attributes| attributes[:precio_venta].blank? }, :allow_destroy => true 
 

@@ -83,5 +83,5 @@ test:
 production:
   <<: *default
   database: jchtransport_production
-  username: jchtransport
-  password: <%= ENV['JCHTRANSPORT_DATABASE_PASSWORD'] %>
+  #username: jchtransport
+  #password: <%= ENV['JCHTRANSPORT_DATABASE_PASSWORD'] %>

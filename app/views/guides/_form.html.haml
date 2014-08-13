@@ -1,19 +1,22 @@
 = form_for @guide, :html => { class: '', role: 'form' } do |f|
   - if params[:action] == 'new'
     .row
-      .col-sm-10
+      .col-sm-9
         %h1
           %span.glyphicon.glyphicon-th
           Crear
           %b Factura
-      .col-sm-2
-        %br
-        .form-group
-          .input-group.input-group-lg
-            .input-group-addon.primary
-              \# 508 -
-            - number = NumberGuide.last.numero.to_i + 1
-            = f.text_field :numero_remision_guia, class: 'form-control input-lg', value: "#{number}", placeholder: '506 - 000275'
+      .col-sm-3
+        .row 
+          .col-sm-3
+          .col-sm-9
+            %br
+            .form-group
+              .input-group.input-group-lg
+                .input-group-addon.primary
+                  \# 508 -
+                - number = NumberGuide.last.numero.to_i + 1
+                = f.text_field :numero_remision_guia, class: 'form-control input-lg text-right', value: "#{number.to_s.rjust(6, '0')}", placeholder: '506 - 000275'
     %hr
   - if @guide.errors.any?
     #error_explanation
@@ -140,6 +143,7 @@
       .form-group
         = f.text_area :obsevaciones, class: 'form-control'
         = f.hidden_field :estado, value: '0'
+        = f.hidden_field :facturado, value: '0'
 
   .row
     - if params[:action] == 'new' || params[:action] == 'create'   

@@ -2,112 +2,116 @@
   .col-sm-12
     .invoice-title
       %h2 Guia Remision 
-      %h3.pull-right 
-        Numero # 508 -
-        = @guide.numero_remision_guia
+      %h3.pull-right         
+        %span.label.label-primary          
+          \# 508 -
+          = @guide.numero_remision_guia
     %hr
     .row
       .col-sm-6
-        %blockquote
-          %p 
+        %address
+          %strong
             Datos Generales:
-          %footer
-            Fecha de Emision,  
-            = @guide.fecha_emision.strftime("%d %b. %Y")
-          %footer
-            Fecha de Inicio del Translado, 
-            = @guide.fecha_inicio_traslado.strftime("%d %b. %Y")
           %br
-          %p
-            Datos Empresa Subcontratada
-          %footer
-            Nombre / Razon,
-            = @guide.empresa_subcontratada_nombre_apellido_razon_social
-          %footer
-            RUC,
-            = @guide.empresa_subcontratada_ruc
-      .col-sm-6
-        %blockquote.blockquote-reverse          
-          %p
+          Fecha de Emision,  
+          = @guide.fecha_emision.strftime("%d %b. %Y")
+          %br          
+          Fecha de Inicio del Translado, 
+          = @guide.fecha_inicio_traslado.strftime("%d %b. %Y")
+          %br
+          %br 
+          %strong 
+            Datos Empresa Subcontratada           
+          %br        
+          Nombre / Razon,
+          = @guide.empresa_subcontratada_nombre_apellido_razon_social
+          %br          
+          RUC,
+          = @guide.empresa_subcontratada_ruc
+      .col-sm-6.text-right
+        %address     
+          %strong
             Identificacion Unidad y Conductor
-          %footer
-            Marca del Vehiculo,          
-            = @guide.unidad_marca_vehiculo
-          %footer
-            Placa Delante,
-            = @guide.front.nombre
-          %footer
-            Placa Atraz,
-            = @guide.back.nombre
-          %footer
-            Configuracion Vehicular,
-            = @guide.unidad_configuracion_vehicular
-          %footer
-            \# Certificado de Inscrip,
-            = @guide.conductor_certificado_inscripcion
-          %footer
-            Licencia de Conducir,
-            = @guide.conductor_licencia_conducir
+          %br
+          Marca del Vehiculo,          
+          = @guide.unidad_marca_vehiculo
+          %br
+          Placa Delante,
+          = @guide.front.nombre
+          %br
+          Placa Atraz,
+          = @guide.back.nombre
+          %br
+          Configuracion Vehicular,
+          = @guide.unidad_configuracion_vehicular
+          %br
+          \# Certificado de Inscrip,
+          = @guide.conductor_certificado_inscripcion
+          %br
+          Licencia de Conducir,
+          = @guide.conductor_licencia_conducir
 
   .col-sm-12
     .row
       .col-sm-6
-        %blockquote          
-          %p
+        %address      
+          %strong
             Direccion de Partida:
-          %footer
-            Direccion,
-            = @guide.partida_direccion          
-          %footer
-            Departamento,
-            = @guide.llegada_department.nombre
-          %footer
-            Provincia,
-            = @guide.partida_province.nombre
-          %footer
-            Distrito
-            = @guide.partida_district.nombre
-        %blockquote          
-          %p
+          %br
+          Direccion,
+          = @guide.partida_direccion          
+          %br
+          Departamento,
+          = @guide.llegada_department.nombre
+          %br
+          Provincia,
+          = @guide.partida_province.nombre
+          %br
+          Distrito
+          = @guide.partida_district.nombre
+          %br
+          %br                 
+          %strong
             Direccion de Llegada:
-          %footer
-            Direccion,
-            = @guide.llegada_direccion  
-          %footer
-            Departamento,
-            = @guide.llegada_department.nombre
-          %footer
-            Provincia,
-            = @guide.llegada_province.nombre
-          %footer
-            Distrito
-            = @guide.llegada_district.nombre
+          %br
+          Direccion,
+          = @guide.llegada_direccion  
+          %br
+          Departamento,
+          = @guide.llegada_department.nombre
+          %br
+          Provincia,
+          = @guide.llegada_province.nombre
+          %br
+          Distrito
+          = @guide.llegada_district.nombre
 
       .col-sm-6.text-right
-        %blockquote.blockquote-reverse          
-          %p 
+        %address      
+          %strong
             Remitente:
-          %footer
-            Nombres / Razon Social,
-            = @guide.sender.name_reason
-          %footer
-            RUC,
-            = @guide.sender.ruc
-          %footer
-            Documento de Identidad,
-            = @guide.sender.identity_document
-        %blockquote.blockquote-reverse          
-          %p
+          %br
+          Nombres / Razon Social,
+          = @guide.sender.name_reason
+          %br
+          RUC,
+          = @guide.sender.ruc
+          %br
+          Documento de Identidad,
+          = @guide.sender.identity_document
+          %br
+          %br     
+          %strong
             Destinatario:
-          %footer
-            Nombres / Razon Social,
-            = @guide.addressee.name_reason
-          %footer
-            RUC,
-            = @guide.addressee.ruc
-          %footer
-            Documento de Identidad,
-            = @guide.addressee.identity_document
+          %br
+          Nombres / Razon Social,
+          = @guide.addressee.name_reason
+          %br
+          RUC,
+          = @guide.addressee.ruc
+          %br
+          Documento de Identidad,
+          = @guide.addressee.identity_document
 
        
 
@@ -141,7 +145,8 @@
 
 %br
 - if @guide.estado == 0
-  = link_to '<span class="glyphicon glyphicon-trash"></span> Anular'.html_safe, anular_guide_guides_path(:id => @guide.id),:data => { :confirm => '¿Estás Seguro que desea anular?' },  class: 'btn btn-danger btn-lg'
+  - if @guide.facturado == 0
+    = link_to '<span class="glyphicon glyphicon-trash"></span> Anular'.html_safe, anular_guide_guides_path(:id => @guide.id),:data => { :confirm => '¿Estás Seguro que desea anular?' },  class: 'btn btn-danger btn-lg'
 
 = link_to '<span class="glyphicon glyphicon-arrow-left"></span> Regresar'.html_safe, guides_path, class: 'btn btn-primary btn-lg'
-= link_to '<span class="glyphicon glyphicon-print"></span> Imprimir'.html_safe, "/guides/#{@guide.id}.pdf", class: 'btn btn-danger btn-lg', target: "_blank"
+= link_to '<span class="glyphicon glyphicon-print"></span> Imprimir'.html_safe, "/guides/#{@guide.id}.pdf", class: 'btn btn-warning btn-lg', target: "_blank"

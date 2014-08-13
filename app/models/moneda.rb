@@ -1,3 +1,3 @@
 class Moneda < ActiveRecord::Base
-	has_many :elementos
+	has_many :facturas
 end

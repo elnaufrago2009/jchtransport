@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140805175128) do
+ActiveRecord::Schema.define(version: 20140811165739) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -83,7 +83,6 @@ ActiveRecord::Schema.define(version: 20140805175128) do
     t.string   "precio_unitario"
     t.string   "precio_venta"
     t.integer  "factura_id"
-    t.integer  "moneda_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -104,6 +103,7 @@ ActiveRecord::Schema.define(version: 20140805175128) do
     t.string   "precio_venta"
     t.integer  "credito_id"
     t.integer  "estado"
+    t.integer  "moneda_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -142,6 +142,7 @@ ActiveRecord::Schema.define(version: 20140805175128) do
     t.integer  "estado"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "facturado"
   end
 
   create_table "items", force: true do |t|

@@ -3,16 +3,16 @@
 #region-creditos.container
 
   .region
-    .region-title
+    .page-header 
       %h1
-        Editando
+        Edit
         %b
-          credito
+          Credito
 
   .region
     = render 'form'
 
   .region
     .admin-controls
-      = link_to 'Ver', @credito, class: 'btn btn-info'
-      = link_to 'Regresar', 'javascript:history.back(-1)', class: 'btn btn-warning'
+      = link_to '<span class="glyphicon glyphicon-eye-open"></span> Ver'.html_safe, @credito, class: 'btn btn-info'
+      = link_to '<span class="glyphicon glyphicon-arrow-left"></span> Regresar'.html_safe, 'javascript:history.back(-1)', class: 'btn btn-warning'

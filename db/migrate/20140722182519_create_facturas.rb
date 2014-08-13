@@ -16,6 +16,7 @@ class CreateFacturas < ActiveRecord::Migration
       t.string :precio_venta
       t.integer :credito_id
       t.integer :estado
+      t.integer :moneda_id
 
       t.timestamps
     end

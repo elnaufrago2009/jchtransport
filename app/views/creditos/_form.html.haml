@@ -1,24 +1,12 @@
-= form_for @credito, :html => { class: 'form-horizontal', role: 'form', :remote => true }, :remote => true do |fz|
+= form_for @credito, :html => { class: 'form-horizontal', role: 'form' } do |f|
 
   .form-group
-    = fz.label :nombre, class: 'col-sm-2 control-label'
-    .col-sm-10
-      = fz.text_field :nombre, class: 'form-control'
-  .actions
-    = fz.submit 'Guardar', class: 'btn btn-default'
+    = f.label :nombre, class: 'col-sm-2 control-label'
+    .col-sm-3
+      = f.text_field :nombre, class: 'form-control'
+  .form-group
+    .col-sm-2
+    .col-sm-4
+      = f.submit 'Guardar', class: 'btn btn-default'
 
 
-:javascript
-  $('*').on('keydown', function(e){
-      if (e.keyCode === 13) {
-          var inputs = $(this).parents("form").eq(0).find(":input");
-          var idx = inputs.index(this);
-          if (idx == inputs.length - 1) {
-              inputs[0].select()
-          } else {
-              inputs[idx + 1].focus(); //  handles submit buttons
-              inputs[idx + 1].select();
-          }
-          return false;
-      }
-  });

@@ -40,24 +40,33 @@
           %th Remitente
           %th F. Emision
           %th F. Inicio traslado
+          %th Facturado
           %th Estado
-          %th Acciones
+
 
         - @guides.each do |guide|
           %tr
             %td
-              508 -
-              = guide.numero_remision_guia
+              %span.badge.alert-info
+                %span.glyphicon.glyphicon-share-alt
+                %b
+                  \# 508 -                 
+                = link_to guide.numero_remision_guia.to_s.rjust(6, '0'), guide, class: ''
             %td= guide.sender.name_reason
             %td= guide.fecha_emision
             %td= guide.fecha_inicio_traslado
+            %td 
+              - if guide.facturado == 0
+                %span.label.label-default No
+              - else
+                %span.label.label-primary si
             %td
               - if guide.estado == 0
                 %span.label.label-success Entregado
               - else
                 %span.label.label-danger Anulado
-            %td
-              = link_to '<span class="glyphicon glyphicon-eye-open"></span> ver'.html_safe, guide, class: 'btn btn-info btn-xs'
+
+              
             
 .row
   .col-sm-12

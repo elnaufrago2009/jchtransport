@@ -45,7 +45,7 @@ class FacturasController < ApplicationController
 
           pdf.draw_text "#{elemento.precio_unitario}", :at => [415,altura], size: '10'
           pdf.draw_text "#{elemento.precio_venta}", :at => [480,altura], size: '10'
-          pdf.draw_text "#{elemento.moneda.simbolo}", :at => [509,altura], size: '10'
+          pdf.draw_text "#{@factura.moneda.simbolo}", :at => [509,altura], size: '10'
           altura = altura - 15
         end
       
@@ -89,7 +89,7 @@ class FacturasController < ApplicationController
   # POST /facturas.json
   def create
   	# actualiza el contador de numero de factura
-  	number_invoice = NumberInvoice.last		
+  	number_invoice = NumberInvoice.last
     number_invoice.update number: "#{params[:factura][:numero]}"
 
 
@@ -97,6 +97,39 @@ class FacturasController < ApplicationController
 
     respond_to do |format|
       if @factura.save
+        if params[:factura][:guide_id] != ''
+          number_guide = Guide.find_by_id(params[:factura][:guide_id])
+          number_guide.update facturado: 1 
+        else
+          if params[:factura][:elementos_attributes]['0'][:guide_id] != ''
+            number_guide = Guide.find_by_id(params[:factura][:elementos_attributes]['0'][:guide_id])
+            number_guide.update facturado: 1 
+          end
+          if params[:factura][:elementos_attributes]['1'][:guide_id] != ''
+            number_guide = Guide.find_by_id(params[:factura][:elementos_attributes]['1'][:guide_id])
+            number_guide.update facturado: 1 
+          end
+          if params[:factura][:elementos_attributes]['2'][:guide_id] != ''
+            number_guide = Guide.find_by_id(params[:factura][:elementos_attributes]['2'][:guide_id])
+            number_guide.update facturado: 1 
+          end
+          if params[:factura][:elementos_attributes]['3'][:guide_id] != ''
+            number_guide = Guide.find_by_id(params[:factura][:elementos_attributes]['3'][:guide_id])
+            number_guide.update facturado: 1 
+          end
+          if params[:factura][:elementos_attributes]['4'][:guide_id] != ''
+            number_guide = Guide.find_by_id(params[:factura][:elementos_attributes]['4'][:guide_id])
+            number_guide.update facturado: 1 
+          end
+          if params[:factura][:elementos_attributes]['5'][:guide_id] != ''
+            number_guide = Guide.find_by_id(params[:factura][:elementos_attributes]['5'][:guide_id])
+            number_guide.update facturado: 1 
+          end
+          if params[:factura][:elementos_attributes]['6'][:guide_id] != ''
+            number_guide = Guide.find_by_id(params[:factura][:elementos_attributes]['6'][:guide_id])
+            number_guide.update facturado: 1 
+          end
+        end
         format.html { redirect_to @factura, notice: 'Factura was successfully created.' }
         format.json { render :show, status: :created, location: @factura }
       else
@@ -110,8 +143,20 @@ class FacturasController < ApplicationController
   # PATCH/PUT /facturas/1.json
 
   def anular_factura
-    factura = Factura.find(params[:id])   
+    factura = Factura.find(params[:id])
+    if !factura.guide_id.blank?
+      guide = Guide.find_by_id(factura.guide_id)
+      guide.update facturado: 0
+    else
+      elementos = Elemento.where(:factura_id => factura.id)
+      elementos.each do |elemento|
+        guide = Guide.find_by_id(elemento.guide_id)
+        guide.update facturado: 0
+      end
+    end
+
     factura.update estado: 1
+    
     redirect_to "/facturas/#{params[:id]}", notice: "Factura anulada correctamente!"
   end
 
@@ -143,7 +188,7 @@ class FacturasController < ApplicationController
 			@parser = '0'
 		else
 			@parser = '1'
-			@guides = Guide.where(:sender_id => params[:id])	
+			@guides = Guide.where(:sender_id => params[:id], :estado => 0, :facturado => 0)	
 		end
 
 	    respond_to do |format|
@@ -156,7 +201,7 @@ class FacturasController < ApplicationController
 			@parser = '0'
 		else
 			@parser = '1'
-			@guides = Guide.where(:sender_id => params[:id])	
+			@guides = Guide.where(:sender_id => params[:id], :estado => 0, :facturado => 0)	
 		end
 
 	    respond_to do |format|

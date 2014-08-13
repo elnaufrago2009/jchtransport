@@ -8,7 +8,7 @@ class CreateElementos < ActiveRecord::Migration
       t.string :precio_unitario
       t.string :precio_venta
       t.integer :factura_id
-      t.integer :moneda_id
+
 
       t.timestamps
     end

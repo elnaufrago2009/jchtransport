@@ -6,19 +6,18 @@
 .table-responsive
   %table.table
     %tr
-      %th Name reason
+      %th Nombre / Razon
       %th Ruc
-      %th Identity document
-      %th
-      %th
-      %th
+      %th Documento Identidad
+      %th Acciones
+
 
     - @senders.each do |sender|
       %tr
         %td= sender.name_reason
         %td= sender.ruc
         %td= sender.identity_document
-        %td= link_to 'Ver', sender, class: 'btn btn-info'
-        - if current_admin
-          %td= link_to 'Editar', edit_sender_path(sender), class: 'btn btn-success'
-          %td= link_to 'Eliminar', sender, :method => :delete, :data => { :confirm => '¿Estás Seguro?' }, class: 'btn btn-danger'
+        %td
+          = link_to '<span class="glyphicon glyphicon-eye-open"></span> Ver'.html_safe, sender, class: 'btn btn-info'
+          = link_to '<span class="glyphicon glyphicon-edit"></span> Editar'.html_safe, edit_sender_path(sender), class: 'btn btn-success'
+          = link_to '<span class="glyphicon glyphicon-trash"></span> Eliminar'.html_safe, sender, :method => :delete, :data => { :confirm => '¿Estás Seguro?' }, class: 'btn btn-danger'
