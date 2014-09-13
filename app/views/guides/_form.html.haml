@@ -1,166 +1,125 @@
-= form_for @guide, :html => { class: '', role: 'form' } do |f|
-  - if params[:action] == 'new'
-    .row
-      .col-sm-9
-        %h1
-          %span.glyphicon.glyphicon-th
-          Crear
-          %b Factura
-      .col-sm-3
-        .row 
-          .col-sm-3
-          .col-sm-9
-            %br
-            .form-group
-              .input-group.input-group-lg
-                .input-group-addon.primary
-                  \# 508 -
-                - number = NumberGuide.last.numero.to_i + 1
-                = f.text_field :numero_remision_guia, class: 'form-control input-lg text-right', value: "#{number.to_s.rjust(6, '0')}", placeholder: '506 - 000275'
-    %hr
+= form_for @guide, :html => { class: 'form-horizontal', role: 'form' } do |f|
   - if @guide.errors.any?
     #error_explanation
       %h2= "#{pluralize(@guide.errors.count, "error")}"
-      %ul
+      %ol
         - @guide.errors.full_messages.each do |msg|
           %li= msg
 
   .row
-    .col-sm-12
-      .row
-        .col-sm-3
-          .form-group
-            .input-group.input-group-lg
-              #click-calendar.input-group-addon
-                %span.glyphicon.glyphicon-calendar
-              = f.text_field :fecha_emision, class: 'form-control input-lg', value: "#{Time.now.strftime("%Y-%m-%d")}"   
-        .col-sm-3
-          .form-group
-            .input-group.input-group-lg
-              #click-calendar.input-group-addon
-                %span.glyphicon.glyphicon-calendar
-              = f.text_field :fecha_inicio_traslado, class: 'form-control input-lg', value: "#{Time.now.strftime("%Y-%m-%d")}"
-        .col-sm-3
-          .form-group            
-            = f.select :sender_id, Sender.all.collect{|x| ["#{x.ruc} #{x.name_reason} #{x.identity_document}", x.id]}, {:include_blank => 'Remitente'}, { :class => 'form-control select2 input-lg'}
+    .col-sm-9
+      %h1
+        %span.glyphicon.glyphicon-th
+        Crear
+        %b Guia
+    .col-sm-3      
+      .col-sm-3
+      .col-sm-9
+        %br
+        .form-group
+          .input-group.input-group-lg
+            .input-group-addon.success
+              \# 508 -
+            - number = NumberGuide.last.numero.to_i + 1
+            = f.text_field :numero_remision_guia, class: 'form-control input-lg text-right', value: "#{number.to_s.rjust(6, '0')}", placeholder: '506 - 000275'
+  %br
+  
+
+  .form-group       
+    .col-sm-3          
+      .input-group.input-group-lg
+        #click-calendar.input-group-addon
+          %span.glyphicon.glyphicon-calendar
+        = f.text_field :fecha_emision, class: 'form-control input-lg', value: "#{Time.now.strftime("%Y-%m-%d")}"   
+    .col-sm-3      
+      .input-group.input-group-lg
+        #click-calendar.input-group-addon
+          %span.glyphicon.glyphicon-calendar
+        = f.text_field :fecha_inicio_traslado, class: 'form-control input-lg', value: "#{Time.now.strftime("%Y-%m-%d")}"
+    .col-sm-3
+      = f.select :sender_id, Sender.all.collect{|x| ["#{x.ruc} #{x.name_reason} #{x.identity_document}", x.id]}, {:include_blank => 'Remitente'}, { :class => 'form-control select2 input-lg'}
               
-        .col-sm-3
-          .form-group            
-            = f.select :addressee_id, Addressee.all.collect{|x| ["#{x.ruc} #{x.name_reason} #{x.identity_document}", x.id]}, {:include_blank => 'Destinatario'}, class: 'form-control input-lg', placeholder: 'Apellidos y Nombres / Razon social'  
+    .col-sm-3                      
+      = f.select :addressee_id, Addressee.all.collect{|x| ["#{x.ruc} #{x.name_reason} #{x.identity_document}", x.id]}, {:include_blank => 'Destinatario'}, class: 'form-control input-lg', placeholder: 'Apellidos y Nombres / Razon social'  
               
 
-  .row
-    .col-sm-6
-      %h3
-        Direccion
-        %small Partida
-      %hr
-      .row
-        .col-sm-12
-          .form-group    
-            = f.text_field :partida_direccion, class: 'form-control input-lg', placeholder: 'Direccion'      
-        .col-sm-4
-          .form-group
-            = f.select :partida_department_id, Department.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Departamento:'} , class: 'form-control input-lg'
-        .col-sm-4
-          .form-group
-            = f.select :partida_province_id, Province.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Provincia:'}, class: 'form-control input-lg'
-        .col-sm-4
-          .form-group
-            = f.select :partida_district_id, District.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Distrito:'}, class: 'form-control input-lg'              
-      
-    .col-sm-6      
-      %h3
-        Direccion
-        %small Llegada
-      %hr
-      .row
-        .col-sm-12
-          .form-group
-            = f.text_field :llegada_direccion,  class: 'form-control input-lg', placeholder: 'Direccion'
-        .col-sm-4
-          .form-group
-            = f.select :llegada_department_id, Department.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Departamento:'} , class: 'form-control input-lg'
-        .col-sm-4
-          .form-group
-            = f.select :llegada_province_id, Province.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Provincia:'}, class: 'form-control input-lg'
-        .col-sm-4
-          .form-group
-            = f.select :llegada_district_id, District.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Distrito:'}, class: 'form-control input-lg'
-                          
-  %hr
-  .row            
-    #items
-      = f.fields_for :items do |item|
-        = render 'item_fields', :f => item
-    .form-group
-      .col-sm-12
-        = link_to_add_association '<span class="glyphicon glyphicon-plus"></span> Agregar'.html_safe, f, :items, class: 'btn btn-primary btn-lg'
+  .form-group
+    .col-sm-3        
+      = f.text_field :partida_direccion, class: 'form-control input-lg', placeholder: 'Direccion Partida'      
+    .col-sm-3     
+      = f.select :partida_district_id, District.all.collect{|x| ["#{x.nombre} / #{x.province.nombre} / #{x.province.department.nombre}", x.id]}, {:include_blank => 'Distrito / Provincia / Departamento'}, class: 'form-control input-lg'
+    .col-sm-3          
+      = f.text_field :llegada_direccion,  class: 'form-control input-lg', placeholder: 'Direccion Llegada'
+    .col-sm-3    
+      = f.select :llegada_district_id, District.all.collect{|x| ["#{x.nombre} / #{x.province.nombre} / #{x.province.department.nombre}", x.id]}, {:include_blank => 'Distrito / Provincia / Departamento'}, class: 'form-control input-lg'
+
+  .form-group
+    %h4
+      .col-sm-2
+        Codigo
+      .col-sm-3
+        Descripcion
+      .col-sm-2
+        Cantidad
+      .col-sm-1
+        Medida
+      .col-sm-2
+        Peso
+      .col-sm-1
+        Unidad
+      .col-sm-1
+        Borrar
+  = f.fields_for :items do |item|
+    = render 'item_fields', :f => item
+  #items
+    = link_to_add_association '<span class="glyphicon glyphicon-plus"></span> Agregar'.html_safe, f, :items, class: 'btn btn-warning btn-lg'
   .row
     .col-sm-8
-
       %h3
         Transporte 
-        %small Conductor
-      %hr
-      .row
-        .col-sm-4
-          .form-group
-            = f.text_field :unidad_marca_vehiculo, class: 'form-control input-lg', placeholder: 'Marca del Vehiculo'
-        .col-sm-4
-          .form-group
-            = f.select :front_id, Front.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Placa Delantera'}, class: 'form-control input-lg', placeholder: 'Placa Numero'    
-        .col-sm-4
-          .form-group
-            = f.select :back_id, Back.all.collect{|x| [x.nombre, x.id]}, {:include_blank => 'Placa Trasera'}, class: 'form-control input-lg', placeholder: 'Placa Trasera'
-        .col-sm-4
-          .form-group
-            = f.text_field :unidad_configuracion_vehicular, class: 'form-control input-lg', placeholder: 'Config Vehicular'
-        .col-sm-4
-          .form-group
-            = f.text_field :conductor_certificado_inscripcion, class: 'form-control input-lg', placeholder: 'Certificado Inscriptcion'
-        .col-sm-4
-          .form-group
-            = f.text_field :conductor_licencia_conducir, class: 'form-control input-lg', placeholder: 'Licencia Conducir'
+        %small Conductor   
+      .form-group   
+        .col-sm-4        
+          = f.text_field :unidad_marca_vehiculo, class: 'form-control input-lg', placeholder: 'Marca del Vehiculo'
+        .col-sm-4        
+          = f.text_field :placa, class: 'form-control input-lg', placeholder: 'Placa N°'
+        .col-sm-4        
+          = f.text_field :unidad_configuracion_vehicular, class: 'form-control input-lg', placeholder: 'Config Vehicular'
+      .form-group
+        .col-sm-4        
+          = f.text_field :conductor_certificado_inscripcion, class: 'form-control input-lg', placeholder: 'Certificado Inscriptcion'
+        .col-sm-4        
+          = f.text_field :conductor_licencia_conducir, class: 'form-control input-lg', placeholder: 'Licencia Conducir'
 
     .col-sm-4 
       %h3
         Empresa
-        %small Subcontatada
-      %hr
-      .col-sm-12
-        .form-group
+        %small Subcontatada      
+      .form-group
+        .col-sm-12        
           = f.text_field :empresa_subcontratada_nombre_apellido_razon_social, class: 'form-control input-lg', placeholder: 'Nombres y Apellidos / Razon Social' 
-      .col-sm-12
-        .form-group
+      .form-group
+        .col-sm-12        
           = f.text_field :empresa_subcontratada_ruc, class: 'form-control input-lg', placeholder: 'RUC : 123456789123'
 
-  .row
-    .col-sm-12
-      %h3 
-        Observaciones
-        %small notas
-      .form-group
-        = f.text_area :obsevaciones, class: 'form-control'
-        = f.hidden_field :estado, value: '0'
-        = f.hidden_field :facturado, value: '0'
 
-  .row
-    - if params[:action] == 'new' || params[:action] == 'create'   
-      .form-group
-        .col-sm-12
-          = button_tag(type: 'submit', class: "btn btn-success btn-lg") do 
-            %span.glyphicon.glyphicon-new-window
-            Guardar
-          = link_to '<span class="glyphicon glyphicon-arrow-left"></span> Regresar'.html_safe, 'javascript:history.back(-1)', class: 'btn btn-primary btn-lg'
-    - if params[:action] == 'edit'
-      .form-group
-        .col-sm-12
-          = button_tag(type: 'submit', class: "btn btn-success btn-lg") do 
-            %span.glyphicon.glyphicon-new-window
-            Guardar
-          = link_to '<span class="glyphicon glyphicon-eye-open"></span> Ver'.html_safe, @guide, class: 'btn btn-info btn-lg'
-          = link_to '<span class="glyphicon glyphicon-arrow-left"></span> Regresar'.html_safe, 'javascript:history.back(-1)', class: 'btn btn-primary btn-lg'
+  %h3 
+    Observaciones
+    %small notas
+  .form-group
+    .col-sm-12
+      = f.text_area :obsevaciones, class: 'form-control'
+      = f.hidden_field :estado, value: '0'
+      = f.hidden_field :facturado, value: '0'
+
+  
+  - if params[:action] == 'new' || params[:action] == 'create'   
+    .form-group
+      .col-sm-12
+        = button_tag(type: 'submit', class: "btn btn-success btn-lg") do 
+          %span.glyphicon.glyphicon-new-window
+          Guardar
+        = link_to '<span class="glyphicon glyphicon-arrow-left"></span> Regresar'.html_safe, 'javascript:history.back(-1)', class: 'btn btn-primary btn-lg'    
 
 :javascript
   $("#guide_fecha_emision").datepicker({      

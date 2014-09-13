@@ -7,10 +7,13 @@
           %li= msg
 
 
+
+  = f.hidden_field :sender_id, :value => 1
   .form-group
-    = f.label :sender_id, class: 'col-sm-2 control-label'
+    = f.label "Remitente", class: 'col-sm-2 control-label'
     .col-sm-4
-      = f.select :sender_id, Sender.all.collect{|x| [x.name_reason, x.id]}, {}, class: 'form-control'
+      - remitente = Sender.find(params[:sender_id])
+      = text_field_tag 'remitente', nil,value: "#{remitente.name_reason}",class: 'form-control', disabled: 'disabled'
   .form-group
     = f.label :direccion, class: 'col-sm-2 control-label'
     .col-sm-4

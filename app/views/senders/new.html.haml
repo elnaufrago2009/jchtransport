@@ -1,17 +1,5 @@
-- page_title!('Creando sender')
-
-#region-senders.container
-
-  .region
-    .page-header
-      %h1
-        Crear
-        %b
-          Remitente
-
-  .region
-    = render 'form'
-
-  .region
-    .admin-controls
-      = link_to '<span class="glyphicon glyphicon-arrow-left"></span> Regresar'.html_safe, 'javascript:history.back(-1)', class: 'btn btn-warning'
+.page-header
+  %h1 
+    Crear 
+    %strong Remitente  
+= render 'form'

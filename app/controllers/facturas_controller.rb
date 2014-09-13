@@ -89,14 +89,17 @@ class FacturasController < ApplicationController
   # POST /facturas.json
   def create
   	# actualiza el contador de numero de factura
-  	number_invoice = NumberInvoice.last
-    number_invoice.update number: "#{params[:factura][:numero]}"
+  	
 
 
     @factura = Factura.new(factura_params)
 
     respond_to do |format|
       if @factura.save
+
+        number_invoice = NumberInvoice.last
+        number_invoice.update number: "#{params[:factura][:numero]}"
+
         if params[:factura][:guide_id] != ''
           number_guide = Guide.find_by_id(params[:factura][:guide_id])
           number_guide.update facturado: 1 
@@ -188,7 +191,9 @@ class FacturasController < ApplicationController
 			@parser = '0'
 		else
 			@parser = '1'
-			@guides = Guide.where(:sender_id => params[:id], :estado => 0, :facturado => 0)	
+      #sender_address = SenderAddress.find_by_id(params[:id])
+      sender_address = SenderAddress.find(params[:id]) 
+			@guides = Guide.where(:sender_id => sender_address.sender_id, :estado => 0, :facturado => 0)	
 		end
 
 	    respond_to do |format|
@@ -201,7 +206,8 @@ class FacturasController < ApplicationController
 			@parser = '0'
 		else
 			@parser = '1'
-			@guides = Guide.where(:sender_id => params[:id], :estado => 0, :facturado => 0)	
+      sender_address = SenderAddress.find_by_id(params[:id])
+			@guides = Guide.where(:sender_id => sender_address.sender_id, :estado => 0, :facturado => 0)
 		end
 
 	    respond_to do |format|
@@ -213,7 +219,8 @@ class FacturasController < ApplicationController
 		if params[:id] == ''
 			@parser = '0'
 		else
-			@parser = '1'			
+			@parser = '1'	
+      
 			@items = Item.where(:guide_id => params[:id])
 		end
 

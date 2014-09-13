@@ -1,145 +1,123 @@
+//Title
+.row
+  .col-sm-6
+    %h1 Guia Remision 
+  .col-sm-6.text-right      
+    %h1
+      %span.label.label-primary          
+        \# 508 -
+        = @guide.numero_remision_guia
+%hr
+
+.row
+  .col-sm-6
+
+    %h3 Datos Generales              
+    %strong Fecha de Emision :
+    = @guide.fecha_emision.strftime("%d %b. %Y")
+    %br      
+    %strong Fecha de Inicio del Translado :
+    = @guide.fecha_inicio_traslado.strftime("%d %b. %Y")
+
+    %hr
+    %h3 Direccion de Partida              
+    %strong Direccion :
+    = @guide.partida_direccion
+    %br
+    %strong Departamento :
+    = @guide.partida_district.province.department.nombre
+    %br
+    %strong Provincia :
+    = @guide.partida_district.province.nombre
+    %br
+    %strong Distrito :
+    = @guide.partida_district.nombre
+
+    %hr
+    %h3 Direccion de Llegada              
+    %strong Direccion :
+    = @guide.llegada_direccion    
+    %br
+    %strong Departamento :
+    = @guide.llegada_district.province.department.nombre
+    %br
+    %strong Provincia :
+    = @guide.llegada_district.province.nombre
+    %br
+    %strong Distrito :
+    = @guide.llegada_district.nombre
+
+    %hr
+    %h3 Remitente    
+    %strong Nombres / Razon Social :
+    = @guide.sender.name_reason
+    %br
+    %strong RUC :
+    = @guide.sender.ruc
+    %br
+    %strong Documento de Identidad :
+    = @guide.sender.identity_document    
+
+  .col-sm-6.text-right    
+    %h3 Destinatario            
+    = @guide.addressee.name_reason      
+    %strong : Nombres / Razon Social
+    %br      
+    = @guide.addressee.ruc
+    %strong RUC :
+    %br      
+    = @guide.addressee.identity_document
+    %strong : Documento de Identidad
+
+    %hr
+    %h3 Datos de la Empresa Subcontratada    
+    = @guide.try(:empresa_subcontratada_nombre_apellido_razon_social)
+    %strong : Nombre / Razon
+    %br    
+    = @guide.try(:empresa_subcontratada_ruc)
+    %strong : RUC
+
+    %hr
+    %h3 Identificacion Unidad y Conductor    
+    = @guide.try(:unidad_marca_vehiculo)
+    %strong : Marca del Vehiculo
+    %br    
+    = @guide.try(:placa)  
+    %strong : Placa
+    %br   
+    = @guide.try(:unidad_configuracion_vehicular)
+    %strong : Configuracion Vehicular
+    %br    
+    = @guide.try(:conductor_certificado_inscripcion)
+    %strong : Certificado de Inscripcion
+    %br    
+    = @guide.try(:conductor_licencia_conducir)
+    %strong : Licencia de Conducir
+
+%br
+%br
+    
+      
 .row
   .col-sm-12
-    .invoice-title
-      %h2 Guia Remision 
-      %h3.pull-right         
-        %span.label.label-primary          
-          \# 508 -
-          = @guide.numero_remision_guia
-    %hr
-    .row
-      .col-sm-6
-        %address
-          %strong
-            Datos Generales:
-          %br
-          Fecha de Emision,  
-          = @guide.fecha_emision.strftime("%d %b. %Y")
-          %br          
-          Fecha de Inicio del Translado, 
-          = @guide.fecha_inicio_traslado.strftime("%d %b. %Y")
-          %br
-          %br 
-          %strong 
-            Datos Empresa Subcontratada           
-          %br        
-          Nombre / Razon,
-          = @guide.empresa_subcontratada_nombre_apellido_razon_social
-          %br          
-          RUC,
-          = @guide.empresa_subcontratada_ruc
-      .col-sm-6.text-right
-        %address     
-          %strong
-            Identificacion Unidad y Conductor
-          %br
-          Marca del Vehiculo,          
-          = @guide.unidad_marca_vehiculo
-          %br
-          Placa Delante,
-          = @guide.front.nombre
-          %br
-          Placa Atraz,
-          = @guide.back.nombre
-          %br
-          Configuracion Vehicular,
-          = @guide.unidad_configuracion_vehicular
-          %br
-          \# Certificado de Inscrip,
-          = @guide.conductor_certificado_inscripcion
-          %br
-          Licencia de Conducir,
-          = @guide.conductor_licencia_conducir
-
-  .col-sm-12
-    .row
-      .col-sm-6
-        %address      
-          %strong
-            Direccion de Partida:
-          %br
-          Direccion,
-          = @guide.partida_direccion          
-          %br
-          Departamento,
-          = @guide.llegada_department.nombre
-          %br
-          Provincia,
-          = @guide.partida_province.nombre
-          %br
-          Distrito
-          = @guide.partida_district.nombre
-          %br
-          %br                 
-          %strong
-            Direccion de Llegada:
-          %br
-          Direccion,
-          = @guide.llegada_direccion  
-          %br
-          Departamento,
-          = @guide.llegada_department.nombre
-          %br
-          Provincia,
-          = @guide.llegada_province.nombre
-          %br
-          Distrito
-          = @guide.llegada_district.nombre
-
-      .col-sm-6.text-right
-        %address      
-          %strong
-            Remitente:
-          %br
-          Nombres / Razon Social,
-          = @guide.sender.name_reason
-          %br
-          RUC,
-          = @guide.sender.ruc
-          %br
-          Documento de Identidad,
-          = @guide.sender.identity_document
-          %br
-          %br     
-          %strong
-            Destinatario:
-          %br
-          Nombres / Razon Social,
-          = @guide.addressee.name_reason
-          %br
-          RUC,
-          = @guide.addressee.ruc
-          %br
-          Documento de Identidad,
-          = @guide.addressee.identity_document
-
-       
-
-  .col-sm-12
     %table.table.table-condensed
-      %tr
-        %th codigo
-        %th descripcion
-        %th cantidad
-        %th medida
-        %th peso
-        %th unidad
+      %tr.well
+        %th Codigo
+        %th Descripcion
+        %th Cantidad
+        %th Medida
+        %th Peso
+        %th Unidad
 
       - @guide.items.each do |item|
         %tr
-          %td.col-sm-2= item.codigo
-          %td.col-sm-6= item.descripcion
-          %td.col-sm-1= item.cantidad
-          %td.col-sm-1= item.measure.nombre
-          %td.col-sm-1= item.peso
-          %td.col-sm-1= item.unit.und
-      %tr
-        %td.thick-line
-        %td.thick-line
-        %td.thick-line
-        %td.thick-line
-        %td.thick-line
-        %td.thick-line             
+          %td.col-sm-2= item.try(:codigo)
+          %td.col-sm-6= item.try(:descripcion)
+          %td.col-sm-1= item.try(:cantidad)
+          %td.col-sm-1= item.measure.try(:nombre)
+          %td.col-sm-1= item.try(:peso)
+          %td.col-sm-1= item.unit.try(:und)
+            
               
           
 

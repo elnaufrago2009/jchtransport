@@ -1,23 +1,4 @@
-= form_for @factura, :html => { class: '', role: 'form' } do |f|
-  - if params[:action] == 'new'
-    .row
-      .col-sm-9
-        %h1
-          %span.glyphicon.glyphicon-th
-          Crear
-          %b Factura
-      .col-sm-3
-        .row
-          .col-sm-3
-          .col-sm-9
-            %br
-            .form-group
-              .input-group.input-group-lg
-                .input-group-addon.primary
-                  \# 506 -
-                - number = NumberInvoice.last.number.to_i + 1            
-                = f.text_field :numero, class: 'form-control text-right', placeholder: 'numero', value: "#{number.to_s.rjust(6, '0')}"
-    %hr
+= form_for @factura, :html => { class: '', role: 'form' } do |f|  
   - if @factura.errors.any?
     #error_explanation
       %h2= "#{pluralize(@factura.errors.count, "error")}"
@@ -26,12 +7,32 @@
           %li= msg
 
   .row
+    .col-sm-9
+      %h1
+        %span.glyphicon.glyphicon-th
+        Crear
+        %b Factura
+    .col-sm-3
+      .row
+        .col-sm-3
+        .col-sm-9
+          %br
+          .form-group
+            .input-group.input-group-lg
+              .input-group-addon.primary
+                \# 506 -
+              - number = NumberInvoice.last.number.to_i + 1            
+              = f.text_field :numero, class: 'form-control input-lg text-right', placeholder: 'numero', value: "#{number.to_s.rjust(6, '0')}"
+  %hr
+
+
+  .row
     .col-sm-3
       .form-group
         .input-group.input-group-lg
           #click-calendar.input-group-addon
             %span.glyphicon.glyphicon-calendar
-          = f.text_field :fecha, class: 'form-control input-lg', value: "#{Time.now.strftime("%Y-%m-%d")}"        
+          = f.text_field :fecha, class: 'form-control input-lg', value: "#{Time.now.strftime("%Y-%m-%d")}"
           
     .col-sm-3
       .form-group
@@ -43,8 +44,21 @@
       .form-group
         .input-group.input-group-lg
           .input-group-addon
-            %span.glyphicon.glyphicon-hand-right   
-          = f.select :guide_id, {}, {include_blank: 'Guia'}, class: 'form-control input-lg'
+            %span.glyphicon.glyphicon-hand-right           
+          - if params[:action] == 'create'
+            - if params[:factura][:sender_address_id] != ''
+              - if params[:factura][:guide_id] != ''
+                - sender_address = SenderAddress.find_by_id(params[:factura][:sender_address_id])
+                = f.select :guide_id, Guide.where(:sender_id => sender_address.sender_id).collect{|x| ["# 506- #{x.numero_remision_guia}", x.id]}, {include_blank: 'Guia'}, class: 'form-control input-lg'
+              - else
+                - sender_address = SenderAddress.find_by_id(params[:factura][:sender_address_id])
+                = f.select :guide_id, Guide.where(:sender_id => sender_address.sender_id).collect{|x| ["# 506- #{x.numero_remision_guia}", x.id]}, {include_blank: 'Guia'}, class: 'form-control input-lg'
+            - else
+              = f.select :guide_id, {}, {include_blank: 'Guia'}, class: 'form-control input-lg'
+          - else
+            = f.select :guide_id, {}, {include_blank: 'Guia'}, class: 'form-control input-lg'
+
+          
     .col-sm-2
       .form-group
         .input-group.input-group-lg
@@ -82,13 +96,53 @@
       = f.fields_for :elementos do |z|      
         .col-sm-1
           .form-group            
-            = z.text_field :cantidad, class: "form-control input-lg", value: ""      
-        .col-sm-2
-          .form-group
-            = z.select :guide_id, {}, {}, {:class => 'form-control input-lg select5', disabled: 'disabled'}            
-        .col-sm-2
-          .form-group
-            = z.select :item_id, {}, {}, {class: 'form-control input-lg', disabled: 'disabled'}
+            = z.text_field :cantidad, class: "form-control input-lg"
+
+        - if params[:action] == 'create'
+          - if params[:factura][:sender_address_id] != '' 
+            // hay que saber si guide_id ha sido seleccionado para precargarlo los item_id y activar el disabled
+            - if params[:factura][:guide_id] != ''
+              .col-sm-2
+                .form-group
+                  = z.select :guide_id, {}, {}, {:class => 'form-control input-lg select5', disabled: 'disabled'}
+              .col-sm-2
+                .form-group
+                  = z.select :item_id, Item.where(:guide_id => params[:factura][:guide_id]).collect{|item| ["Cod: #{item.codigo} - Descp: #{item.descripcion} - Cantidad: #{item.cantidad} #{item.measure.nombre} - Peso: #{item.peso} #{item.unit.und}", item.id]}, {:include_blank => 'Seleccione'}, {class: 'form-control input-lg'}
+            - else
+              .col-sm-2
+                .form-group
+                  - sender_address = SenderAddress.find_by_id(params[:factura][:sender_address_id])
+                  = z.select :guide_id, Guide.where(:sender_id => sender_address.sender_id).collect{|x| ["# 506 -#{x.numero_remision_guia}", x.id]}, {include_blank: 'Seleccione'}, {:class => 'form-control input-lg select5'}
+              .col-sm-2
+                .form-group
+                  = z.select :item_id, {}, {:include_blank => 'Seleccione'}, {class: 'form-control input-lg', disabled: 'disabled'}
+          - else
+            .col-sm-2
+              .form-group
+                = z.select :guide_id, {}, {}, {:class => 'form-control input-lg select5', disabled: 'disabled'}
+            .col-sm-2
+              .form-group
+                = z.select :item_id, {}, {}, {class: 'form-control input-lg', disabled: 'disabled'}  
+
+          // entonces quiere decir que guide_id debe estar activo y precargado
+          
+        - else
+          //salen vacion los dos al inicio por que no se ha seleccionado ningun elemento solo es primera salida
+
+
+          .col-sm-2
+            .form-group
+              = z.select :guide_id, {}, {}, {:class => 'form-control input-lg select5', disabled: 'disabled'}
+          .col-sm-2
+            .form-group
+              = z.select :item_id, {}, {}, {class: 'form-control input-lg', disabled: 'disabled'}
+
+
+
+
+
+
+
         .col-sm-3
           .form-group
             = z.text_field :descripcion, class: 'form-control input-lg' 
@@ -255,6 +309,13 @@
         $("#factura_elementos_attributes_0_item_id,#factura_elementos_attributes_1_item_id,#factura_elementos_attributes_2_item_id, #factura_elementos_attributes_3_item_id, #factura_elementos_attributes_4_item_id,#factura_elementos_attributes_5_item_id,#factura_elementos_attributes_6_item_id").removeAttr("disabled","disabled");
         if (id == ''){  
             $("#factura_elementos_attributes_0_item_id, #factura_elementos_attributes_1_item_id, #factura_elementos_attributes_2_item_id, #factura_elementos_attributes_3_item_id, #factura_elementos_attributes_4_item_id, #factura_elementos_attributes_5_item_id,#factura_elementos_attributes_6_item_id").attr("disabled","disabled");
+
+            $("#factura_elementos_attributes_0_guide_id,#factura_elementos_attributes_1_guide_id,#factura_elementos_attributes_2_guide_id,#factura_elementos_attributes_3_guide_id,#factura_elementos_attributes_4_guide_id,#factura_elementos_attributes_5_guide_id,#factura_elementos_attributes_6_guide_id").removeAttr("disabled","disabled");
+
+            var idd = $("#factura_sender_address_id").val();
+
+            $("#factura_elementos_attributes_0_guide_id,#factura_elementos_attributes_1_guide_id,#factura_elementos_attributes_2_guide_id,#factura_elementos_attributes_3_guide_id,#factura_elementos_attributes_4_guide_id,#factura_elementos_attributes_5_guide_id,#factura_elementos_attributes_6_guide_id").load('/facturas/values_guia_remision/?id='+idd);
+            
         }
 
     });

@@ -1,12 +1,17 @@
 = form_for @credito, :html => { class: 'form-horizontal', role: 'form' } do |f|
-
-  .form-group
-    = f.label :nombre, class: 'col-sm-2 control-label'
-    .col-sm-3
-      = f.text_field :nombre, class: 'form-control'
-  .form-group
-    .col-sm-2
-    .col-sm-4
-      = f.submit 'Guardar', class: 'btn btn-default'
+	- if @credito.errors.any?
+		#error_explanation
+			%h2= "#{pluralize(@credito.errors.count, "error")}"
+			%ul
+				-@credito.errors.full_messages.each do |msg|
+					%li= msg
+	.form-group
+		= f.label :nombre, class: 'col-sm-2 control-label'
+		.col-sm-3
+			= f.text_field :nombre, class: 'form-control'
+	.form-group
+		.col-sm-2
+		.col-sm-4
+			= f.submit 'Guardar', class: 'btn btn-default'
 
 

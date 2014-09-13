@@ -52,7 +52,7 @@
                 = link_to factura.numero.to_s.rjust(6, '0'), factura, class: '' 
                 
             %td= factura.sender_address.sender.name_reason
-            %td= factura.sender_address.sender.ruc  
+            %td= factura.sender_address.sender.try(:ruc)
             %td= factura.fecha
             %td
               - if factura.estado == 0

@@ -1,0 +1,6 @@
+.form-group.nested-fields
+	.col-sm-6
+		= f.text_field :direccion, class: 'form-control', placeholder: ''
+	.col-sm-3	
+		= link_to_remove_association '<span class="glyphicon glyphicon-trash"></span>'.html_safe , f, class: 'btn btn-danger'
+

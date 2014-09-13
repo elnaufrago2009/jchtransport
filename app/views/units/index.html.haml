@@ -2,7 +2,7 @@
 
   .region
     .page-header
-      %h1= page_title!('units')
+      %h1 Unidades
 
     .region      
       .admin-control
@@ -11,16 +11,16 @@
       .row 
         .col-sm-7
           .table-responsive
-            %table.table
-              %tr
+            %table.table.table-hover.table-condensed.table-bordered
+              %tr.well
+                %th #id
                 %th Nombre
                 %th Und
-                %th
-                %th
-                %th
+                %th Acciones
 
               - @units.each do |unit|
                 %tr
+                  %td= unit.id
                   %td= unit.nombre
                   %td= unit.und
                   %td

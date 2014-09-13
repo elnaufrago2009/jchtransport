@@ -61,25 +61,25 @@
             %th Precio Venta
           - @factura.elementos.each do |elemento|        
             %tr
-              %td.col-sm-1= elemento.cantidad
+              %td.col-sm-1= elemento.try(:cantidad)
               %td.col-sm-7
                 - if !elemento.guide_id.blank?
                   \#506 - 
-                  = elemento.guide.numero_remision_guia
+                  = elemento.guide.try(:numero_remision_guia)
                 - elsif !elemento.item_id.blank?
                   Codigo:
-                  = elemento.item.codigo
+                  = elemento.item.try(:codigo)
                   Descp:
-                  = elemento.item.descripcion
+                  = elemento.item.try(:descripcion)
                   Cant:
-                  = elemento.item.cantidad
-                  = elemento.item.measure.nombre
+                  = elemento.item.try(:cantidad)
+                  = elemento.item.measure.try(:nombre)
                   Peso:
-                  = elemento.item.peso
-                  = elemento.item.unit.und
+                  = elemento.item.try(:peso)
+                  = elemento.item.unit.try(:und)
                 ,
                 = elemento.descripcion
-              %td.col-sm-2= elemento.precio_unitario
+              %td.col-sm-2= elemento.try(:precio_unitario)
               %td.col-sm-2
                 = elemento.precio_venta
                 = @factura.moneda.try(:simbolo)
@@ -89,7 +89,7 @@
               %b Valor de Venta
             %td.col-sm-2.thick-line
               %b
-                = @factura.valor_venta
+                = @factura.try(:valor_venta)
                 = @factura.moneda.try(:simbolo)
           %tr
             %td.col-sm-8{:colspan => '2'}

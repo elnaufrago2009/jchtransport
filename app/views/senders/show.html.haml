@@ -4,16 +4,38 @@
       %h1= page_title!('Remitente')
 
   .region
-    %p
-      %b Nombre / Razon Social:
-      = @sender.name_reason
-    %p
-      %b Ruc:
-      = @sender.ruc
-    %p
-      %b Identity document:
-      = @sender.identity_document
+    .row
+      .col-sm-6
+        %table.table.table-condensed.table-bordered
+          %tr
+            %td.well.text-right Nombre / Razon Social : 
+            %td= @sender.name_reason
+          %tr
+            %td.well.text-right Ruc : 
+            %td= @sender.ruc
+          %tr
+            %td.well.text-right DNI : 
+            %td= @sender.identity_document   
+      
+    %h3
+      Direcciones
+      %small del Remitente
+    %hr
+    .row
+      .col-sm-6
+        
+        %table.table.table-condensed.table-bordered
+          - i = 1
+          - @sender.sender_addresses.each do |sender_address|
+            %tr
+              %td.well.text-right
+                Direccion
+                = i
+                \:
+                - i  = i + 1
+              %td= sender_address.direccion
 
+      
   .region
     = link_to '<span class="glyphicon glyphicon-edit"></span> Editar'.html_safe, edit_sender_path(@sender), class: 'btn btn-success'
     = link_to '<span class="glyphicon glyphicon-arrow-left"></span> Regresar'.html_safe, senders_path, class: 'btn btn-warning'

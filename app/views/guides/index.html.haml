@@ -48,10 +48,8 @@
           %tr
             %td
               %span.badge.alert-info
-                %span.glyphicon.glyphicon-share-alt
-                %b
-                  \# 508 -                 
-                = link_to guide.numero_remision_guia.to_s.rjust(6, '0'), guide, class: ''
+                %span.glyphicon.glyphicon-share-alt                  
+                = link_to "# 508 - #{guide.numero_remision_guia.to_s.rjust(6, '0')}", guide, class: ''
             %td= guide.sender.name_reason
             %td= guide.fecha_emision
             %td= guide.fecha_inicio_traslado

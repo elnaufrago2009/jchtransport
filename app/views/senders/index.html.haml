@@ -4,8 +4,8 @@
 %br
 %br
 .table-responsive
-  %table.table
-    %tr
+  %table.table.table-condensed.table-hover.table-bordered
+    %tr.well
       %th Nombre / Razon
       %th Ruc
       %th Documento Identidad
@@ -17,7 +17,7 @@
         %td= sender.name_reason
         %td= sender.ruc
         %td= sender.identity_document
-        %td
+        %td          
           = link_to '<span class="glyphicon glyphicon-eye-open"></span> Ver'.html_safe, sender, class: 'btn btn-info'
           = link_to '<span class="glyphicon glyphicon-edit"></span> Editar'.html_safe, edit_sender_path(sender), class: 'btn btn-success'
           = link_to '<span class="glyphicon glyphicon-trash"></span> Eliminar'.html_safe, sender, :method => :delete, :data => { :confirm => '¿Estás Seguro?' }, class: 'btn btn-danger'

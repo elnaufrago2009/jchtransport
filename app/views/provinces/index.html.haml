@@ -11,16 +11,14 @@
       .row
         .col-sm-8
           .table-responsive
-            %table.table.table-condensed
-              %tr
-                %th #id
+            %table.table.table-condensed.table-bordered
+              %tr.well
                 %th Departamento
-                %th Nombre
-                %th Acciones           
+                %th Provincia
+                %th Acciones
 
               - @provinces.each do |province|
                 %tr
-                  %td= province.id
                   %td= province.department.nombre
                   %td= province.nombre
                   %td

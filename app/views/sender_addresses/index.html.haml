@@ -5,9 +5,8 @@
       %h1= page_title!('Direcciones')
 
     .region
-      - if current_admin
-        .admin-control
-          = link_to '<span class="glyphicon glyphicon-plus"></span> Crear'.html_safe, new_sender_address_path, class: 'btn btn-primary btn-lg'
+      .admin-control
+        = link_to '<span class="glyphicon glyphicon-plus"></span> Crear'.html_safe, new_sender_address_path(:sender_id => params[:sender_id]), class: 'btn btn-primary btn-lg'
     %br
     %br
     .row

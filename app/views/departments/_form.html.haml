@@ -10,6 +10,13 @@
     = f.label :nombre, class: 'col-sm-2 control-label'
     .col-sm-3
       = f.text_field :nombre, class: 'form-control', placeholder: 'Lima'
+
+  %h3 Provincias
+  %hr
+  = f.fields_for :provinces do |province|
+    = render 'province_fields', :f => province
+  #provinces
+    = link_to_add_association '<span class="glyphicon glyphicon-plus"></span> Agregar'.html_safe, f, :provinces, class: 'btn btn-primary'
   .form-group
     .col-sm-2
     .col-sm-5

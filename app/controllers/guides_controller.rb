@@ -30,64 +30,63 @@ class GuidesController < ApplicationController
 	    	pdf = Prawn::Document.new
 
           # Fecha de emision
-          pdf.draw_text "#{@guide.fecha_emision}", :at => [45,628], size: '10'
+          pdf.draw_text "#{@guide.try(:fecha_emision)}", :at => [45,628], size: '10'
 
           # Fecha de Translado
-          pdf.draw_text "#{@guide.fecha_inicio_traslado}", :at => [230,628], size: '10'
+          pdf.draw_text "#{@guide.try(:fecha_inicio_traslado)}", :at => [230,628], size: '10'
 
           
 
           ###################### Direccion de partida ################################
-          pdf.draw_text "#{@guide.partida_direccion}", :at => [50,590], size: '10'
-          pdf.draw_text "#{@guide.partida_district.nombre}", :at => [50,575], size: '10'
-          pdf.draw_text "#{@guide.partida_province.nombre}", :at => [40,560], size: '10'
-          pdf.draw_text "#{@guide.llegada_department.nombre}", :at => [175,560], size: '10'
+          pdf.draw_text "#{@guide.try(:partida_direccion)}", :at => [50,590], size: '10'
+          pdf.draw_text "#{@guide.partida_district.try(:nombre)}", :at => [50,575], size: '10'
+          pdf.draw_text "#{@guide.partida_province.try(:nombre)}", :at => [40,560], size: '10'
+          pdf.draw_text "#{@guide.llegada_department.try(:nombre)}", :at => [175,560], size: '10'
 
 
           ###################### Direccion de llegada ################################
-          pdf.draw_text "#{@guide.llegada_direccion}", :at => [350,590], size: '10'
-          pdf.draw_text "#{@guide.llegada_district.nombre}", :at => [350,575], size: '10'
-          pdf.draw_text "#{@guide.llegada_province.nombre}", :at => [340,560], size: '10'
-          pdf.draw_text "#{@guide.llegada_department.nombre}", :at => [470,560], size: '10'
+          pdf.draw_text "#{@guide.try(:llegada_direccion)}", :at => [350,590], size: '10'
+          pdf.draw_text "#{@guide.llegada_district.try(:nombre)}", :at => [350,575], size: '10'
+          pdf.draw_text "#{@guide.llegada_province.try(:nombre)}", :at => [340,560], size: '10'
+          pdf.draw_text "#{@guide.llegada_department.try(:nombre)}", :at => [470,560], size: '10'
 
 
           ############################### Remitente #########################################
-          pdf.draw_text "#{@guide.sender.name_reason}", :at => [5,510], size: '10'
-          pdf.draw_text "#{@guide.sender.ruc}", :at => [25,495], size: '10'
-          pdf.draw_text "#{ @guide.sender.identity_document}", :at => [175,485], size: '10'
+          pdf.draw_text "#{@guide.sender.try(:name_reason)}", :at => [5,510], size: '10'
+          pdf.draw_text "#{@guide.sender.try(:ruc)}", :at => [25,495], size: '10'
+          pdf.draw_text "#{ @guide.sender.try(:identity_document)}", :at => [175,485], size: '10'
 
           ############################### Destinatario ######################################
-          pdf.draw_text "#{@guide.addressee.name_reason}", :at => [295,510], size: '10'
-          pdf.draw_text "#{@guide.addressee.ruc}", :at => [315,495], size: '10'
-          pdf.draw_text "#{@guide.addressee.identity_document}", :at => [455,485], size: '10'
+          pdf.draw_text "#{@guide.addressee.try(:name_reason)}", :at => [295,510], size: '10'
+          pdf.draw_text "#{@guide.addressee.try(:ruc)}", :at => [315,495], size: '10'
+          pdf.draw_text "#{@guide.addressee.try(:identity_document)}", :at => [455,485], size: '10'
 
 
           ############################### Descripciones #####################################
           abajo = 415         
           @guide.items.each do |item|
-            pdf.draw_text "#{item.codigo}", :at => [20,abajo], size: '10'
-            pdf.draw_text "#{item.descripcion}", :at => [80,abajo], size: '10'
-            pdf.draw_text "#{item.cantidad}", :at => [420,abajo], size: '10'
-            pdf.draw_text "#{item.measure.nombre}", :at => [470,abajo], size: '10'
-            pdf.draw_text "#{item.peso}", :at => [530,abajo], size: '10'
-            pdf.draw_text "#{item.unit.und}", :at => [550,abajo], size: '10'
+            pdf.draw_text "#{item.try(:codigo)}", :at => [20,abajo], size: '10'
+            pdf.draw_text "#{item.try(:descripcion)}", :at => [80,abajo], size: '10'
+            pdf.draw_text "#{item.try(:cantidad)}", :at => [420,abajo], size: '10'
+            pdf.draw_text "#{item.measure.try(:nombre)}", :at => [470,abajo], size: '10'
+            pdf.draw_text "#{item.try(:peso)}", :at => [530,abajo], size: '10'
+            pdf.draw_text "#{item.unit.try(:und)}", :at => [550,abajo], size: '10'
             abajo = abajo - 15
           end
 
 
           ####################### datos de Identificacion de transporte y conductor ###########
-          pdf.draw_text "#{@guide.unidad_marca_vehiculo}", :at => [88,60], size: '10'
-          pdf.draw_text "#{@guide.front.nombre}", :at => [50,45], size: '10'
-          pdf.draw_text "#{@guide.back.nombre}", :at => [95,45], size: '10'
-          pdf.draw_text "#{@guide.unidad_configuracion_vehicular}", :at => [112,30], size: '10'
-          pdf.draw_text "#{@guide.conductor_certificado_inscripcion}", :at => [132,15], size: '10'
-          pdf.draw_text "#{@guide.conductor_licencia_conducir}", :at => [113,0], size: '10'
+          pdf.draw_text "#{@guide.try(:unidad_marca_vehiculo)}", :at => [88,60], size: '10'
+          pdf.draw_text "#{@guide.try(:placa)}", :at => [50,45], size: '10'
+          pdf.draw_text "#{@guide.try(:unidad_configuracion_vehicular)}", :at => [112,30], size: '10'
+          pdf.draw_text "#{@guide.try(:conductor_certificado_inscripcion)}", :at => [132,15], size: '10'
+          pdf.draw_text "#{@guide.try(:conductor_licencia_conducir)}", :at => [113,0], size: '10'
 
           ######################  datos de la empresa #########################################
-          pdf.draw_text "#{@guide.empresa_subcontratada_nombre_apellido_razon_social}", :at => [215, 35], size: '10'
-          pdf.draw_text "#{@guide.empresa_subcontratada_ruc}", :at => [240,0], size: '10'
-
-          send_data pdf.render, type: "application/pdf", disposition: "inline"          
+          pdf.draw_text "#{@guide.try(:empresa_subcontratada_nombre_apellido_razon_social)}", :at => [215, 35], size: '10'
+          pdf.draw_text "#{@guide.try(:empresa_subcontratada_ruc)}", :at => [240,0], size: '10'
+          
+          send_data pdf.render, type: "application/pdf", disposition: "inline"
           
 	    end
 	  end
@@ -106,12 +105,15 @@ class GuidesController < ApplicationController
   # POST /guides
   # POST /guides.json
   def create
-  	number_guide = NumberGuide.last		
-    number_guide.update numero: "#{params[:guide][:numero_remision_guia]}"
+  	
     @guide = Guide.new(guide_params)
 
     respond_to do |format|
       if @guide.save
+        # Guardar numero de guia
+        number_guide = NumberGuide.last   
+        number_guide.update numero: "#{params[:guide][:numero_remision_guia]}"
+        # end
         format.html { redirect_to @guide, notice: 'Guia de Remision Creada correctamente.' }
         format.json { render :show, status: :created, location: @guide }
       else
